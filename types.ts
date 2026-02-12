@@ -1,5 +1,6 @@
 export interface UserProfile {
   name: string;
+  photoUrl?: string;
   income: number;
   rent: number;
   location: string;

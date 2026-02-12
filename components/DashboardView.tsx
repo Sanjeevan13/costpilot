@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { UserProfile, ViewState } from '../types';
 import { api, StressResult, MonthlyInputs } from '../services/api';
-import { TrendingDown, TrendingUp, AlertCircle, DollarSign, RefreshCw } from 'lucide-react';
+import { TrendingDown, TrendingUp, AlertCircle, DollarSign, RefreshCw, ShoppingBag, Leaf } from 'lucide-react';
 
 const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewState) => void }> = ({ userProfile, setView }) => {
   const [loading, setLoading] = useState(true);
@@ -49,81 +49,81 @@ const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewSt
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">Welcome back, {userProfile.name}</h1>
-        <p className="text-slate-500">Here is your financial stability outlook.</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome back, {userProfile.name}</h1>
+        <p className="text-slate-500 dark:text-slate-400">Here is your financial stability outlook.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Rent Burden Card */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <div className={`p-2 rounded-lg ${rentBurden > 30 ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'}`}>
+            <div className={`p-2 rounded-lg ${rentBurden > 30 ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'}`}>
               <TrendingUp size={20} />
             </div>
-            <span className={`text-xs font-medium px-2 py-1 rounded-full ${rentBurden > 30 ? 'bg-red-50 text-red-500' : 'bg-emerald-50 text-emerald-500'}`}>
+            <span className={`text-xs font-medium px-2 py-1 rounded-full ${rentBurden > 30 ? 'bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400' : 'bg-emerald-50 text-emerald-500 dark:bg-emerald-900/20 dark:text-emerald-400'}`}>
               {rentBurden > 30 ? 'High Burden' : 'Healthy'}
             </span>
           </div>
-          <p className="text-sm text-slate-500 mb-1">Rent Burden</p>
-          <h3 className="text-2xl font-bold text-slate-900">{rentBurden}% <span className="text-sm font-normal text-slate-400">of income</span></h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Rent Burden</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{rentBurden}% <span className="text-sm font-normal text-slate-400 dark:text-slate-500">of income</span></h3>
         </div>
 
         {/* Available Subsidies - Keep static or mock for now as backend doesn't provide list yet */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg text-emerald-600 dark:text-emerald-400">
               <DollarSign size={20} />
             </div>
-            <span className="text-xs font-medium text-emerald-500 bg-emerald-50 px-2 py-1 rounded-full">Active</span>
+            <span className="text-xs font-medium text-emerald-500 bg-emerald-50 px-2 py-1 rounded-full dark:bg-emerald-900/20 dark:text-emerald-400">Active</span>
           </div>
-          <p className="text-sm text-slate-500 mb-1">Available Subsidies</p>
-          <h3 className="text-2xl font-bold text-slate-900">2 <span className="text-sm font-normal text-slate-400">programs</span></h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Available Subsidies</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">2 <span className="text-sm font-normal text-slate-400 dark:text-slate-500">programs</span></h3>
         </div>
 
         {/* Inflation Impact - Keep static logic or use signals if available */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+            <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400">
               <TrendingDown size={20} />
             </div>
           </div>
-          <p className="text-sm text-slate-500 mb-1">Buying Power (YoY)</p>
-          <h3 className="text-2xl font-bold text-slate-900">-3.8% <span className="text-sm font-normal text-slate-400">inflation adj.</span></h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Buying Power (YoY)</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">-3.8% <span className="text-sm font-normal text-slate-400 dark:text-slate-500">inflation adj.</span></h3>
         </div>
 
         {/* Savings Runway - FROM BACKEND */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
           <div className="flex justify-between items-start mb-4">
-            <div className={`p-2 rounded-lg ${stressData?.riskLevel === 'High' ? 'bg-orange-50 text-orange-600' : 'bg-blue-50 text-blue-600'}`}>
+            <div className={`p-2 rounded-lg ${stressData?.riskLevel === 'High' ? 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400' : 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'}`}>
               <AlertCircle size={20} />
             </div>
             {stressData && (
-              <span className={`text-xs font-medium px-2 py-1 rounded-full ${stressData.riskLevel === 'Low' ? 'bg-emerald-50 text-emerald-500' :
-                stressData.riskLevel === 'Moderate' ? 'bg-yellow-50 text-yellow-600' :
-                  'bg-red-50 text-red-500'
+              <span className={`text-xs font-medium px-2 py-1 rounded-full ${stressData.riskLevel === 'Low' ? 'bg-emerald-50 text-emerald-500 dark:bg-emerald-900/20 dark:text-emerald-400' :
+                stressData.riskLevel === 'Moderate' ? 'bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400' :
+                  'bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400'
                 }`}>
                 {stressData.riskLevel} Risk
               </span>
             )}
           </div>
-          <p className="text-sm text-slate-500 mb-1">Savings Runway</p>
-          <h3 className="text-2xl font-bold text-slate-900">
-            {stressData?.bufferMonths.toFixed(1) || '-'} <span className="text-sm font-normal text-slate-400">months</span>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Savings Runway</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+            {stressData?.bufferMonths.toFixed(1) || '-'} <span className="text-sm font-normal text-slate-400 dark:text-slate-500">months</span>
           </h3>
         </div>
       </div>
 
       {/* Income vs Expenses Chart */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-6">
-        <h3 className="text-lg font-bold text-slate-900 mb-4">Monthly Overview</h3>
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-6">
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Monthly Overview</h3>
         <div className="space-y-4">
           {/* Income Bar */}
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="font-medium text-slate-600">Income</span>
-              <span className="font-bold text-slate-900">RM {userProfile.income}</span>
+              <span className="font-medium text-slate-600 dark:text-slate-300">Income</span>
+              <span className="font-bold text-slate-900 dark:text-white">RM {userProfile.income}</span>
             </div>
-            <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-4 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
               <div
                 className="h-full bg-emerald-500 rounded-full"
                 style={{ width: '100%' }}
@@ -134,8 +134,8 @@ const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewSt
           {/* Expenses Bar */}
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="font-medium text-slate-600">Expenses</span>
-              <span className="font-bold text-slate-900">RM {
+              <span className="font-medium text-slate-600 dark:text-slate-300">Expenses</span>
+              <span className="font-bold text-slate-900 dark:text-white">RM {
                 userProfile.rent +
                 (userProfile.utilities || 0) +
                 (userProfile.transportCost || 0) +
@@ -144,11 +144,11 @@ const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewSt
                 (userProfile.subscriptions || 0)
               }</span>
             </div>
-            <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-4 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full ${(userProfile.rent + (userProfile.utilities || 0) + (userProfile.transportCost || 0) + (userProfile.food || 0) + (userProfile.debt || 0) + (userProfile.subscriptions || 0)) > userProfile.income
-                    ? 'bg-red-500'
-                    : 'bg-blue-500'
+                  ? 'bg-red-500'
+                  : 'bg-blue-500'
                   }`}
                 style={{ width: `${Math.min(((userProfile.rent + (userProfile.utilities || 0) + (userProfile.transportCost || 0) + (userProfile.food || 0) + (userProfile.debt || 0) + (userProfile.subscriptions || 0)) / userProfile.income) * 100, 100)}%` }}
               ></div>

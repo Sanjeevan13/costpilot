@@ -1,13 +1,18 @@
 import React from 'react';
-import { ViewState } from '../types';
-import { Bell, User } from 'lucide-react';
+import { UserProfile, ViewState } from '../types';
+import { Bell, User, Sun, Moon, LogOut } from 'lucide-react';
+import { useTheme } from '../src/contexts/ThemeContext';
+import { useAuth } from '../src/contexts/AuthContext';
 
 interface TopBarProps {
   currentView: ViewState;
   setView: (view: ViewState) => void;
+  userProfile?: UserProfile;
 }
 
-const TopBar: React.FC<TopBarProps> = ({ currentView, setView }) => {
+const TopBar: React.FC<TopBarProps> = ({ currentView, setView, userProfile }) => {
+  const { theme, toggleTheme } = useTheme();
+  const { logout } = useAuth();
   const navItems = [
     { label: 'Dashboard', value: ViewState.DASHBOARD },
     { label: 'Optimization', value: ViewState.OPTIMIZATION },
@@ -43,16 +48,38 @@ const TopBar: React.FC<TopBarProps> = ({ currentView, setView }) => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              title="Toggle Theme"
+            >
+              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+
             <button className="text-slate-400 hover:text-slate-600 relative">
               <Bell size={20} />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-400 transform translate-x-1/4 -translate-y-1/4"></span>
             </button>
+
             <div
-              className="h-8 w-8 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-600 cursor-pointer"
+              className="h-8 w-8 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-600 cursor-pointer overflow-hidden"
               onClick={() => setView(ViewState.SETTINGS)}
+              title="Settings"
             >
-              <User size={16} />
+              {userProfile?.photoUrl ? (
+                <img src={userProfile.photoUrl} alt="Profile" className="h-full w-full object-cover" />
+              ) : (
+                <User size={16} />
+              )}
             </div>
+
+            <button
+              onClick={logout}
+              className="p-2 rounded-full text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              title="Log Out"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
         </div>
       </div>

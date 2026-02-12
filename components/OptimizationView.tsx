@@ -44,8 +44,8 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
     return (
       <div className="flex items-center justify-center min-h-[600px]">
         <div className="flex flex-col items-center gap-4">
-          <RefreshCw className="animate-spin text-blue-600" size={32} />
-          <p className="text-slate-500 font-medium">Analyzing cost pressure & opportunities...</p>
+          <RefreshCw className="animate-spin text-blue-600 dark:text-blue-400" size={32} />
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Analyzing cost pressure & opportunities...</p>
         </div>
       </div>
     );
@@ -61,16 +61,16 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">CostPilot Optimization</h1>
-          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium">
-            <Zap size={14} className="fill-blue-700" />
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">CostPilot Optimization</h1>
+          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-sm font-medium">
+            <Zap size={14} className="fill-blue-700 dark:fill-blue-300" />
             <span>AI Insight: You could save <span className="underline decoration-2 underline-offset-2">RM {totalSavings}/mo</span> by acting on 3 high-impact trade-offs.</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-slate-500 text-sm">Analysis Period:</span>
-          <select className="bg-white border border-slate-200 rounded-md text-sm py-1.5 px-3 focus:ring-2 focus:ring-blue-500 outline-none">
+          <span className="text-slate-500 dark:text-slate-400 text-sm">Analysis Period:</span>
+          <select className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-sm py-1.5 px-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700 dark:text-slate-200">
             <option>Current Month</option>
             <option>Last Quarter</option>
           </select>
@@ -91,18 +91,18 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
 
           {/* Housing Card */}
           {housingOpt && (
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-              <div className="p-5 border-b border-slate-100 flex justify-between items-start">
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+              <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-start">
                 <div className="flex gap-3">
-                  <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+                  <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
                     <Home size={20} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-slate-900">{housingOpt.title}</h3>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wide mt-0.5">High Impact • Relocation Analysis</p>
+                    <h3 className="font-semibold text-slate-900 dark:text-white">{housingOpt.title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide mt-0.5">High Impact • Relocation Analysis</p>
                   </div>
                 </div>
-                <span className="bg-emerald-50 text-emerald-700 text-sm font-bold px-3 py-1 rounded-full border border-emerald-100">
+                <span className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-bold px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800">
                   Save RM {housingOpt.potentialSavings}/mo
                 </span>
               </div>
@@ -110,7 +110,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
               <div className="p-5 grid md:grid-cols-2 gap-6 relative">
                 {/* Current Situation */}
                 <div className="space-y-3">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Current Situation</span>
+                  <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Current Situation</span>
                   <div className="relative group">
                     <img src="https://picsum.photos/seed/apartment1/400/200" alt="Current Home" className="w-full h-32 object-cover rounded-lg brightness-90" />
                     <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
@@ -118,31 +118,31 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                     </div>
                   </div>
                   <div className="space-y-2 text-sm">
-                    <div className="flex justify-between py-1 border-b border-slate-50">
-                      <span className="text-slate-600">Rent</span>
-                      <span className="font-medium text-slate-900">RM {housingOpt.details?.currentRent}</span>
+                    <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-700">
+                      <span className="text-slate-600 dark:text-slate-400">Rent</span>
+                      <span className="font-medium text-slate-900 dark:text-white">RM {housingOpt.details?.currentRent}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-50">
-                      <span className="text-slate-600">Utilities</span>
-                      <span className="font-medium text-slate-900">RM 350</span>
+                    <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-700">
+                      <span className="text-slate-600 dark:text-slate-400">Utilities</span>
+                      <span className="font-medium text-slate-900 dark:text-white">RM 350</span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-slate-600">Commute Time</span>
-                      <span className="font-medium text-emerald-600">15 mins</span>
+                      <span className="text-slate-600 dark:text-slate-400">Commute Time</span>
+                      <span className="font-medium text-emerald-600 dark:text-emerald-400">15 mins</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Arrow Connector (Desktop) */}
-                <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1.5 shadow-md border border-slate-100 z-10">
-                  <ArrowRight size={16} className="text-slate-400" />
+                <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-700 rounded-full p-1.5 shadow-md border border-slate-100 dark:border-slate-600 z-10">
+                  <ArrowRight size={16} className="text-slate-400 dark:text-slate-300" />
                 </div>
 
                 {/* Opportunity */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold text-blue-500 uppercase tracking-wider">Opportunity</span>
-                    <span className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded border border-blue-100">8km Away</span>
+                    <span className="text-xs font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wider">Opportunity</span>
+                    <span className="text-[10px] bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-800">8km Away</span>
                   </div>
                   <div className="relative">
                     <img src="https://picsum.photos/seed/suburb/400/200" alt="Target Home" className="w-full h-32 object-cover rounded-lg" />
@@ -151,29 +151,29 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                     </div>
                   </div>
                   <div className="space-y-2 text-sm">
-                    <div className="flex justify-between py-1 border-b border-slate-50">
-                      <span className="text-slate-600">Rent</span>
-                      <span className="font-medium text-emerald-600">RM {housingOpt.details?.targetRent} <span className="text-xs text-emerald-500 font-normal">(-RM{(housingOpt.details?.currentRent || 0) - (housingOpt.details?.targetRent || 0)})</span></span>
+                    <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-700">
+                      <span className="text-slate-600 dark:text-slate-400">Rent</span>
+                      <span className="font-medium text-emerald-600 dark:text-emerald-400">RM {housingOpt.details?.targetRent} <span className="text-xs text-emerald-500 dark:text-emerald-500/80 font-normal">(-RM{(housingOpt.details?.currentRent || 0) - (housingOpt.details?.targetRent || 0)})</span></span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-50">
-                      <span className="text-slate-600">Transport Adj.</span>
-                      <span className="font-medium text-red-500">+RM {housingOpt.details?.transportIncrease} <span className="text-xs text-red-400 font-normal">(Fuel)</span></span>
+                    <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-700">
+                      <span className="text-slate-600 dark:text-slate-400">Transport Adj.</span>
+                      <span className="font-medium text-red-500 dark:text-red-400">+RM {housingOpt.details?.transportIncrease} <span className="text-xs text-red-400 dark:text-red-300 font-normal">(Fuel)</span></span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-slate-600">Commute Time</span>
-                      <span className="font-medium text-orange-600">{housingOpt.details?.commuteChangeMinutes} mins <span className="text-xs text-orange-400 font-normal">(+25m)</span></span>
+                      <span className="text-slate-600 dark:text-slate-400">Commute Time</span>
+                      <span className="font-medium text-orange-600 dark:text-orange-400">{housingOpt.details?.commuteChangeMinutes} mins <span className="text-xs text-orange-400 dark:text-orange-300 font-normal">(+25m)</span></span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-slate-50 px-5 py-3 border-t border-slate-100 flex justify-between items-center">
-                <button className="text-slate-500 text-sm font-medium hover:text-slate-800 transition-colors">Ignore</button>
+              <div className="bg-slate-50 dark:bg-slate-700/50 px-5 py-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                <button className="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-slate-800 dark:hover:text-slate-200 transition-colors">Ignore</button>
                 <div className="flex gap-3">
-                  <button className="bg-white border border-slate-300 text-slate-700 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+                  <button className="bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors shadow-sm">
                     See Listings
                   </button>
-                  <button className="bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors shadow-sm shadow-emerald-200">
+                  <button className="bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors shadow-sm shadow-emerald-200 dark:shadow-none">
                     Simulate Move
                   </button>
                 </div>
@@ -185,77 +185,77 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
 
             {/* Transport Card */}
             {transportOpt && (
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full">
-                <div className="p-5 border-b border-slate-100">
+              <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-full">
+                <div className="p-5 border-b border-slate-100 dark:border-slate-700">
                   <div className="flex gap-3 items-center">
-                    <div className="p-2 bg-orange-50 rounded-lg text-orange-600">
+                    <div className="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400">
                       <Bus size={20} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-slate-900">{transportOpt.title}</h3>
-                      <p className="text-xs text-slate-500 font-medium">Route Analysis</p>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">{transportOpt.title}</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Route Analysis</p>
                     </div>
                   </div>
                 </div>
                 <div className="p-0 flex-grow relative">
                   {/* Fake Map */}
-                  <div className="h-32 w-full bg-slate-100 relative overflow-hidden">
+                  <div className="h-32 w-full bg-slate-100 dark:bg-slate-700 relative overflow-hidden">
                     <div className="absolute inset-0 opacity-50 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Map_of_New_York_City_Subway.svg/2560px-Map_of_New_York_City_Subway.svg.png')] bg-cover bg-center grayscale"></div>
-                    <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold shadow text-slate-700">
+                    <div className="absolute bottom-2 left-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold shadow text-slate-700 dark:text-slate-200">
                       Route: Home → CBD
                     </div>
                   </div>
 
                   <div className="p-5 space-y-3">
-                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-100 bg-slate-50">
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
                       <div className="flex items-center gap-3">
-                        <Car size={16} className="text-slate-400" />
+                        <Car size={16} className="text-slate-400 dark:text-slate-500" />
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-slate-700">{transportOpt.details?.currentMethod}</span>
-                          <span className="text-[10px] text-slate-500">Fuel + Parking</span>
+                          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{transportOpt.details?.currentMethod}</span>
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400">Fuel + Parking</span>
                         </div>
                       </div>
-                      <span className="font-bold text-slate-800">RM {transportOpt.details?.currentCost}<span className="text-xs font-normal text-slate-400">/mo</span></span>
+                      <span className="font-bold text-slate-800 dark:text-white">RM {transportOpt.details?.currentCost}<span className="text-xs font-normal text-slate-400 dark:text-slate-500">/mo</span></span>
                     </div>
 
-                    <div className="flex items-center justify-between p-3 rounded-lg border border-emerald-100 bg-emerald-50/30 ring-1 ring-emerald-500/20">
+                    <div className="flex items-center justify-between p-3 rounded-lg border border-emerald-100 dark:border-emerald-800 bg-emerald-50/30 dark:bg-emerald-900/20 ring-1 ring-emerald-500/20">
                       <div className="flex items-center gap-3">
-                        <Bus size={16} className="text-emerald-600" />
+                        <Bus size={16} className="text-emerald-600 dark:text-emerald-400" />
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-emerald-800">{transportOpt.details?.targetMethod}</span>
-                          <span className="text-[10px] text-emerald-600">Monthly Pass</span>
+                          <span className="text-sm font-medium text-emerald-800 dark:text-emerald-300">{transportOpt.details?.targetMethod}</span>
+                          <span className="text-[10px] text-emerald-600 dark:text-emerald-400">Monthly Pass</span>
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="font-bold text-emerald-700 block">RM {transportOpt.details?.targetCost}<span className="text-xs font-normal text-emerald-500">/mo</span></span>
-                        <span className="text-[10px] text-emerald-600 font-medium">Save RM {transportOpt.potentialSavings}/mo</span>
+                        <span className="font-bold text-emerald-700 dark:text-emerald-400 block">RM {transportOpt.details?.targetCost}<span className="text-xs font-normal text-emerald-500 dark:text-emerald-600">/mo</span></span>
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-500 font-medium">Save RM {transportOpt.potentialSavings}/mo</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs text-orange-600 bg-orange-50 p-2 rounded">
+                    <div className="flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 p-2 rounded">
                       <AlertTriangle size={12} />
                       <span>Trade-off: {transportOpt.details?.timeImpact} travel time</span>
                     </div>
                   </div>
                 </div>
-                <div className="p-4 border-t border-slate-100 mt-auto">
-                  <button className="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 font-medium transition-colors">Compare Detailed Routes</button>
+                <div className="p-4 border-t border-slate-100 dark:border-slate-700 mt-auto">
+                  <button className="w-full py-2 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium transition-colors">Compare Detailed Routes</button>
                 </div>
               </div>
             )}
 
             {/* Subsidy Card */}
             {subsidyOpt && (
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full">
-                <div className="p-5 border-b border-slate-100">
+              <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col h-full">
+                <div className="p-5 border-b border-slate-100 dark:border-slate-700">
                   <div className="flex gap-3 items-center">
-                    <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                    <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg text-emerald-600 dark:text-emerald-400">
                       <CheckCircle size={20} />
                     </div>
                     <div>
                       {/* Fixed undefined split error */}
-                      <h3 className="font-semibold text-slate-900">{(subsidyOpt.title || 'Subsidy').split(' ')[0]} Matcher</h3>
-                      <p className="text-xs text-slate-500 font-medium">Government Programs</p>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">{(subsidyOpt.title || 'Subsidy').split(' ')[0]} Matcher</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Government Programs</p>
                     </div>
                   </div>
                 </div>
@@ -263,30 +263,30 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                 <div className="p-5 flex-grow space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between items-start">
-                      <h4 className="font-bold text-slate-800 text-sm">{subsidyOpt.details?.programName}</h4>
-                      <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Eligible</span>
+                      <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm">{subsidyOpt.details?.programName}</h4>
+                      <span className="text-[10px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Eligible</span>
                     </div>
-                    <p className="text-xs text-slate-500 leading-relaxed">{subsidyOpt.description}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{subsidyOpt.description}</p>
 
                     <div className="mt-2">
-                      <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+                      <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 mb-1">
                         <span>Probability</span>
                         <span>{subsidyOpt.details?.probability}%</span>
                       </div>
-                      <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${subsidyOpt.details?.probability}%` }}></div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 space-y-2 opacity-60 hover:opacity-100 transition-opacity">
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-700 space-y-2 opacity-60 hover:opacity-100 transition-opacity">
                     <div className="flex justify-between items-start">
-                      <h4 className="font-bold text-slate-800 text-sm">e-Tunai Belia</h4>
-                      <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Ineligible</span>
+                      <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm">e-Tunai Belia</h4>
+                      <span className="text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Ineligible</span>
                     </div>
-                    <p className="text-xs text-slate-500">Age threshold exceeded.</p>
-                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mt-2">
-                      <div className="h-full bg-slate-300 rounded-full" style={{ width: `0%` }}></div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Age threshold exceeded.</p>
+                    <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mt-2">
+                      <div className="h-full bg-slate-300 dark:bg-slate-600" style={{ width: `0%` }}></div>
                     </div>
                   </div>
                 </div>
@@ -306,8 +306,8 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
         <div className="space-y-6">
 
           {/* Summary Card */}
-          <div className="bg-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-teal-200">
-            <h3 className="text-teal-100 text-sm font-medium mb-1">Total Potential Savings</h3>
+          <div className="bg-teal-600 dark:bg-teal-700 rounded-2xl p-6 text-white shadow-lg shadow-teal-200 dark:shadow-none">
+            <h3 className="text-teal-100 dark:text-teal-200 text-sm font-medium mb-1">Total Potential Savings</h3>
             <div className="flex items-baseline gap-2 mb-6">
               <span className="text-4xl font-bold">RM {totalSavings}</span>
               <span className="text-teal-200 text-sm">/ month</span>
@@ -348,58 +348,58 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
           </div>
 
           {/* Inflation Impact */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-6">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-bold text-slate-900">Inflation Impact</h3>
-              <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded">+3.8% YoY</span>
+              <h3 className="font-bold text-slate-900 dark:text-white">Inflation Impact</h3>
+              <span className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold px-2 py-1 rounded">+3.8% YoY</span>
             </div>
 
             <div className="space-y-5">
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-1 bg-slate-100 rounded text-slate-600">
+                    <div className="p-1 bg-slate-100 dark:bg-slate-700 rounded text-slate-600 dark:text-slate-400">
                       <Home size={12} />
                     </div>
-                    <span className="font-medium text-slate-700">Groceries</span>
+                    <span className="font-medium text-slate-700 dark:text-slate-200">Groceries</span>
                   </div>
-                  <span className="text-red-500 font-medium text-xs">+RM 85</span>
+                  <span className="text-red-500 dark:text-red-400 font-medium text-xs">+RM 85</span>
                 </div>
-                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-red-400 rounded-full" style={{ width: '65%' }}></div>
+                <div className="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-400" style={{ width: '65%' }}></div>
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-1 bg-slate-100 rounded text-slate-600">
+                    <div className="p-1 bg-slate-100 dark:bg-slate-700 rounded text-slate-600 dark:text-slate-400">
                       <Zap size={12} />
                     </div>
-                    <span className="font-medium text-slate-700">Energy</span>
+                    <span className="font-medium text-slate-700 dark:text-slate-200">Energy</span>
                   </div>
-                  <span className="text-red-500 font-medium text-xs">+RM 32</span>
+                  <span className="text-red-500 dark:text-red-400 font-medium text-xs">+RM 32</span>
                 </div>
-                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-red-400 rounded-full" style={{ width: '35%' }}></div>
+                <div className="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-400" style={{ width: '35%' }}></div>
                 </div>
               </div>
             </div>
 
-            <button className="w-full mt-6 text-blue-600 text-xs font-medium hover:underline text-center">
+            <button className="w-full mt-6 text-blue-600 dark:text-blue-400 text-xs font-medium hover:underline text-center">
               View Full Stress Analysis
             </button>
           </div>
 
           {/* Did you know card */}
-          <div className="bg-indigo-50 rounded-xl p-5 border border-indigo-100">
+          <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-5 border border-indigo-100 dark:border-indigo-800">
             <div className="flex gap-3">
               <div className="mt-0.5">
-                <TrendingUp size={20} className="text-indigo-600" />
+                <TrendingUp size={20} className="text-indigo-600 dark:text-indigo-400" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-indigo-900 mb-1">Did you know?</h4>
-                <p className="text-xs text-indigo-700 leading-relaxed">
+                <h4 className="text-sm font-bold text-indigo-900 dark:text-indigo-200 mb-1">Did you know?</h4>
+                <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
                   Moving just 3km further from a transit hub (LRT/MRT) reduces average rent by 12% in Klang Valley.
                 </p>
               </div>

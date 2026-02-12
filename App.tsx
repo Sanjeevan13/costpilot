@@ -6,12 +6,14 @@ import DashboardView from './components/DashboardView';
 import SubsidiesView from './components/SubsidiesView';
 import SettingsView from './components/SettingsView';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { ThemeProvider } from './src/contexts/ThemeContext';
 import LoginView from './src/components/LoginView';
 import { RefreshCw } from 'lucide-react';
 
 // Default user profile for the demo
 const DEFAULT_USER: UserProfile = {
   name: "Kisshore",
+  photoUrl: "",
   income: 4200,
   rent: 1600,
   location: "Kuala Lumpur, Cheras",
@@ -31,6 +33,16 @@ const AuthenticatedApp: React.FC = () => {
   const { user, loading } = useAuth();
   const [currentView, setView] = useState<ViewState>(ViewState.DASHBOARD);
   const [userProfile, setUserProfile] = useState<UserProfile>(DEFAULT_USER);
+
+  React.useEffect(() => {
+    if (user) {
+      setUserProfile(prev => ({
+        ...prev,
+        name: user.displayName || user.email?.split('@')[0] || prev.name,
+        photoUrl: user.photoURL || prev.photoUrl
+      }));
+    }
+  }, [user]);
 
   if (loading) {
     return (
@@ -64,20 +76,15 @@ const AuthenticatedApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 font-sans">
-      <TopBar currentView={currentView} setView={setView} />
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans transition-colors duration-200">
+      <TopBar currentView={currentView} setView={setView} userProfile={userProfile} />
       <main className="pb-12">
         {renderView()}
       </main>
 
       <footer className="bg-white border-t border-slate-200 py-8 mt-12">
         <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 text-sm">
-          <p>&copy; 2024 CostPilot Financial Intelligence. All rights reserved.</p>
-          <div className="flex justify-center gap-6 mt-4">
-            <a href="#" className="hover:text-slate-600">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-600">Terms of Service</a>
-            <a href="#" className="hover:text-slate-600">Help Center</a>
-          </div>
+          <p>&copy; 2026 CostPilot. Built for KitaHack 2026 by TVK. All rights reserved.</p>
         </div>
       </footer>
     </div>
@@ -87,7 +94,9 @@ const AuthenticatedApp: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <AuthenticatedApp />
+      <ThemeProvider>
+        <AuthenticatedApp />
+      </ThemeProvider>
     </AuthProvider>
   );
 };
