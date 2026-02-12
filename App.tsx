@@ -8,7 +8,7 @@ import SettingsView from './components/SettingsView';
 
 // Default user profile for the demo
 const DEFAULT_USER: UserProfile = {
-  name: "Alex",
+  name: "Kisshore",
   income: 4200,
   rent: 1600,
   location: "Kuala Lumpur, Cheras",
