@@ -46,7 +46,8 @@ const LoginView: React.FC = () => {
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4">
             <div className="max-w-md w-full bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8 border border-slate-200 dark:border-slate-700">
                 <div className="text-center mb-8">
-                    <img src="/logo.png" alt="CostPilot" className="h-12 mx-auto mb-4" />
+                    <img src="/favicon1.png" alt="CostPilot" className="h-16 mx-auto mb-2" />
+                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-6">CostPilot</h2>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
                         {isLogin ? 'Welcome Back' : 'Create Account'}
                     </h1>
