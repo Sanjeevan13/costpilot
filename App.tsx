@@ -25,7 +25,7 @@ const DEFAULT_USER: UserProfile = {
 };
 
 const App: React.FC = () => {
-  const [currentView, setView] = useState<ViewState>(ViewState.OPTIMIZATION);
+  const [currentView, setView] = useState<ViewState>(ViewState.DASHBOARD);
   const [userProfile, setUserProfile] = useState<UserProfile>(DEFAULT_USER);
 
   const renderView = () => {

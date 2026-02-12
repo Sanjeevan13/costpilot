@@ -21,7 +21,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentView, setView }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setView(ViewState.DASHBOARD)}>
-            <img src="/logo.png" alt="CostPilot Logo" className="h-10 w-auto" />
+            <img src="/logo.png" alt="CostPilot Logo" className="h-16 w-auto" />
 
           </div>
 
