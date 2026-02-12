@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { UserProfile, OptimizationSuggestion } from '../types';
 import { analyzeProfile } from '../services/geminiService';
-import { 
-  ArrowRight, 
-  Car, 
-  Home, 
-  Zap, 
-  TrendingUp, 
-  CheckCircle, 
+import {
+  ArrowRight,
+  Car,
+  Home,
+  Zap,
+  TrendingUp,
+  CheckCircle,
   AlertTriangle,
   Bus,
   RefreshCw
@@ -22,26 +22,23 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
   const [suggestions, setSuggestions] = useState<OptimizationSuggestion[]>([]);
   const [totalSavings, setTotalSavings] = useState(0);
 
-  useEffect(() => {
-    let isMounted = true;
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const results = await analyzeProfile(userProfile);
-        if (isMounted) {
-          setSuggestions(results);
-          const total = results.reduce((acc, curr) => acc + (curr.potentialSavings || 0), 0);
-          setTotalSavings(total);
-        }
-      } catch (e) {
-        console.error("Failed to load suggestions", e);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    fetchData();
-    return () => { isMounted = false; };
+  const runSimulation = useCallback(async () => {
+    setLoading(true);
+    try {
+      const results = await analyzeProfile(userProfile);
+      setSuggestions(results);
+      const total = results.reduce((acc, curr) => acc + (curr.potentialSavings || 0), 0);
+      setTotalSavings(total);
+    } catch (e) {
+      console.error("Failed to load suggestions", e);
+    } finally {
+      setLoading(false);
+    }
   }, [userProfile]);
+
+  useEffect(() => {
+    runSimulation();
+  }, [runSimulation]);
 
   if (loading) {
     return (
@@ -60,7 +57,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -77,9 +74,9 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
             <option>Current Month</option>
             <option>Last Quarter</option>
           </select>
-          <button 
+          <button
             className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-sm"
-            onClick={() => window.location.reload()}
+            onClick={runSimulation}
           >
             <RefreshCw size={14} />
             Run Simulation
@@ -88,10 +85,10 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left Column (Main Content) */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Housing Card */}
           {housingOpt && (
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -185,7 +182,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
           )}
 
           <div className="grid md:grid-cols-2 gap-6">
-            
+
             {/* Transport Card */}
             {transportOpt && (
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full">
@@ -203,12 +200,12 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                 <div className="p-0 flex-grow relative">
                   {/* Fake Map */}
                   <div className="h-32 w-full bg-slate-100 relative overflow-hidden">
-                     <div className="absolute inset-0 opacity-50 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Map_of_New_York_City_Subway.svg/2560px-Map_of_New_York_City_Subway.svg.png')] bg-cover bg-center grayscale"></div>
-                     <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold shadow text-slate-700">
-                        Route: Home → CBD
-                     </div>
+                    <div className="absolute inset-0 opacity-50 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Map_of_New_York_City_Subway.svg/2560px-Map_of_New_York_City_Subway.svg.png')] bg-cover bg-center grayscale"></div>
+                    <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold shadow text-slate-700">
+                      Route: Home → CBD
+                    </div>
                   </div>
-                  
+
                   <div className="p-5 space-y-3">
                     <div className="flex items-center justify-between p-3 rounded-lg border border-slate-100 bg-slate-50">
                       <div className="flex items-center gap-3">
@@ -234,7 +231,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                         <span className="text-[10px] text-emerald-600 font-medium">Save RM {transportOpt.potentialSavings}/mo</span>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 text-xs text-orange-600 bg-orange-50 p-2 rounded">
                       <AlertTriangle size={12} />
                       <span>Trade-off: {transportOpt.details?.timeImpact} travel time</span>
@@ -242,7 +239,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                   </div>
                 </div>
                 <div className="p-4 border-t border-slate-100 mt-auto">
-                    <button className="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 font-medium transition-colors">Compare Detailed Routes</button>
+                  <button className="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 font-medium transition-colors">Compare Detailed Routes</button>
                 </div>
               </div>
             )}
@@ -262,43 +259,43 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-5 flex-grow space-y-4">
                   <div className="space-y-2">
-                     <div className="flex justify-between items-start">
-                        <h4 className="font-bold text-slate-800 text-sm">{subsidyOpt.details?.programName}</h4>
-                        <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Eligible</span>
-                     </div>
-                     <p className="text-xs text-slate-500 leading-relaxed">{subsidyOpt.description}</p>
-                     
-                     <div className="mt-2">
-                        <div className="flex justify-between text-[10px] text-slate-400 mb-1">
-                          <span>Probability</span>
-                          <span>{subsidyOpt.details?.probability}%</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${subsidyOpt.details?.probability}%`}}></div>
-                        </div>
-                     </div>
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-bold text-slate-800 text-sm">{subsidyOpt.details?.programName}</h4>
+                      <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Eligible</span>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">{subsidyOpt.description}</p>
+
+                    <div className="mt-2">
+                      <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+                        <span>Probability</span>
+                        <span>{subsidyOpt.details?.probability}%</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${subsidyOpt.details?.probability}%` }}></div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="pt-4 border-t border-slate-100 space-y-2 opacity-60 hover:opacity-100 transition-opacity">
-                     <div className="flex justify-between items-start">
-                        <h4 className="font-bold text-slate-800 text-sm">e-Tunai Belia</h4>
-                        <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Ineligible</span>
-                     </div>
-                     <p className="text-xs text-slate-500">Age threshold exceeded.</p>
-                     <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mt-2">
-                          <div className="h-full bg-slate-300 rounded-full" style={{ width: `0%`}}></div>
-                     </div>
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-bold text-slate-800 text-sm">e-Tunai Belia</h4>
+                      <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Ineligible</span>
+                    </div>
+                    <p className="text-xs text-slate-500">Age threshold exceeded.</p>
+                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mt-2">
+                      <div className="h-full bg-slate-300 rounded-full" style={{ width: `0%` }}></div>
+                    </div>
                   </div>
                 </div>
 
                 <div className="p-4 border-t border-slate-100 mt-auto">
-                    <button className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm shadow-blue-200">
-                      Auto-fill Applications
-                      <ArrowRight size={14} />
-                    </button>
+                  <button className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm shadow-blue-200">
+                    Auto-fill Applications
+                    <ArrowRight size={14} />
+                  </button>
                 </div>
               </div>
             )}
@@ -307,7 +304,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
 
         {/* Right Sidebar */}
         <div className="space-y-6">
-          
+
           {/* Summary Card */}
           <div className="bg-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-teal-200">
             <h3 className="text-teal-100 text-sm font-medium mb-1">Total Potential Savings</h3>
@@ -326,7 +323,7 @@ const OptimizationView: React.FC<OptimizationViewProps> = ({ userProfile }) => {
                   <span className="font-medium">RM {housingOpt.potentialSavings}</span>
                 </div>
               )}
-               {transportOpt && (
+              {transportOpt && (
                 <div className="flex justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-teal-300"></div>

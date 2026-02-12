@@ -33,7 +33,7 @@ const App: React.FC = () => {
       case ViewState.OPTIMIZATION:
         return <OptimizationView userProfile={userProfile} />;
       case ViewState.DASHBOARD:
-        return <DashboardView userProfile={userProfile} />;
+        return <DashboardView userProfile={userProfile} setView={setView} />;
       case ViewState.SUBSIDIES:
         return <SubsidiesView userProfile={userProfile} />;
       case ViewState.SETTINGS:
