@@ -5,6 +5,9 @@ import OptimizationView from './components/OptimizationView';
 import DashboardView from './components/DashboardView';
 import SubsidiesView from './components/SubsidiesView';
 import SettingsView from './components/SettingsView';
+import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import LoginView from './src/components/LoginView';
+import { RefreshCw } from 'lucide-react';
 
 // Default user profile for the demo
 const DEFAULT_USER: UserProfile = {
@@ -24,9 +27,22 @@ const DEFAULT_USER: UserProfile = {
   savings: 5000
 };
 
-const App: React.FC = () => {
+const AuthenticatedApp: React.FC = () => {
+  const { user, loading } = useAuth();
   const [currentView, setView] = useState<ViewState>(ViewState.DASHBOARD);
   const [userProfile, setUserProfile] = useState<UserProfile>(DEFAULT_USER);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <RefreshCw className="animate-spin text-blue-600" size={32} />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <LoginView />;
+  }
 
   const renderView = () => {
     switch (currentView) {
@@ -65,6 +81,14 @@ const App: React.FC = () => {
         </div>
       </footer>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AuthenticatedApp />
+    </AuthProvider>
   );
 };
 
