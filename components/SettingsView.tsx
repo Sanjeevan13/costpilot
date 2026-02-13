@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { UserProfile } from '../types';
-import { Save } from 'lucide-react';
+import { Save, Trash2 } from 'lucide-react';
+import { useUser } from '../src/contexts/UserContext';
 
 interface SettingsViewProps {
   userProfile: UserProfile;
-  setUserProfile: (profile: UserProfile) => void;
+  // setUserProfile is no longer needed as we use context, but keeping it optional to avoid breaking if passed
+  setUserProfile?: (profile: UserProfile | Partial<UserProfile>) => void;
 }
 
-const SettingsView: React.FC<SettingsViewProps> = ({ userProfile, setUserProfile }) => {
+const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
+  const { updateProfile, uploadProfilePicture } = useUser();
   const [formData, setFormData] = useState<UserProfile>(userProfile);
   const [saved, setSaved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -21,11 +27,51 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile, setUserProfile
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        alert("File size must be less than 1MB");
+        return;
+      }
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setFormData(prev => ({ ...prev, photoUrl: "" }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUserProfile(formData);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    setUploading(true);
+    try {
+      let finalPhotoUrl = formData.photoUrl;
+
+      if (selectedFile) {
+        finalPhotoUrl = await uploadProfilePicture(selectedFile);
+      }
+
+      await updateProfile({
+        ...formData,
+        photoUrl: finalPhotoUrl
+      });
+
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      alert(`Failed to update profile: ${(error as any).message}`);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -51,23 +97,14 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile, setUserProfile
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Profile Picture</label>
             <div className="flex items-center gap-4">
-              {formData.photoUrl && (
-                <img src={formData.photoUrl} alt="Profile Preview" className="h-12 w-12 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
+              {(previewUrl || formData.photoUrl) && (
+                <img src={previewUrl || formData.photoUrl} alt="Profile Preview" className="h-12 w-12 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
               )}
-              <div className="flex-1">
+              <div className="flex items-center gap-2 flex-1">
                 <input
                   type="file"
                   accept="image/png, image/jpeg"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setFormData(prev => ({ ...prev, photoUrl: reader.result as string }));
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
+                  onChange={handleFileChange}
                   className="block w-full text-sm text-slate-500
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
@@ -77,9 +114,20 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile, setUserProfile
                     dark:file:bg-blue-900/30 dark:file:text-blue-300
                   "
                 />
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">JPG or PNG. Max 1MB.</p>
+
               </div>
+              {(formData.photoUrl || previewUrl) && (
+                <button
+                  type="button"
+                  onClick={handleRemovePhoto}
+                  className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
+                  title="Remove Profile Picture"
+                >
+                  <Trash2 size={18} />
+                </button>
+              )}
             </div>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">JPG or PNG. Max 1MB.</p>
           </div>
 
           <div className="space-y-2">
@@ -169,10 +217,20 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile, setUserProfile
           </span>
           <button
             type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
+            disabled={uploading}
+            className={`bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 ${uploading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
-            <Save size={18} />
-            Save Profile
+            {uploading ? (
+              <>
+                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save size={18} />
+                Save Profile
+              </>
+            )}
           </button>
         </div>
       </form>

@@ -38,8 +38,15 @@ const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewSt
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <RefreshCw className="animate-spin text-slate-400" />
+      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4 animate-fade-in">
+        <div className="relative">
+          <div className="h-16 w-16 rounded-full border-4 border-slate-200 dark:border-slate-700"></div>
+          <div className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
+        </div>
+        <div className="flex flex-col items-center space-y-1">
+          <p className="text-lg font-medium text-slate-700 dark:text-slate-200 animate-pulse">Analyzing your finances</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500">Connecting to secure storage...</p>
+        </div>
       </div>
     );
   }
@@ -47,7 +54,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; setView: (view: ViewSt
   const rentBurden = Math.round((userProfile.rent / userProfile.income) * 100);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fade-in">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome back, {userProfile.name}</h1>
         <p className="text-slate-500 dark:text-slate-400">Here is your financial stability outlook.</p>

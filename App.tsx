@@ -6,45 +6,19 @@ import DashboardView from './components/DashboardView';
 import SubsidiesView from './components/SubsidiesView';
 import SettingsView from './components/SettingsView';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { UserProvider, useUser } from './src/contexts/UserContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import LoginView from './src/components/LoginView';
 import { RefreshCw } from 'lucide-react';
 
-// Default user profile for the demo
-const DEFAULT_USER: UserProfile = {
-  name: "Kisshore",
-  photoUrl: "",
-  income: 4200,
-  rent: 1600,
-  location: "Kuala Lumpur, Cheras",
-  occupation: "Retail Manager",
-  householdSize: 4,
-  commuteMethod: "car",
-  commuteDistanceKm: 15,
-  utilities: 250,
-  transportCost: 450, // Approx for 15km car commute
-  food: 900,
-  debt: 350,
-  subscriptions: 120,
-  savings: 5000
-};
+
 
 const AuthenticatedApp: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { userProfile, loading: userLoading, error: userError, updateProfile } = useUser();
   const [currentView, setView] = useState<ViewState>(ViewState.DASHBOARD);
-  const [userProfile, setUserProfile] = useState<UserProfile>(DEFAULT_USER);
 
-  React.useEffect(() => {
-    if (user) {
-      setUserProfile(prev => ({
-        ...prev,
-        name: user.displayName || user.email?.split('@')[0] || prev.name,
-        photoUrl: user.photoURL || prev.photoUrl
-      }));
-    }
-  }, [user]);
-
-  if (loading) {
+  if (authLoading || (user && userLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <RefreshCw className="animate-spin text-blue-600" size={32} />
@@ -52,8 +26,29 @@ const AuthenticatedApp: React.FC = () => {
     );
   }
 
+  if (userError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+        <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full border-l-4 border-red-500">
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Error Loading Profile</h2>
+          <p className="text-slate-600 mb-4">{userError}</p>
+          <p className="text-sm text-slate-500">Please check your internet connection and Firebase permissions.</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!user) {
     return <LoginView />;
+  }
+
+  // Fallback if profile is null (shouldn't happen after loading, but for safety)
+  if (!userProfile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <RefreshCw className="animate-spin text-blue-600" size={32} />
+      </div>
+    );
   }
 
   const renderView = () => {
@@ -65,7 +60,7 @@ const AuthenticatedApp: React.FC = () => {
       case ViewState.SUBSIDIES:
         return <SubsidiesView userProfile={userProfile} />;
       case ViewState.SETTINGS:
-        return <SettingsView userProfile={userProfile} setUserProfile={setUserProfile} />;
+        return <SettingsView userProfile={userProfile} setUserProfile={updateProfile} />;
       default:
         return (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-slate-400">
@@ -94,9 +89,11 @@ const AuthenticatedApp: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <AuthenticatedApp />
-      </ThemeProvider>
+      <UserProvider>
+        <ThemeProvider>
+          <AuthenticatedApp />
+        </ThemeProvider>
+      </UserProvider>
     </AuthProvider>
   );
 };
