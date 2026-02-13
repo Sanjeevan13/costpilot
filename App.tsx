@@ -42,6 +42,11 @@ const AuthenticatedApp: React.FC = () => {
     return <LoginView />;
   }
 
+  // Check for email verification
+  if (user && !user.emailVerified) {
+    return <LoginView />;
+  }
+
   // Fallback if profile is null (shouldn't happen after loading, but for safety)
   if (!userProfile) {
     return (

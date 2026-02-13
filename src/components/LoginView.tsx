@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { LogIn, UserPlus, AlertCircle, Sun, Moon } from 'lucide-react';
+import { LogIn, UserPlus, AlertCircle, Sun, Moon, RefreshCw } from 'lucide-react';
 
 const LoginView: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -88,7 +88,7 @@ const LoginView: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const { signIn, signUp, signInWithGoogle } = useAuth();
+    const { signIn, signUp, signInWithGoogle, sendVerificationEmail, logout, user } = useAuth();
     // ... existing handlers ...
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -98,8 +98,13 @@ const LoginView: React.FC = () => {
         try {
             if (isLogin) {
                 await signIn(email, password);
+                // User is signed in. App.tsx will check if verification needed on re-render.
             } else {
-                await signUp(email, password);
+                const userCredential = await signUp(email, password);
+                if (userCredential.user) {
+                    await sendVerificationEmail(userCredential.user);
+                    // User is signed in. App.tsx will check if verification needed on re-render.
+                }
             }
         } catch (err: any) {
             setError(err.message.replace('Firebase: ', ''));
@@ -120,8 +125,44 @@ const LoginView: React.FC = () => {
         }
     };
 
+    // Verification Overlay Logic
+    const showVerificationOverlay = user && !user.emailVerified;
+
     return (
-        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
+        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-200 relative overflow-hidden">
+            {/* Verification Overlay */}
+            {showVerificationOverlay && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-white/30 dark:bg-slate-900/30 backdrop-blur-md animate-fade-in transition-all duration-500">
+                    <div className="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700 text-center animate-scale-in">
+                        <div className="mb-6 flex justify-center">
+                            <div className="bg-yellow-100 dark:bg-yellow-900/30 p-4 rounded-full animate-bounce-short">
+                                <AlertCircle className="text-yellow-600 dark:text-yellow-400" size={48} />
+                            </div>
+                        </div>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                            Email Not Verified
+                        </h2>
+                        <p className="text-slate-600 dark:text-slate-300 mb-6">
+                            We have sent a verification link to <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.email}</span>. Please check your inbox.
+                        </p>
+                        <div className="space-y-3">
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg active:scale-95 shadow-md flex items-center justify-center gap-2"
+                            >
+                                <RefreshCw size={20} /> I've Verified My Email
+                            </button>
+                            <button
+                                onClick={() => logout()}
+                                className="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md active:scale-95 flex items-center justify-center gap-2"
+                            >
+                                <LogIn size={20} className="rotate-180" /> Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header with Dark Mode Toggle */}
             <header className="absolute top-0 right-0 p-4 sm:p-6 z-10 w-full flex justify-end">
                 <button
@@ -134,7 +175,7 @@ const LoginView: React.FC = () => {
             </header>
 
             {/* Main Content */}
-            <main className="flex-grow flex items-center justify-center p-4 sm:p-8">
+            <main className={`flex-grow flex items-center justify-center p-4 sm:p-8 transition-all duration-500 ${showVerificationOverlay ? 'scale-95 opacity-50 blur-[2px]' : ''}`}>
                 <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
                     {/* Hero Section */}
@@ -216,7 +257,7 @@ const LoginView: React.FC = () => {
 
                             <button
                                 type="submit"
-                                disabled={loading || googleLoading}
+                                disabled={loading || googleLoading || showVerificationOverlay}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none text-lg"
                             >
                                 {loading ? 'Processing...' : isLogin ? (
@@ -235,7 +276,7 @@ const LoginView: React.FC = () => {
                             <button
                                 type="button"
                                 onClick={handleGoogleSignIn}
-                                disabled={loading || googleLoading}
+                                disabled={loading || googleLoading || showVerificationOverlay}
                                 className="w-full bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-bold py-3.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none text-lg"
                             >
                                 {googleLoading ? 'Connecting...' : (
@@ -250,7 +291,8 @@ const LoginView: React.FC = () => {
                         <div className="mt-8 text-center">
                             <button
                                 onClick={() => setIsLogin(!isLogin)}
-                                className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                                disabled={showVerificationOverlay}
+                                className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors disabled:opacity-50 disabled:no-underline"
                             >
                                 {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
                             </button>
