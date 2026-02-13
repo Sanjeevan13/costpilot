@@ -82,8 +82,8 @@ const AuthenticatedApp: React.FC = () => {
         {renderView()}
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 text-sm">
+      <footer className="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-8 mt-12 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 dark:text-slate-500 text-sm">
           <p>&copy; 2026 CostPilot. Built for KitaHack 2026 by TVK. All rights reserved.</p>
         </div>
       </footer>
