@@ -127,6 +127,32 @@ const LoginView: React.FC = () => {
 
     // Verification Overlay Logic
     const showVerificationOverlay = user && !user.emailVerified;
+    const [resendCooldown, setResendCooldown] = useState(0);
+    const [resendMessage, setResendMessage] = useState('');
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (resendCooldown > 0) {
+            interval = setInterval(() => {
+                setResendCooldown((prev) => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resendCooldown]);
+
+    const handleResendVerification = async () => {
+        if (user && resendCooldown === 0) {
+            try {
+                await sendVerificationEmail(user);
+                setResendMessage('Email sent!');
+                setResendCooldown(60); // 60 seconds cooldown
+                setTimeout(() => setResendMessage(''), 5000);
+            } catch (err: any) {
+                setResendMessage('Error sending email.');
+                console.error(err);
+            }
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-200 relative overflow-hidden">
@@ -143,9 +169,24 @@ const LoginView: React.FC = () => {
                             Email Not Verified
                         </h2>
                         <p className="text-slate-600 dark:text-slate-300 mb-6">
-                            We have sent a verification link to <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.email}</span>. Please check your inbox.
+                            We have sent a verification link to <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.email}</span>. Please check your inbox (and spam folder).
                         </p>
+
+                        {resendMessage && (
+                            <div className={`mb-4 text-sm font-medium ${resendMessage.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>
+                                {resendMessage}
+                            </div>
+                        )}
+
                         <div className="space-y-3">
+                            <button
+                                onClick={handleResendVerification}
+                                disabled={resendCooldown > 0}
+                                className="w-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                {resendCooldown > 0 ? `Resend Email (${resendCooldown}s)` : 'Resend Verification Email'}
+                            </button>
+
                             <button
                                 onClick={() => window.location.reload()}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg active:scale-95 shadow-md flex items-center justify-center gap-2"
@@ -154,9 +195,9 @@ const LoginView: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => logout()}
-                                className="w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold py-3.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-md active:scale-95 flex items-center justify-center gap-2"
+                                className="w-full text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-bold py-3.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm"
                             >
-                                <LogIn size={20} className="rotate-180" /> Sign Out
+                                <LogIn size={16} className="rotate-180" /> Sign Out
                             </button>
                         </div>
                     </div>
