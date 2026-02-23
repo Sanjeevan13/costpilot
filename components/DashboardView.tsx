@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { UserProfile, ViewState, SmartGoal } from '../types';
 import { api, StressResult, MonthlyInputs } from '../services/api';
 import { TrendingUp, CheckCircle2, AlertCircle, Compass, ArrowRight, Zap, RefreshCw, Target, Plus, X, Calendar, AlertTriangle, Trash2, Car, ShieldCheck, Home, Plane, GraduationCap, Briefcase } from 'lucide-react';
+import { useAuth } from '../src/contexts/AuthContext';
 
 const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profile: Partial<UserProfile>) => void; setView: (view: ViewState) => void }> = ({ userProfile, updateProfile, setView }) => {
+  const { user } = useAuth();
+  const username = user?.displayName || user?.email?.split('@')[0] || 'Explorer';
   const [loading, setLoading] = useState(true);
   const [stressData, setStressData] = useState<StressResult | null>(null);
   const [signals, setSignals] = useState<any>(null);
@@ -320,6 +323,16 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in font-sans text-slate-800 dark:text-slate-100">
+
+      {/* Welcome Header */}
+      <div className="mb-6 animate-slide-up">
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+          Welcome back, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">{username}</span> 👋
+        </h1>
+        <p className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-sm md:text-base">
+          Here is your financial overview for today.
+        </p>
+      </div>
 
       {/* Top Split Layout */}
       <div className="flex flex-col xl:flex-row gap-6 mb-8 mt-2">
