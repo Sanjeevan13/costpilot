@@ -20,8 +20,8 @@ interface EVForm {
     monthlyInsurance: number;
 }
 
-const INPUT_CLASS = "w-full bg-[#0d1a12] border border-emerald-500/15 rounded-xl px-4 py-3.5 text-white text-base focus:outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/30 placeholder-slate-500 transition-all";
-const LABEL_CLASS = "text-xs font-bold uppercase tracking-[0.2em] text-emerald-300/60 mb-2 block";
+const INPUT_CLASS = "w-full bg-white dark:bg-[#0d1a12] border border-emerald-200 dark:border-emerald-500/15 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white text-base focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 placeholder-slate-400 dark:placeholder-slate-500 transition-all";
+const LABEL_CLASS = "text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300/60 mb-2 block";
 
 const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
     const [expanded, setExpanded] = useState(false);
@@ -78,9 +78,9 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
     };
 
     const catColors: Record<string, string> = {
-        budget: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-        'mid-range': 'text-blue-400 border-blue-500/30 bg-blue-500/10',
-        premium: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
+        budget: 'text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10',
+        'mid-range': 'text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10',
+        premium: 'text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10',
     };
 
     return (
@@ -109,25 +109,25 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
                 </div>
             ) : (
                 /* Expanded Card */
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#071a12] via-[#0a1f17] to-[#0d0820] rounded-[2rem] border border-emerald-500/20 shadow-[0_12px_60px_-10px_rgba(16,185,129,0.15)]">
+                <div className="relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-[#071a12] dark:via-[#0a1f17] dark:to-[#0d0820] rounded-[2rem] border border-slate-200 dark:border-emerald-500/20 shadow-xl dark:shadow-[0_12px_60px_-10px_rgba(16,185,129,0.15)] transition-colors duration-300">
                     {/* Glow effects */}
                     <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/8 rounded-full blur-[80px] -mr-20 -mt-20 pointer-events-none"></div>
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/5 rounded-full blur-[60px] -ml-16 -mb-16 pointer-events-none"></div>
 
                     {/* Header Bar */}
-                    <div className="flex items-center justify-between p-7 sm:p-8 border-b border-emerald-500/10">
+                    <div className="flex items-center justify-between p-7 sm:p-8 border-b border-slate-100 dark:border-emerald-500/10">
                         <div className="flex items-center gap-4 sm:gap-5">
-                            <div className="w-14 h-14 bg-emerald-500/15 border border-emerald-500/25 rounded-[18px] flex items-center justify-center p-2">
+                            <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-100 dark:border-emerald-500/25 rounded-[18px] flex items-center justify-center p-2">
                                 <img src="/assets/ev-logo.png" alt="EV" className="w-full h-full object-contain" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-white tracking-tight">What if EV?</h2>
-                                <p className="text-sm text-emerald-300/50 font-medium mt-0.5">Petrol vs Electric — AI-powered cost comparison</p>
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">What if EV?</h2>
+                                <p className="text-sm text-emerald-600 dark:text-emerald-300/50 font-medium mt-0.5">Petrol vs Electric — AI-powered cost comparison</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setExpanded(false)}
-                            className="p-2.5 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all border border-white/5 hover:border-white/10"
+                            className="p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all border border-transparent dark:border-white/5 dark:hover:border-white/10"
                         >
                             <X size={20} />
                         </button>
@@ -138,10 +138,10 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
 
                         {/* Intro note */}
                         {!result && (
-                            <div className="bg-emerald-500/5 rounded-xl p-4 border border-emerald-500/10">
-                                <p className="text-sm text-emerald-200/60 leading-relaxed">
-                                    <Fuel className="inline mr-1.5 text-amber-400" size={14} />
-                                    Enter your current petrol car details and <span className="text-emerald-300 font-bold">Gemini AI</span> will show you exactly how much you'd save by switching to an EV — including Malaysia-specific incentives.
+                            <div className="bg-emerald-50 dark:bg-emerald-500/5 rounded-xl p-4 border border-emerald-100 dark:border-emerald-500/10 transition-colors">
+                                <p className="text-sm text-emerald-800 dark:text-emerald-200/60 leading-relaxed">
+                                    <Fuel className="inline mr-1.5 text-amber-500 dark:text-amber-400" size={14} />
+                                    Enter your current petrol car details and <span className="text-emerald-600 dark:text-emerald-300 font-bold">Gemini AI</span> will show you exactly how much you'd save by switching to an EV — including Malaysia-specific incentives.
                                 </p>
                             </div>
                         )}
@@ -176,7 +176,7 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
                                     </div>
                                     <div>
                                         <label className={LABEL_CLASS}>Est. Monthly Petrol</label>
-                                        <div className="bg-[#0d1a12] border border-emerald-500/15 rounded-xl px-4 py-3.5 text-amber-400 text-base font-bold">
+                                        <div className="bg-emerald-50 dark:bg-[#0d1a12] border border-emerald-200 dark:border-emerald-500/15 rounded-xl px-4 py-3.5 text-amber-600 dark:text-amber-400 text-base font-bold transition-colors">
                                             RM{estimatedMonthlyPetrol.toFixed(2)}
                                         </div>
                                     </div>
@@ -220,43 +220,43 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
                             <div className="space-y-8 animate-fade-in">
 
                                 {/* Current Petrol Summary */}
-                                <div className="bg-gradient-to-br from-amber-900/20 to-orange-900/10 rounded-2xl border border-amber-500/20 p-6">
+                                <div className="bg-amber-50 dark:bg-gradient-to-br dark:from-amber-900/20 dark:to-orange-900/10 rounded-2xl border border-amber-200 dark:border-amber-500/20 p-6 transition-colors duration-300">
                                     <div className="flex items-center gap-3 mb-5">
-                                        <Fuel className="text-amber-400" size={22} />
-                                        <h3 className="text-lg font-bold text-amber-400 uppercase tracking-wider">Current Petrol Costs</h3>
+                                        <Fuel className="text-amber-500 dark:text-amber-400" size={22} />
+                                        <h3 className="text-lg font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Current Petrol Costs</h3>
                                     </div>
                                     <div className="grid grid-cols-3 gap-6">
                                         <div>
                                             <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Monthly</p>
-                                            <p className="text-3xl font-black text-white">RM{result.current_petrol_analysis?.monthly_total?.toFixed(0)}</p>
+                                            <p className="text-3xl font-black text-slate-900 dark:text-white">RM{result.current_petrol_analysis?.monthly_total?.toFixed(0)}</p>
                                         </div>
                                         <div>
                                             <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Yearly</p>
-                                            <p className="text-3xl font-black text-white">RM{result.current_petrol_analysis?.yearly_total?.toFixed(0)}</p>
+                                            <p className="text-3xl font-black text-slate-900 dark:text-white">RM{result.current_petrol_analysis?.yearly_total?.toFixed(0)}</p>
                                         </div>
                                         <div>
                                             <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">CO₂/month</p>
-                                            <p className="text-3xl font-black text-red-400">{result.current_petrol_analysis?.co2_monthly_kg?.toFixed(0)}kg</p>
+                                            <p className="text-3xl font-black text-red-500 dark:text-red-400">{result.current_petrol_analysis?.co2_monthly_kg?.toFixed(0)}kg</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* EV Options */}
                                 <div>
-                                    <h3 className="text-base font-bold uppercase tracking-[0.2em] text-emerald-400 mb-4">EV Alternatives</h3>
+                                    <h3 className="text-base font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 mb-4">EV Alternatives</h3>
                                     <div className="space-y-4">
                                         {result.ev_options?.map((ev: any, i: number) => (
                                             <div key={i}
                                                 onClick={() => setSelectedEV(i)}
                                                 className={`rounded-2xl border p-6 cursor-pointer transition-all duration-300 ${selectedEV === i
-                                                    ? 'bg-emerald-500/5 border-emerald-500/25 shadow-[0_0_30px_rgba(16,185,129,0.08)]'
-                                                    : 'bg-white/[0.02] border-white/5 hover:border-white/10'}`}>
+                                                    ? 'bg-emerald-50 dark:bg-emerald-500/5 border-emerald-300 dark:border-emerald-500/25 shadow-[0_0_30px_rgba(16,185,129,0.08)]'
+                                                    : 'bg-white dark:bg-white/[0.02] border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10'}`}>
                                                 <div className="flex items-center justify-between mb-4">
                                                     <div className="flex items-center gap-3">
-                                                        <Battery className="text-emerald-400" size={22} />
-                                                        <span className="font-bold text-white text-lg">{ev.model}</span>
+                                                        <Battery className="text-emerald-500 dark:text-emerald-400" size={22} />
+                                                        <span className="font-bold text-slate-900 dark:text-white text-lg">{ev.model}</span>
                                                     </div>
-                                                    <span className={`text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full border ${catColors[ev.category] || 'text-slate-400 border-white/10 bg-white/5'}`}>
+                                                    <span className={`text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full border ${catColors[ev.category] || 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5'}`}>
                                                         {ev.category}
                                                     </span>
                                                 </div>
@@ -264,45 +264,45 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
                                                 <div className="grid grid-cols-4 gap-4 mb-2">
                                                     <div>
                                                         <p className="text-xs text-slate-500 uppercase mb-1">Price</p>
-                                                        <p className="text-base font-bold text-white">RM{(ev.price_rm / 1000).toFixed(0)}k</p>
+                                                        <p className="text-base font-bold text-slate-900 dark:text-white">RM{(ev.price_rm / 1000).toFixed(0)}k</p>
                                                     </div>
                                                     <div>
                                                         <p className="text-xs text-slate-500 uppercase mb-1">Range</p>
-                                                        <p className="text-base font-bold text-white">{ev.range_km}km</p>
+                                                        <p className="text-base font-bold text-slate-900 dark:text-white">{ev.range_km}km</p>
                                                     </div>
                                                     <div>
                                                         <p className="text-xs text-slate-500 uppercase mb-1">Charging/mo</p>
-                                                        <p className="text-base font-bold text-emerald-400">RM{ev.monthly_charging_cost?.toFixed(2)}</p>
+                                                        <p className="text-base font-bold text-emerald-600 dark:text-emerald-400">RM{ev.monthly_charging_cost?.toFixed(2)}</p>
                                                     </div>
                                                     <div>
                                                         <p className="text-xs text-slate-500 uppercase mb-1">Savings/mo</p>
-                                                        <p className="text-base font-bold text-emerald-400">+RM{ev.monthly_savings_vs_petrol?.toFixed(2)}</p>
+                                                        <p className="text-base font-bold text-emerald-600 dark:text-emerald-400">+RM{ev.monthly_savings_vs_petrol?.toFixed(2)}</p>
                                                     </div>
                                                 </div>
 
                                                 {selectedEV === i && (
-                                                    <div className="mt-5 pt-5 border-t border-white/5 space-y-4 animate-fade-in">
+                                                    <div className="mt-5 pt-5 border-t border-slate-200 dark:border-white/5 space-y-4 animate-fade-in transition-colors">
                                                         <div className="grid grid-cols-3 gap-4">
-                                                            <div className="bg-[#071a12] rounded-xl p-4 text-center border border-emerald-500/10">
-                                                                <DollarSign className="mx-auto text-emerald-400 mb-2" size={20} />
+                                                            <div className="bg-emerald-50 dark:bg-[#071a12] rounded-xl p-4 text-center border border-emerald-100 dark:border-emerald-500/10 transition-colors">
+                                                                <DollarSign className="mx-auto text-emerald-500 dark:text-emerald-400 mb-2" size={20} />
                                                                 <p className="text-xs text-slate-500 uppercase mb-1">Yearly Savings</p>
-                                                                <p className="text-lg font-black text-emerald-400">RM{ev.yearly_savings_vs_petrol?.toFixed(2)}</p>
+                                                                <p className="text-lg font-black text-emerald-600 dark:text-emerald-400">RM{ev.yearly_savings_vs_petrol?.toFixed(2)}</p>
                                                             </div>
-                                                            <div className="bg-[#071a12] rounded-xl p-4 text-center border border-emerald-500/10">
-                                                                <Calendar className="mx-auto text-blue-400 mb-2" size={20} />
+                                                            <div className="bg-blue-50 dark:bg-[#071a12] rounded-xl p-4 text-center border border-blue-100 dark:border-emerald-500/10 transition-colors">
+                                                                <Calendar className="mx-auto text-blue-500 dark:text-blue-400 mb-2" size={20} />
                                                                 <p className="text-xs text-slate-500 uppercase mb-1">Break Even</p>
-                                                                <p className="text-lg font-black text-blue-400">{ev.break_even_months} months</p>
+                                                                <p className="text-lg font-black text-blue-600 dark:text-blue-400">{ev.break_even_months} months</p>
                                                             </div>
-                                                            <div className="bg-[#071a12] rounded-xl p-4 text-center border border-emerald-500/10">
-                                                                <Leaf className="mx-auto text-green-400 mb-2" size={20} />
+                                                            <div className="bg-green-50 dark:bg-[#071a12] rounded-xl p-4 text-center border border-green-100 dark:border-emerald-500/10 transition-colors">
+                                                                <Leaf className="mx-auto text-green-500 dark:text-green-400 mb-2" size={20} />
                                                                 <p className="text-xs text-slate-500 uppercase mb-1">CO₂ Saved</p>
-                                                                <p className="text-lg font-black text-green-400">{(result.current_petrol_analysis?.co2_monthly_kg - (ev.co2_monthly_kg || 0)).toFixed(0)}kg/mo</p>
+                                                                <p className="text-lg font-black text-green-600 dark:text-green-400">{(result.current_petrol_analysis?.co2_monthly_kg - (ev.co2_monthly_kg || 0)).toFixed(0)}kg/mo</p>
                                                             </div>
                                                         </div>
                                                         {ev.key_features && (
                                                             <div className="flex flex-wrap gap-2">
                                                                 {ev.key_features.map((f: string, fi: number) => (
-                                                                    <span key={fi} className="text-xs px-3 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/15 text-emerald-300/70">{f}</span>
+                                                                    <span key={fi} className="text-xs px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/15 text-emerald-700 dark:text-emerald-300/70">{f}</span>
                                                                 ))}
                                                             </div>
                                                         )}
@@ -315,17 +315,17 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
 
                                 {/* AI Recommendation */}
                                 {result.summary && (
-                                    <div className="bg-gradient-to-br from-emerald-900/20 to-teal-900/10 rounded-2xl border border-emerald-500/20 p-6">
+                                    <div className="bg-emerald-50 dark:bg-gradient-to-br dark:from-emerald-900/20 dark:to-teal-900/10 rounded-2xl border border-emerald-200 dark:border-emerald-500/20 p-6 transition-colors duration-300">
                                         <div className="flex items-center gap-3 mb-4">
-                                            <Award className="text-emerald-400" size={22} />
-                                            <h3 className="text-lg font-bold text-emerald-400 uppercase tracking-wider">AI Recommendation</h3>
+                                            <Award className="text-emerald-500 dark:text-emerald-400" size={22} />
+                                            <h3 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">AI Recommendation</h3>
                                         </div>
-                                        <p className="text-base text-slate-300 leading-relaxed mb-4">{result.summary.recommendation}</p>
-                                        <p className="text-sm text-slate-500 leading-relaxed">{result.summary.environmental_impact}</p>
+                                        <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">{result.summary.recommendation}</p>
+                                        <p className="text-sm text-slate-600 dark:text-slate-500 leading-relaxed">{result.summary.environmental_impact}</p>
                                         {result.summary.malaysia_incentives && (
                                             <div className="mt-5 space-y-2.5">
                                                 {result.summary.malaysia_incentives.map((inc: string, i: number) => (
-                                                    <div key={i} className="flex items-start gap-2 text-sm text-emerald-400/80">
+                                                    <div key={i} className="flex items-start gap-2 text-sm text-emerald-700 dark:text-emerald-400/80">
                                                         <ChevronRight size={14} className="shrink-0 mt-0.5" /> {inc}
                                                     </div>
                                                 ))}
@@ -336,7 +336,7 @@ const EVComparisonCard: React.FC<EVComparisonCardProps> = ({ userProfile }) => {
 
                                 {/* Re-analyze button */}
                                 <button onClick={handleReset}
-                                    className="w-full py-4 rounded-xl border border-emerald-500/20 text-sm font-bold uppercase tracking-wider text-emerald-300/50 hover:text-emerald-300 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all">
+                                    className="w-full py-4 rounded-xl border border-emerald-200 dark:border-emerald-500/20 text-sm font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300/50 hover:text-emerald-700 dark:hover:text-emerald-300 hover:border-emerald-400 dark:hover:border-emerald-500/30 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition-all">
                                     ← Re-analyze with different values
                                 </button>
                             </div>

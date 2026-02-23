@@ -453,14 +453,14 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
     const proTipSavings = baseDebouncedNeeded - monthlyNeededBumped;
 
     return (
-        <div className="min-h-screen bg-[#05080f] text-white">
+        <div className="min-h-screen bg-slate-50 dark:bg-[#05080f] text-slate-900 dark:text-white transition-colors duration-300">
             <div className="max-w-[1200px] mx-auto px-6 py-10 animate-fade-in font-sans relative">
 
                 {/* Global Back Navigation */}
                 {step !== 'selection' && (
                     <button
                         onClick={handleBack}
-                        className="mb-8 flex items-center gap-2 px-4 py-2 bg-[#0f1423] border border-[#1e2738] rounded-xl text-slate-400 hover:text-white hover:bg-[#151c2c] transition-all shadow-sm group w-max"
+                        className="mb-8 flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-[#1e2738] rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#151c2c] transition-all shadow-sm group w-max"
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                         <span className="font-bold text-sm">Back</span>
@@ -477,31 +477,31 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 <div className="flex items-center justify-between mb-6 px-4">
                                     <div className="flex items-center gap-3">
                                         <div className="w-1.5 h-6 bg-emerald-500 rounded-full"></div>
-                                        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-[0.2em]">Active Strategies</h2>
+                                        <h2 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">Active Strategies</h2>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 gap-4">
                                     {userProfile.wealthPlusStrategies.map((s) => (
-                                        <div key={s.id} className="bg-[#0f1423]/50 backdrop-blur-sm border border-[#1e2738] rounded-2xl p-6 flex items-center justify-between group hover:border-emerald-500/50 hover:bg-[#0f1423] transition-all shadow-sm">
+                                        <div key={s.id} className="bg-white/80 dark:bg-[#0f1423]/50 backdrop-blur-sm border border-slate-200 dark:border-[#1e2738] rounded-2xl p-6 flex items-center justify-between group hover:border-emerald-400 dark:hover:border-emerald-500/50 hover:bg-white dark:hover:bg-[#0f1423] transition-all shadow-sm">
                                             <div className="flex items-center gap-6">
-                                                <div className="w-14 h-14 bg-emerald-500/5 rounded-2xl flex items-center justify-center text-emerald-500 border border-emerald-500/10 group-hover:bg-emerald-500/10 transition-colors">
+                                                <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-500/5 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-500 border border-emerald-100 dark:border-emerald-500/10 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/10 transition-colors">
                                                     <Target size={26} />
                                                 </div>
                                                 <div>
-                                                    <div className="font-bold text-white text-lg tracking-tight mb-1">{s.label}</div>
-                                                    <div className="text-xs text-slate-500 font-bold uppercase tracking-widest flex items-center gap-3">
-                                                        <span className="text-emerald-500/90">{formatRM(s.monthlyAmount)} Monthly</span>
-                                                        <span className="w-1.5 h-1.5 bg-slate-800 rounded-full"></span>
+                                                    <div className="font-bold text-slate-900 dark:text-white text-lg tracking-tight mb-1">{s.label}</div>
+                                                    <div className="text-xs text-slate-500 dark:text-slate-500 font-bold uppercase tracking-widest flex items-center gap-3">
+                                                        <span className="text-emerald-600 dark:text-emerald-500/90">{formatRM(s.monthlyAmount)} Monthly</span>
+                                                        <span className="w-1.5 h-1.5 bg-slate-300 dark:bg-slate-800 rounded-full"></span>
                                                         <span>{s.goalType === 'short' ? 'Short Term Growth' : 'Long Term Wealth'}</span>
-                                                        <span className="w-1.5 h-1.5 bg-slate-800 rounded-full"></span>
-                                                        <span className="text-slate-600">Created {new Date(s.createdAt).toLocaleDateString()}</span>
+                                                        <span className="w-1.5 h-1.5 bg-slate-300 dark:bg-slate-800 rounded-full"></span>
+                                                        <span className="text-slate-500 dark:text-slate-600">Created {new Date(s.createdAt).toLocaleDateString()}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <button
                                                     onClick={() => handleEditStrategy(s)}
-                                                    className="flex items-center gap-2 px-4 py-2.5 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-slate-800 rounded-xl transition-all font-bold text-xs uppercase tracking-widest"
+                                                    className="flex items-center gap-2 px-4 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 border border-transparent hover:border-slate-300 dark:hover:border-slate-800 rounded-xl transition-all font-bold text-xs uppercase tracking-widest"
                                                 >
                                                     <Edit2 size={14} /> Edit
                                                 </button>
@@ -516,15 +516,15 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         </div>
                                     ))}
                                 </div>
-                                <div className="mt-16 h-[1px] bg-gradient-to-r from-transparent via-slate-800/50 to-transparent w-full"></div>
+                                <div className="mt-16 h-[1px] bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-800/50 to-transparent w-full"></div>
                             </div>
                         )}
 
                         <div className="max-w-3xl mx-auto">
-                            <h1 className={`${userProfile.wealthPlusStrategies?.length ? 'text-3xl md:text-4xl' : 'text-[40px] md:text-5xl'} font-bold mb-4 tracking-tight`}>
+                            <h1 className={`${userProfile.wealthPlusStrategies?.length ? 'text-3xl md:text-4xl' : 'text-[40px] md:text-5xl'} font-bold mb-4 tracking-tight text-slate-900 dark:text-white`}>
                                 {userProfile.wealthPlusStrategies?.length ? 'Add a new Wealth+ Strategy' : 'Select Your Financial Goal'}
                             </h1>
-                            <p className="text-slate-400 text-lg mb-12 max-w-[600px] leading-relaxed mx-auto">
+                            <p className="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-[600px] leading-relaxed mx-auto">
                                 {userProfile.wealthPlusStrategies?.length
                                     ? "Launch an additional financial protocol to diversify your wealth building."
                                     : "Let's start by defining your horizon. We'll tailor your investment strategy based on your timeline."}
@@ -535,34 +535,34 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             {/* Short Term */}
                             <div
                                 onClick={() => setGoalType('short')}
-                                className={`group relative p-8 rounded-2xl transition-all cursor-pointer text-left overflow-hidden border ${goalType === 'short' ? 'bg-[#1a2333] border-[#29364f]' : 'bg-[#0f1423] border-transparent hover:bg-[#111827]'}`}
+                                className={`group relative p-8 rounded-2xl transition-all duration-300 cursor-pointer text-left overflow-hidden border ${goalType === 'short' ? 'bg-emerald-50 dark:bg-[#1a2333] border-emerald-200 dark:border-[#29364f] shadow-md dark:shadow-none' : 'bg-white dark:bg-[#0f1423] border-slate-200 dark:border-transparent hover:bg-slate-50 dark:hover:bg-[#111827] shadow-sm dark:shadow-none'}`}
                             >
-                                <div className="absolute -top-2 -right-2 opacity-[0.03]">
+                                <div className="absolute -top-2 -right-2 opacity-[0.03] dark:opacity-[0.03] text-emerald-600 dark:text-white">
                                     <Clock size={120} />
                                 </div>
-                                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-5">
+                                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 flex items-center justify-center mb-5">
                                     <Clock size={20} />
                                 </div>
-                                <h3 className="text-lg font-bold mb-2 text-white">Short-Term Goal</h3>
-                                <p className="text-slate-400 text-sm leading-relaxed relative z-10">
-                                    Ideal for immediate needs like emergency funds, travel, or small purchases <span className="text-white font-semibold">(0-2 years)</span>.
+                                <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Short-Term Goal</h3>
+                                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed relative z-10">
+                                    Ideal for immediate needs like emergency funds, travel, or small purchases <span className="text-slate-900 dark:text-white font-semibold">(0-2 years)</span>.
                                 </p>
                             </div>
 
                             {/* Long Term */}
                             <div
                                 onClick={() => setGoalType('long')}
-                                className={`group relative p-8 rounded-2xl transition-all cursor-pointer text-left overflow-hidden border ${goalType === 'long' ? 'bg-[#1a2333] border-[#29364f]' : 'bg-[#0f1423] border-transparent hover:bg-[#111827]'}`}
+                                className={`group relative p-8 rounded-2xl transition-all duration-300 cursor-pointer text-left overflow-hidden border ${goalType === 'long' ? 'bg-emerald-50 dark:bg-[#1a2333] border-emerald-200 dark:border-[#29364f] shadow-md dark:shadow-none' : 'bg-white dark:bg-[#0f1423] border-slate-200 dark:border-transparent hover:bg-slate-50 dark:hover:bg-[#111827] shadow-sm dark:shadow-none'}`}
                             >
-                                <div className="absolute -top-2 -right-2 opacity-[0.03]">
+                                <div className="absolute -top-2 -right-2 opacity-[0.03] dark:opacity-[0.03] text-emerald-600 dark:text-white">
                                     <Mountain size={120} />
                                 </div>
-                                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-5">
+                                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 flex items-center justify-center mb-5">
                                     <Mountain size={20} />
                                 </div>
-                                <h3 className="text-lg font-bold mb-2 text-white">Long-Term Goal</h3>
-                                <p className="text-slate-400 text-sm leading-relaxed relative z-10">
-                                    Perfect for major life milestones like retirement, education, or buying a home <span className="text-white font-semibold">(2+ years)</span>.
+                                <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Long-Term Goal</h3>
+                                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed relative z-10">
+                                    Perfect for major life milestones like retirement, education, or buying a home <span className="text-slate-900 dark:text-white font-semibold">(2+ years)</span>.
                                 </p>
                             </div>
                         </div>
@@ -583,21 +583,21 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                     <div className="animate-slide-up max-w-[1100px] mx-auto">
                         <div className="mb-10">
                             <div>
-                                <h1 className="text-[32px] md:text-4xl font-bold mb-3 tracking-tight">Configure your Wealth+ Strategy</h1>
-                                <p className="text-slate-400 text-base">Define your financial goals and risk tolerance to calculate your optimal strategy.</p>
+                                <h1 className="text-[32px] md:text-4xl font-bold mb-3 tracking-tight text-slate-900 dark:text-white">Configure your Wealth+ Strategy</h1>
+                                <p className="text-slate-600 dark:text-slate-400 text-base">Define your financial goals and risk tolerance to calculate your optimal strategy.</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
                             {/* Main Config */}
                             <div className="space-y-8">
-                                <div className="bg-[#0f1423] border border-[#1e2738] rounded-2xl p-8 space-y-10">
+                                <div className="bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-[#1e2738] rounded-2xl p-8 space-y-10 shadow-sm dark:shadow-none transition-colors duration-300">
                                     {/* Wealth Target */}
                                     <div className="space-y-3">
-                                        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Wealth Target (RM)</label>
+                                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Wealth Target (RM)</label>
                                         <div className="relative">
                                             <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center">
-                                                <span className="text-slate-400 font-semibold text-lg">RM</span>
+                                                <span className="text-slate-400 dark:text-slate-400 font-semibold text-lg">RM</span>
                                             </div>
                                             <input
                                                 type="text"
@@ -610,7 +610,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                         setTargetAmount(0);
                                                     }
                                                 }}
-                                                className="w-full bg-[#151c2c] border border-[#29364f] p-4 pl-14 rounded-xl text-xl font-bold text-white outline-none focus:border-emerald-500 transition-colors"
+                                                className="w-full bg-slate-50 dark:bg-[#151c2c] border border-slate-300 dark:border-[#29364f] p-4 pl-14 rounded-xl text-xl font-bold text-slate-900 dark:text-white outline-none focus:border-emerald-500 transition-colors"
                                             />
                                         </div>
                                         <p className="text-slate-500 text-xs">Set a realistic target for your {goalType === 'long' ? 'long-term retirement or savings' : 'short-term needs'} goal.</p>
@@ -619,8 +619,8 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                     {/* Duration */}
                                     <div className="space-y-5">
                                         <div className="flex justify-between items-center">
-                                            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Duration</label>
-                                            <div className="flex items-center gap-2 bg-[#151c2c] border border-[#29364f] p-1.5 rounded-lg focus-within:border-emerald-500 transition-colors">
+                                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Duration</label>
+                                            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#151c2c] border border-slate-300 dark:border-[#29364f] p-1.5 rounded-lg focus-within:border-emerald-500 transition-colors">
                                                 <input
                                                     type="number"
                                                     min={goalType === 'short' ? 0 : 2}
@@ -637,9 +637,9 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                         if (pVal > maxLimit) pVal = maxLimit;
                                                         setDuration(pVal);
                                                     }}
-                                                    className="bg-transparent text-white font-bold text-sm w-12 text-right outline-none"
+                                                    className="bg-transparent text-slate-900 dark:text-white font-bold text-sm w-12 text-right outline-none"
                                                 />
-                                                <span className="text-slate-400 text-sm font-semibold pr-2">
+                                                <span className="text-slate-500 dark:text-slate-400 text-sm font-semibold pr-2">
                                                     {goalType === 'short' ? 'Months' : 'Years'}
                                                 </span>
                                             </div>
@@ -652,7 +652,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                 max={goalType === 'short' ? "24" : "40"}
                                                 value={duration}
                                                 onChange={(e) => setDuration(Number(e.target.value))}
-                                                className="w-full h-1.5 bg-[#1e2738] rounded-full appearance-none cursor-pointer accent-emerald-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#0f1423]"
+                                                className="w-full h-1.5 bg-slate-200 dark:bg-[#1e2738] rounded-full appearance-none cursor-pointer accent-emerald-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white dark:[&::-webkit-slider-thumb]:border-[#0f1423]"
                                             />
                                         </div>
                                         {goalType === 'short' ? (
@@ -670,24 +670,24 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
 
                                     {/* Risk Appetite */}
                                     <div className="space-y-4">
-                                        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Risk Appetite</label>
-                                        <div className="flex bg-[#151c2c] p-1.5 rounded-xl border border-[#29364f]">
+                                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Risk Appetite</label>
+                                        <div className="flex bg-slate-50 dark:bg-[#151c2c] p-1.5 rounded-xl border border-slate-300 dark:border-[#29364f]">
                                             {(['conservative', 'moderate', 'aggressive'] as RiskAppetite[]).map(r => (
                                                 <button
                                                     key={r}
                                                     onClick={() => setRisk(r)}
-                                                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold capitalize transition-all ${risk === r ? 'bg-[#3b4c6b] text-white shadow-sm' : 'text-slate-400 hover:text-slate-300'}`}
+                                                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-semibold capitalize transition-all ${risk === r ? 'bg-white dark:bg-[#3b4c6b] text-emerald-600 dark:text-white shadow-sm border border-slate-200 dark:border-transparent' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
                                                 >
                                                     {r}
                                                 </button>
                                             ))}
                                         </div>
 
-                                        <div className="bg-[#051811] border border-emerald-900/50 rounded-xl p-4 flex gap-3 items-start mt-4">
-                                            <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[#051811] shrink-0 mt-0.5">
-                                                <Info size={14} className="text-[#05080f]" />
+                                        <div className="bg-emerald-50/50 dark:bg-[#051811] border border-emerald-200 dark:border-emerald-900/50 rounded-xl p-4 flex gap-3 items-start mt-4 transition-colors">
+                                            <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white dark:text-[#051811] shrink-0 mt-0.5">
+                                                <Info size={14} className="text-white dark:text-[#05080f]" />
                                             </div>
-                                            <p className="text-slate-400 text-sm leading-relaxed">
+                                            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                                                 {risk === 'moderate' && 'Moderate risk typically involves a balanced portfolio of 60% equities and 40% fixed income for steady growth.'}
                                                 {risk === 'conservative' && 'Conservative risk focuses on capital preservation and steady, low-yield instruments like FDs and savings units.'}
                                                 {risk === 'aggressive' && 'Aggressive risk targets high growth through 90%+ equity allocation, favoring high-performance stocks and ETFs.'}
@@ -700,31 +700,31 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             {/* Sidebar Stats */}
                             <div className="space-y-6">
                                 {/* Financial Snapshot */}
-                                <div className="bg-[#0f1423] border border-[#1e2738] rounded-2xl p-6 space-y-6">
+                                <div className="bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-[#1e2738] rounded-2xl p-6 space-y-6 shadow-sm dark:shadow-none transition-colors duration-300">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <div className="w-4 h-4 rounded-sm bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                                        <div className="w-4 h-4 rounded-sm bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
                                             <Wallet size={10} />
                                         </div>
-                                        <h3 className="text-[11px] font-bold text-slate-400 tracking-widest uppercase">Financial Snapshot</h3>
+                                        <h3 className="text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase">Financial Snapshot</h3>
                                     </div>
 
                                     <div className="space-y-5">
                                         <div>
                                             <p className="text-xs text-slate-500 mb-1">Monthly Income</p>
-                                            <h4 className="text-2xl font-bold text-white mb-1.5">{formatRM(userProfile.income)}</h4>
-                                            <span className="text-[10px] font-bold text-emerald-500 flex items-center gap-1">
+                                            <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-1.5">{formatRM(userProfile.income)}</h4>
+                                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-500 flex items-center gap-1">
                                                 <TrendingUp size={12} /> Verified
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="mt-6 p-5 bg-[#151c2c] rounded-xl space-y-3">
+                                    <div className="mt-6 p-5 bg-slate-50 dark:bg-[#151c2c] rounded-xl space-y-3 transition-colors duration-300">
                                         <div className="flex justify-between items-center">
-                                            <p className="text-xs text-slate-400">Projected Savings Needed</p>
-                                            <p className="text-sm font-bold text-emerald-500">{formatRM(monthlyNeeded)}/mo</p>
+                                            <p className="text-xs text-slate-600 dark:text-slate-400">Projected Savings Needed</p>
+                                            <p className="text-sm font-bold text-emerald-600 dark:text-emerald-500">{formatRM(monthlyNeeded)}/mo</p>
                                         </div>
-                                        <div className="h-1.5 bg-[#1e2738] rounded-full overflow-hidden">
-                                            <div className="h-full bg-emerald-500 w-[65%] rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                                        <div className="h-1.5 bg-slate-200 dark:bg-[#1e2738] rounded-full overflow-hidden">
+                                            <div className="h-full bg-emerald-500 w-[65%] rounded-full shadow-md dark:shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                                         </div>
                                         <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                                             Based on your current {duration}-{isShort ? 'month' : 'year'} goal and {risk} risk appetite.
@@ -733,13 +733,13 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 </div>
 
                                 {/* Pro Tip */}
-                                <div className="bg-[#062118] border border-[#0d3427] rounded-2xl p-6 relative overflow-hidden group">
-                                    <div className="absolute -bottom-4 -right-4 text-emerald-500/10 group-hover:scale-110 transition-all duration-500">
+                                <div className="bg-emerald-50 dark:bg-[#062118] border border-emerald-200 dark:border-[#0d3427] rounded-2xl p-6 relative overflow-hidden group shadow-sm dark:shadow-none transition-colors duration-300">
+                                    <div className="absolute -bottom-4 -right-4 text-emerald-100 dark:text-emerald-500/10 group-hover:scale-110 transition-all duration-500">
                                         <Zap size={100} />
                                     </div>
                                     <div className="relative z-10">
-                                        <h4 className="text-base font-bold text-white mb-2">Pro Tip</h4>
-                                        <p className="text-sm text-[#94b3a6] leading-relaxed">
+                                        <h4 className="text-base font-bold text-emerald-900 dark:text-white mb-2">Pro Tip</h4>
+                                        <p className="text-sm text-emerald-700 dark:text-[#94b3a6] leading-relaxed">
                                             {duration < maxLimit ? (
                                                 <>
                                                     Increasing your duration by just <span className="text-white font-bold">{activeBump} {isShort ? 'months' : 'years'}</span> could reduce your monthly savings requirement by <span className="text-emerald-400 font-bold">{formatRM(proTipSavings)}</span>.
@@ -754,13 +754,13 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 </div>
 
                                 {/* Bank Security */}
-                                <div className="bg-[#0f1423] border border-[#1e2738] rounded-2xl p-5 flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-lg bg-[#151c2c] flex items-center justify-center text-emerald-500 shrink-0">
+                                <div className="bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-[#1e2738] rounded-2xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none transition-colors duration-300">
+                                    <div className="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-[#151c2c] flex items-center justify-center text-emerald-600 dark:text-emerald-500 shrink-0">
                                         <ShieldCheck size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="text-base font-bold text-white mb-0.5">Bank-Grade Security</h4>
-                                        <p className="text-xs text-slate-500 leading-tight">Your data is encrypted with 256-bit AES protocols.</p>
+                                        <h4 className="text-base font-bold text-slate-900 dark:text-white mb-0.5">Bank-Grade Security</h4>
+                                        <p className="text-xs text-slate-500 dark:text-slate-500 leading-tight">Your data is encrypted with 256-bit AES protocols.</p>
                                     </div>
                                 </div>
                             </div>
@@ -771,7 +771,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             <button
                                 onClick={handleNext}
                                 disabled={isCalculating}
-                                className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 text-[#05080f] px-6 py-3 rounded-xl font-bold text-base transition-all shadow-[0_0_24px_rgba(16,185,129,0.3)] disabled:shadow-none active:scale-95 flex items-center gap-2 min-w-[200px] justify-center"
+                                className="bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-200 disabled:text-slate-500 dark:disabled:bg-emerald-500/50 dark:disabled:text-[#05080f] text-white dark:text-[#05080f] px-6 py-3 rounded-xl font-bold text-base transition-all shadow-md dark:shadow-[0_0_24px_rgba(16,185,129,0.3)] disabled:shadow-none active:scale-95 flex items-center gap-2 min-w-[200px] justify-center"
                             >
                                 {isCalculating ? (
                                     <>Connecting Gemini AI <Loader2 size={18} className="animate-spin" /></>
@@ -787,14 +787,14 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                 {step === 'strategy' && (
                     <div className="animate-slide-up space-y-10">
                         {/* Unified Strategy Card */}
-                        <div className="bg-[#111827] border border-slate-800 rounded-[2.5rem] relative overflow-hidden transition-all duration-500 shadow-2xl">
+                        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-[2.5rem] relative overflow-hidden transition-all duration-500 shadow-xl dark:shadow-2xl">
                             {/* Summary Header */}
                             <div className="pt-10 px-10 pb-28 relative overflow-hidden">
-                                <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -ml-32 -mt-32"></div>
+                                <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-100 dark:bg-emerald-500/5 rounded-full blur-[80px] -ml-32 -mt-32"></div>
 
                                 <div className="relative z-10 w-full text-left">
-                                    <span className="text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase">{goalType === 'short' ? 'Short-Term' : 'Long-Term'} Goal Summary</span>
-                                    <h1 className="text-4xl md:text-5xl font-bold text-white mt-2 tracking-tight">
+                                    <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-500 tracking-[0.2em] uppercase">{goalType === 'short' ? 'Short-Term' : 'Long-Term'} Goal Summary</span>
+                                    <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mt-2 tracking-tight">
                                         {formatRM(targetAmount)} in {duration} {isShort ? (duration > 1 ? 'months' : 'month') : (duration > 1 ? 'years' : 'year')}
                                     </h1>
                                     <div className="flex flex-wrap items-center gap-4 mt-4">
@@ -804,7 +804,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                 <span className="text-slate-500 line-through decoration-emerald-500/30 decoration-1 text-sm font-medium">
                                                     {formatRM(monthlyNeeded)}
                                                 </span>
-                                                <span className="text-emerald-400 font-black text-xl flex items-center gap-1">
+                                                <span className="text-emerald-600 dark:text-emerald-400 font-black text-xl flex items-center gap-1">
                                                     {formatRM(optimizedMonthly)}<span className="text-[10px] font-black text-emerald-500/60 ml-0.5">/MO</span>
                                                 </span>
                                             </div>
@@ -814,26 +814,26 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         </span>
                                     </div>
                                     <div className="mt-8 flex flex-col xl:flex-row items-center gap-6 w-full">
-                                        <div className="p-6 rounded-[2rem] bg-gradient-to-r from-emerald-500/10 to-[#111827] border border-emerald-500/20 shadow-lg shadow-emerald-500/5 w-full xl:flex-1 relative overflow-hidden">
-                                            <div className="absolute top-0 right-0 p-8 text-emerald-500/5 -mr-8 -mt-8 pointer-events-none">
+                                        <div className="p-6 rounded-[2rem] bg-gradient-to-r from-emerald-50 dark:from-emerald-500/10 to-white dark:to-[#111827] border border-emerald-100 dark:border-emerald-500/20 shadow-lg dark:shadow-emerald-500/5 w-full xl:flex-1 relative overflow-hidden transition-colors duration-300">
+                                            <div className="absolute top-0 right-0 p-8 text-emerald-100 dark:text-emerald-500/5 -mr-8 -mt-8 pointer-events-none">
                                                 <TrendingUp size={120} />
                                             </div>
-                                            <div className="bg-[#05080f] p-5 rounded-2xl border border-emerald-500/20 shadow-sm relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+                                            <div className="bg-white dark:bg-[#05080f] p-5 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 shadow-sm relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors duration-300">
                                                 <div className="flex items-center gap-2">
-                                                    <div className="w-8 h-8 rounded-md bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                                                    <div className="w-8 h-8 rounded-md bg-emerald-50 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
                                                         <TrendingUp size={18} />
                                                     </div>
-                                                    <p className="text-sm font-bold text-emerald-500 tracking-[0.2em] uppercase">Projected Value</p>
+                                                    <p className="text-sm font-bold text-emerald-600 dark:text-emerald-500 tracking-[0.2em] uppercase">Projected Value</p>
                                                 </div>
                                                 <div className="flex items-baseline gap-4 sm:ml-auto">
                                                     <span className="text-slate-500 line-through decoration-emerald-500/50 decoration-2 font-bold text-lg">
                                                         {formatRM(targetAmount)}
                                                     </span>
-                                                    <p className="text-base font-bold text-emerald-400 flex items-center gap-1.5">
+                                                    <p className="text-base font-bold text-emerald-500 dark:text-emerald-400 flex items-center gap-1.5">
                                                         <TrendingUp size={18} className="text-emerald-500" />
                                                         +{formatRM(Math.max(0, trueProjectedValue - targetAmount))}
                                                     </p>
-                                                    <h4 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">{formatRM(trueProjectedValue)}</h4>
+                                                    <h4 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">{formatRM(trueProjectedValue)}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -841,12 +841,12 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         <div className="flex items-center gap-8 relative z-10 w-full xl:w-auto shrink-0 justify-between xl:justify-end xl:pl-8">
                                             <div className="text-left xl:text-right flex flex-col justify-center">
                                                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">Goal Progress</p>
-                                                <h4 className="text-4xl font-black text-emerald-500 tracking-tighter">0%</h4>
+                                                <h4 className="text-4xl font-black text-emerald-600 dark:text-emerald-500 tracking-tighter">0%</h4>
                                             </div>
-                                            <div className="h-12 w-px bg-slate-800/50 mx-2 hidden xl:block"></div>
+                                            <div className="h-12 w-px bg-slate-200 dark:bg-slate-800/50 mx-2 hidden xl:block"></div>
                                             <button
                                                 onClick={handleBack}
-                                                className="bg-[#1e293b] hover:bg-[#2d3b54] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl active:scale-95 border border-slate-700/50"
+                                                className="bg-slate-100 hover:bg-slate-200 dark:bg-[#1e293b] dark:hover:bg-[#2d3b54] text-slate-900 dark:text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-sm dark:shadow-xl active:scale-95 border border-slate-200 dark:border-slate-700/50"
                                             >
                                                 Edit Goal
                                             </button>
@@ -857,7 +857,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
 
                             {/* Collapsible Strategy Drawer Content */}
                             {showStrategyDrawer && (
-                                <div className="animate-slide-down border-t border-slate-800 pt-10 px-10 pb-32 space-y-8 relative overflow-hidden bg-slate-900/10">
+                                <div className="animate-slide-down border-t border-slate-200 dark:border-slate-800 pt-10 px-10 pb-32 space-y-8 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/10 transition-colors duration-300">
                                     <div className="absolute top-0 right-0 p-12 text-emerald-500/5 -mr-12 -mt-12 pointer-events-none">
                                         <Zap size={200} />
                                     </div>
@@ -865,57 +865,57 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start relative z-10">
                                         <div className="space-y-6">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                                                <div className="w-8 h-8 rounded-md bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
                                                     <Zap size={16} />
                                                 </div>
-                                                <h3 className="text-base font-bold text-emerald-500 tracking-[0.2em] uppercase">Gemini's Intelligent Action Plan</h3>
+                                                <h3 className="text-base font-bold text-emerald-600 dark:text-emerald-500 tracking-[0.2em] uppercase">Gemini's Intelligent Action Plan</h3>
                                             </div>
-                                            <p className="text-slate-300 text-lg leading-relaxed font-semibold italic">
+                                            <p className="text-slate-700 dark:text-slate-300 text-lg leading-relaxed font-semibold italic">
                                                 "{strategyData?.analysis?.strategy_summary || `To reach your ${formatRM(targetAmount)} goal, save ${formatRM(saveAmt)} monthly in your digital wallet and allocate the remaining ${formatRM(invAmt)} towards purchasing 1 lot of ${invEx} shares. This optimized approach utilizes the ${engineReturn.toFixed(1)}% expected return to reduce your monthly burden.`}"
                                             </p>
-                                            <div className="p-6 bg-emerald-500/5 rounded-[2rem] border border-dashed border-emerald-500/20">
-                                                <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-3 tracking-widest uppercase">
+                                            <div className="p-6 bg-emerald-50 dark:bg-emerald-500/5 rounded-[2rem] border border-dashed border-emerald-200 dark:border-emerald-500/20">
+                                                <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 tracking-widest uppercase">
                                                     ✦ Why this specific split?
                                                 </h4>
-                                                <p className="text-base text-slate-400 leading-relaxed font-medium">
+                                                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                                                     {strategyData?.analysis?.liquidity_commentary || splitExplanation}
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div className="space-y-4">
-                                            <div className="bg-[#0b101b] border border-slate-800 rounded-3xl p-6 space-y-4 shadow-inner">
+                                            <div className="bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-inner transition-colors duration-300">
                                                 <div className="flex justify-between items-center">
                                                     <div>
                                                         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Monthly Savings Suggestion</p>
-                                                        <h4 className="text-2xl font-black text-white">{formatRM(saveAmt)}</h4>
+                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{formatRM(saveAmt)}</h4>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-2xl font-black text-emerald-500 px-3 py-1 bg-emerald-500/10 rounded-lg">{savePct}%</span>
+                                                        <span className="text-2xl font-black text-emerald-600 dark:text-emerald-500 px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg">{savePct}%</span>
                                                     </div>
                                                 </div>
-                                                <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
+                                                <div className="h-2 bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden">
                                                     <div className="h-full bg-emerald-500/50 transition-all duration-1000 shadow-[0_0_15px_rgba(16,185,129,0.3)]" style={{ width: `${savePct}%` }}></div>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-slate-400 text-sm font-bold uppercase tracking-tight">
+                                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm font-bold uppercase tracking-tight">
                                                     <CheckCircle2 size={14} className="text-emerald-500" /> Allocated to: {saveEx}
                                                 </div>
                                             </div>
 
-                                            <div className="bg-[#0b101b] border border-slate-800 rounded-3xl p-6 space-y-4 shadow-inner">
+                                            <div className="bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-inner transition-colors duration-300">
                                                 <div className="flex justify-between items-center">
                                                     <div>
                                                         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Monthly Investment Target</p>
-                                                        <h4 className="text-2xl font-black text-white">{formatRM(invAmt)}</h4>
+                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{formatRM(invAmt)}</h4>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-2xl font-black text-cyan-500 px-3 py-1 bg-cyan-500/10 rounded-lg">{invPct}%</span>
+                                                        <span className="text-2xl font-black text-cyan-600 dark:text-cyan-500 px-3 py-1 bg-cyan-50 dark:bg-cyan-500/10 rounded-lg">{invPct}%</span>
                                                     </div>
                                                 </div>
-                                                <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
+                                                <div className="h-2 bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden">
                                                     <div className="h-full bg-cyan-500/50 transition-all duration-1000 shadow-[0_0_15px_rgba(6,182,212,0.3)]" style={{ width: `${invPct}%` }}></div>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-slate-400 text-sm font-bold uppercase tracking-tight">
+                                                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm font-bold uppercase tracking-tight">
                                                     <CheckCircle2 size={14} className="text-cyan-500" /> Suggested for: {invEx}
                                                 </div>
                                             </div>
@@ -941,7 +941,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                     }
                                                     document.getElementById('allocation-adjuster')?.scrollIntoView({ behavior: 'smooth' });
                                                 }}
-                                                className="w-full bg-emerald-500 hover:bg-emerald-400 text-[#05080f] py-5 mt-4 rounded-2xl text-base font-bold transition-all shadow-xl shadow-emerald-500/30 active:scale-95 flex items-center justify-center gap-3 group uppercase tracking-tight"
+                                                className="w-full bg-emerald-500 hover:bg-emerald-400 text-white dark:text-[#05080f] py-5 mt-4 rounded-2xl text-base font-bold transition-all shadow-md dark:shadow-xl dark:shadow-emerald-500/30 active:scale-95 flex items-center justify-center gap-3 group uppercase tracking-tight"
                                             >
                                                 Apply Strategy <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                                             </button>
@@ -954,7 +954,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center z-30 pointer-events-none">
                                 <button
                                     onClick={() => setShowStrategyDrawer(!showStrategyDrawer)}
-                                    className="bg-[#111827] border border-slate-700 p-2.5 rounded-full text-slate-400 hover:text-emerald-400 hover:border-emerald-500/50 transition-all shadow-2xl bg-opacity-95 backdrop-blur-md pointer-events-auto active:scale-90"
+                                    className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-700 p-2.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-500/50 transition-all shadow-md dark:shadow-2xl bg-opacity-95 backdrop-blur-md pointer-events-auto active:scale-90"
                                 >
                                     {showStrategyDrawer ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                                 </button>
@@ -963,25 +963,25 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                         </div>
 
                         {/* Allocation Adjuster Slider */}
-                        <div id="allocation-adjuster" className="bg-[#111827] border border-slate-800 rounded-3xl p-8 relative overflow-hidden shadow-sm mt-8">
+                        <div id="allocation-adjuster" className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 relative overflow-hidden shadow-sm mt-8 transition-colors duration-300">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                                         Manual Allocation
                                     </h3>
-                                    <p className="text-slate-400 text-sm mt-1 leading-relaxed">Customize your monthly distribution between Savings and Investments.</p>
+                                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 leading-relaxed">Customize your monthly distribution between Savings and Investments.</p>
                                 </div>
                             </div>
 
                             <div className="space-y-4 px-2">
                                 <div className="flex justify-between font-bold items-end mb-2">
                                     <div className="flex flex-col">
-                                        <span className="text-emerald-500 font-black text-4xl md:text-5xl mb-1">{savePct}%</span>
-                                        <span className="text-slate-400 tracking-wider text-base md:text-lg font-bold">SAVINGS &middot; <span className="text-white">{formatRM(saveAmt)}</span></span>
+                                        <span className="text-emerald-600 dark:text-emerald-500 font-black text-4xl md:text-5xl mb-1">{savePct}%</span>
+                                        <span className="text-slate-500 dark:text-slate-400 tracking-wider text-base md:text-lg font-bold">SAVINGS &middot; <span className="text-slate-900 dark:text-white">{formatRM(saveAmt)}</span></span>
                                     </div>
                                     <div className="flex flex-col items-end">
-                                        <span className="text-cyan-500 font-black text-4xl md:text-5xl mb-1">{invPct}%</span>
-                                        <span className="text-slate-400 tracking-wider text-base md:text-lg font-bold"><span className="text-white">{formatRM(invAmt)}</span> &middot; INVESTMENTS</span>
+                                        <span className="text-cyan-600 dark:text-cyan-500 font-black text-4xl md:text-5xl mb-1">{invPct}%</span>
+                                        <span className="text-slate-500 dark:text-slate-400 tracking-wider text-base md:text-lg font-bold"><span className="text-slate-900 dark:text-white">{formatRM(invAmt)}</span> &middot; INVESTMENTS</span>
                                     </div>
                                 </div>
 
@@ -992,7 +992,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         max="100"
                                         value={savePct}
                                         onChange={(e) => setManualSavePct(parseInt(e.target.value))}
-                                        className="w-full h-3 md:h-4 rounded-full appearance-none cursor-ew-resize border border-slate-700 relative z-10"
+                                        className="w-full h-3 md:h-4 rounded-full appearance-none cursor-ew-resize border border-slate-200 dark:border-slate-700 relative z-10"
                                         style={{
                                             background: `linear-gradient(to right, #10b981 0%, #10b981 ${savePct}%, #06b6d4 ${savePct}%, #06b6d4 100%)`
                                         }}
@@ -1007,10 +1007,10 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             {/* Saving Options */}
                             <section className="space-y-6">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-6 h-6 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                                    <div className="w-6 h-6 rounded-md bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
                                         <Wallet size={14} />
                                     </div>
-                                    <h2 className="text-xl font-bold text-white tracking-tight">Saving Options</h2>
+                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Saving Options</h2>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1027,22 +1027,22 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         const isSelected = selectedSavingsOption === idx;
 
                                         return (
-                                            <div key={idx} className={`bg-[#111827] border ${isSelected ? 'border-emerald-500' : 'border-slate-800'} rounded-[2.5rem] p-8 space-y-6 group hover:border-emerald-500/50 transition-all flex flex-col justify-between`}>
+                                            <div key={idx} className={`bg-white dark:bg-[#111827] border ${isSelected ? 'border-emerald-500' : 'border-slate-200 dark:border-slate-800'} rounded-[2.5rem] p-8 space-y-6 group hover:border-emerald-500/50 transition-all flex flex-col justify-between shadow-sm dark:shadow-none`}>
                                                 <div>
                                                     <div className="flex justify-between items-start mb-6">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-12 h-12 rounded-xl bg-[#0b101b] flex items-center justify-center overflow-hidden border border-slate-800 text-emerald-500">
+                                                            <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-[#0b101b] flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-800 text-emerald-600 dark:text-emerald-500">
                                                                 <Wallet size={20} className="opacity-80" />
                                                             </div>
-                                                            {idx === 0 && <span className="text-[9px] font-bold tracking-widest uppercase bg-emerald-500/10 text-emerald-500 px-3 py-1.5 rounded-lg shadow-sm">Top Pick</span>}
+                                                            {idx === 0 && <span className="text-[9px] font-bold tracking-widest uppercase bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 px-3 py-1.5 rounded-lg shadow-sm">Top Pick</span>}
                                                         </div>
                                                         <div className="text-right">
-                                                            <p className="text-2xl font-bold text-emerald-400">{optionRate.toFixed(2)}% <span className="text-[10px] text-emerald-500/70">p.a.</span></p>
+                                                            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{optionRate.toFixed(2)}% <span className="text-[10px] text-emerald-500/70">p.a.</span></p>
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <h3 className="text-xl font-bold text-white mb-1 line-clamp-2">{optionName}</h3>
-                                                        <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Savings / Liquidity</p>
+                                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-2">{optionName}</h3>
+                                                        <p className="text-slate-500 dark:text-slate-500 text-[10px] font-bold uppercase tracking-widest">Savings / Liquidity</p>
                                                     </div>
                                                 </div>
                                                 <div className="mt-6 flex flex-col gap-3">
@@ -1050,13 +1050,13 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                         href={optionUrl !== "#" ? optionUrl : `https://www.google.com/search?q=${encodeURIComponent(optionName + ' digital bank account malaysia')}`}
                                                         target="_blank"
                                                         rel="noreferrer"
-                                                        className="w-full py-4 flex items-center justify-center rounded-2xl font-bold text-sm transition-all bg-[#0b101b] border border-slate-700 hover:border-emerald-500/50 hover:text-emerald-400 text-slate-300 active:scale-95 shadow-sm"
+                                                        className="w-full py-4 flex items-center justify-center rounded-2xl font-bold text-sm transition-all bg-slate-50 dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 hover:text-emerald-600 dark:hover:text-emerald-400 text-slate-600 dark:text-slate-300 active:scale-95 shadow-sm"
                                                     >
                                                         Learn More <ChevronRight size={18} className="ml-1" />
                                                     </a>
                                                     <button
                                                         onClick={() => setSelectedSavingsOption(idx)}
-                                                        className={`w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95 flex items-center justify-center ${isSelected ? 'bg-emerald-500 hover:bg-emerald-400 text-[#05080f] shadow-lg shadow-emerald-500/20' : 'bg-[#0b101b] border border-slate-700 hover:border-slate-600 text-slate-300'}`}
+                                                        className={`w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95 flex items-center justify-center ${isSelected ? 'bg-emerald-500 hover:bg-emerald-400 text-white dark:text-[#05080f] shadow-md dark:shadow-shadow-emerald-500/20' : 'bg-slate-50 dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300'}`}
                                                     >
                                                         {isSelected ? '✓ Selected' : 'Select Option'}
                                                     </button>
@@ -1070,16 +1070,16 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                             {/* Investment Options */}
                             <section className="space-y-6">
                                 <div className="flex flex-col md:flex-row md:items-center gap-4">
-                                    <h2 className="text-xl font-bold text-white tracking-tight">Investment Options</h2>
-                                    <div className="flex items-center gap-4 px-4 py-2 bg-[#151c2c] border border-slate-700 rounded-xl">
+                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Investment Options</h2>
+                                    <div className="flex items-center gap-4 px-4 py-2 bg-slate-50 dark:bg-[#151c2c] border border-slate-200 dark:border-slate-700 rounded-xl">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Investment Budget:</span>
-                                            <span className="text-base font-black text-white">{formatRM(invBudget)}</span>
+                                            <span className="text-base font-black text-slate-900 dark:text-white">{formatRM(invBudget)}</span>
                                         </div>
-                                        <div className="w-px h-5 bg-slate-700 mx-1"></div>
+                                        <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                                         <div className="flex items-center gap-2">
                                             <span className="text-xs font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Allocated:</span>
-                                            <span className={`text-base font-black ${totalInvested > 0 ? (totalInvested > invBudget ? 'text-red-500' : 'text-emerald-500') : 'text-slate-400'}`}>{formatRM(totalInvested)}</span>
+                                            <span className={`text-base font-black ${totalInvested > 0 ? (totalInvested > invBudget ? 'text-red-600 dark:text-red-500' : 'text-emerald-600 dark:text-emerald-500') : 'text-slate-400'}`}>{formatRM(totalInvested)}</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full md:ml-auto">
@@ -1129,124 +1129,124 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                             const canAffordOne = (totalInvested - (lots * costPerLot) + costPerLot) <= invBudget;
 
                                             return (
-                                                <div key={idx} className={`bg-[#111827] border ${isSelected ? 'border-emerald-500' : 'border-slate-800'} rounded-[2.5rem] p-8 space-y-6 group hover:border-emerald-500/50 transition-all flex flex-col justify-between relative`}>
+                                                <div key={idx} className={`bg-white dark:bg-[#111827] border ${isSelected ? 'border-emerald-500' : 'border-slate-200 dark:border-slate-800'} rounded-[2.5rem] p-8 space-y-6 group hover:border-emerald-500/50 transition-all flex flex-col justify-between relative shadow-sm dark:shadow-none`}>
                                                     {isSelected && (
-                                                        <div className="absolute top-6 right-6 flex items-center gap-2 bg-emerald-500 text-[#05080f] px-3 py-1 rounded-full font-black text-[10px] uppercase shadow-lg z-10 animate-scale-in">
+                                                        <div className="absolute top-6 right-6 flex items-center gap-2 bg-emerald-500 text-white dark:text-[#05080f] px-3 py-1 rounded-full font-black text-[10px] uppercase shadow-md dark:shadow-lg z-10 animate-scale-in">
                                                             {lots} {lots > 1 ? 'Lots' : 'Lot'} Active
                                                         </div>
                                                     )}
                                                     <div>
                                                         <div className="flex justify-between items-start mb-6">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="w-12 h-12 rounded-xl bg-[#0b101b] flex items-center justify-center text-emerald-500 border border-slate-800">
+                                                                <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-[#0b101b] flex items-center justify-center text-emerald-600 dark:text-emerald-500 border border-slate-200 dark:border-slate-800">
                                                                     <TrendingUp size={24} />
                                                                 </div>
                                                             </div>
                                                             <div className="text-right group/est relative cursor-help">
-                                                                <p className="text-2xl font-bold text-emerald-400">
+                                                                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
                                                                     {optionRate.toFixed(2)}% <span className="text-xs text-emerald-500/70 uppercase font-black tracking-tighter">Estimated Annual Return</span>
                                                                 </p>
-                                                                <div className="absolute top-full right-0 mt-2 w-64 p-4 bg-[#0f172a] border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover/est:opacity-100 group-hover/est:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                <div className="absolute top-full right-0 mt-2 w-64 p-4 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/est:opacity-100 group-hover/est:visible transition-all duration-300 z-[100] backdrop-blur-xl">
                                                                     <div className="relative z-10 text-left">
-                                                                        <p className="text-emerald-400 font-bold text-sm mb-2">Estimated Annual Return</p>
-                                                                        <p className="text-slate-300 text-xs leading-relaxed">
+                                                                        <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">Estimated Annual Return</p>
+                                                                        <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                                                                             A projection of your total gains over a year, combining expected dividends and share price growth. Market returns can vary based on performance.
                                                                         </p>
                                                                     </div>
-                                                                    <div className="absolute bottom-full right-6 w-3 h-3 bg-[#0f172a] border-l border-t border-slate-700 rotate-45 -mb-1.5"></div>
+                                                                    <div className="absolute bottom-full right-6 w-3 h-3 bg-white dark:bg-[#0f172a] border-l border-t border-slate-200 dark:border-slate-700 rotate-45 -mb-1.5"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="space-y-4">
                                                             <div>
-                                                                <h3 className="text-xl font-bold text-white mb-1 line-clamp-2">{optionName}</h3>
-                                                                <div className="flex justify-between items-center bg-white/5 border border-white/10 rounded-xl px-5 py-5 mt-3">
+                                                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-2">{optionName}</h3>
+                                                                <div className="flex justify-between items-center bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-5 mt-3">
                                                                     {/* ROE Tooltip */}
                                                                     <div className="text-center group/tooltip relative cursor-help">
-                                                                        <p className="text-xs text-slate-400 uppercase font-black tracking-widest mb-1">ROE</p>
-                                                                        <p className="text-xl text-white">{roe}%</p>
-                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-[#0f172a] border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-black tracking-widest mb-1">ROE</p>
+                                                                        <p className="text-xl text-slate-900 dark:text-white">{roe}%</p>
+                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
                                                                             <div className="relative z-10 text-left">
-                                                                                <p className="text-emerald-400 font-bold text-sm mb-2">ROE (Return on Equity)</p>
-                                                                                <p className="text-slate-300 text-xs leading-relaxed">
+                                                                                <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">ROE (Return on Equity)</p>
+                                                                                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                                                                                     Measures how efficiently a company uses shareholders’ money to generate profit. Higher ROE generally indicates stronger profitability.
                                                                                 </p>
                                                                             </div>
-                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0f172a] border-r border-b border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#0f172a] border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="h-10 w-px bg-white/10"></div>
+                                                                    <div className="h-10 w-px bg-slate-200 dark:bg-white/10"></div>
 
                                                                     {/* Dividend Tooltip */}
                                                                     <div className="text-center group/tooltip relative cursor-help">
-                                                                        <p className="text-xs text-slate-400 uppercase font-black tracking-widest mb-1">Dividend</p>
-                                                                        <p className="text-xl text-emerald-400">{divYield}%</p>
-                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-[#0f172a] border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-black tracking-widest mb-1">Dividend</p>
+                                                                        <p className="text-xl text-emerald-600 dark:text-emerald-400">{divYield}%</p>
+                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
                                                                             <div className="relative z-10 text-left">
-                                                                                <p className="text-emerald-400 font-bold text-sm mb-2">Dividend Yield</p>
-                                                                                <p className="text-slate-300 text-xs leading-relaxed">
+                                                                                <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">Dividend Yield</p>
+                                                                                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                                                                                     The percentage of a company’s share price paid out as dividends annually. Shows how much income you earn relative to the share price.
                                                                                 </p>
                                                                             </div>
-                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0f172a] border-r border-b border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#0f172a] border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="h-10 w-px bg-white/10"></div>
+                                                                    <div className="h-10 w-px bg-slate-200 dark:bg-white/10"></div>
 
                                                                     {/* Cost/Unit Tooltip */}
                                                                     <div className="text-center group/tooltip relative cursor-help">
-                                                                        <p className="text-xs text-slate-400 uppercase font-black tracking-widest mb-1">Cost/Unit</p>
-                                                                        <p className="text-xl text-white">RM{pricePerUnit.toFixed(2)}</p>
-                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-[#0f172a] border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-black tracking-widest mb-1">Cost/Unit</p>
+                                                                        <p className="text-xl text-slate-900 dark:text-white">RM{pricePerUnit.toFixed(2)}</p>
+                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
                                                                             <div className="relative z-10 text-left">
-                                                                                <p className="text-emerald-400 font-bold text-sm mb-2">Cost per Unit (Share Price)</p>
-                                                                                <p className="text-slate-300 text-xs leading-relaxed">
+                                                                                <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">Cost per Unit (Share Price)</p>
+                                                                                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                                                                                     The price you pay to buy one share of the company on the market. This price fluctuates daily based on demand and supply.
                                                                                 </p>
                                                                             </div>
-                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0f172a] border-r border-b border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-[#0f172a] border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5 flex justify-between items-center group/lot relative cursor-help">
+                                                            <div className="bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-100 dark:border-emerald-500/10 rounded-2xl p-5 flex justify-between items-center group/lot relative cursor-help">
                                                                 <div>
                                                                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Cost Per Lot (100 units)</p>
-                                                                    <p className="text-sm text-slate-400 italic">Incl. brokerage & stamp fees</p>
+                                                                    <p className="text-sm text-slate-500 dark:text-slate-400 italic">Incl. brokerage & stamp fees</p>
                                                                 </div>
-                                                                <p className="text-3xl font-black text-white tracking-tight">{formatRM(costPerLot)}</p>
+                                                                <p className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{formatRM(costPerLot)}</p>
 
                                                                 {/* Fee Breakdown Tooltip */}
-                                                                <div className="absolute bottom-full left-0 right-0 mb-3 p-4 bg-[#0f172a] border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover/lot:opacity-100 group-hover/lot:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                <div className="absolute bottom-full left-0 right-0 mb-3 p-4 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/lot:opacity-100 group-hover/lot:visible transition-all duration-300 z-[100] backdrop-blur-xl">
                                                                     <div className="relative z-10 text-left space-y-3">
-                                                                        <p className="text-emerald-400 font-bold text-base mb-2">Estimated Fee Breakdown</p>
+                                                                        <p className="text-emerald-600 dark:text-emerald-400 font-bold text-base mb-2">Estimated Fee Breakdown</p>
                                                                         <div className="grid grid-cols-2 text-sm gap-y-2">
-                                                                            <span className="text-slate-400">Net Value:</span>
-                                                                            <span className="text-right text-white">RM{(pricePerUnit * 100).toFixed(2)}</span>
+                                                                            <span className="text-slate-500 dark:text-slate-400">Net Value:</span>
+                                                                            <span className="text-right text-slate-900 dark:text-white">RM{(pricePerUnit * 100).toFixed(2)}</span>
 
                                                                             {optionName.includes('ASNB') ? (
                                                                                 <>
-                                                                                    <span className="text-slate-400">Sales Charge (incl. SST):</span>
-                                                                                    <span className="text-right text-white">RM{Math.max(0, costPerLot - (pricePerUnit * 100)).toFixed(2)}</span>
+                                                                                    <span className="text-slate-500 dark:text-slate-400">Sales Charge (incl. SST):</span>
+                                                                                    <span className="text-right text-slate-900 dark:text-white">RM{Math.max(0, costPerLot - (pricePerUnit * 100)).toFixed(2)}</span>
                                                                                 </>
                                                                             ) : (
                                                                                 <>
-                                                                                    <span className="text-slate-400">Brokerage (Min RM8):</span>
-                                                                                    <span className="text-right text-white">RM8.00</span>
-                                                                                    <span className="text-slate-400">Stamp Duty (RM1.50/k):</span>
-                                                                                    <span className="text-right text-white">RM1.50</span>
-                                                                                    <span className="text-slate-400">Clearing & SST:</span>
-                                                                                    <span className="text-right text-white">RM{Math.max(0, costPerLot - (pricePerUnit * 100) - 9.5).toFixed(2)}</span>
+                                                                                    <span className="text-slate-500 dark:text-slate-400">Brokerage (Min RM8):</span>
+                                                                                    <span className="text-right text-slate-900 dark:text-white">RM8.00</span>
+                                                                                    <span className="text-slate-500 dark:text-slate-400">Stamp Duty (RM1.50/k):</span>
+                                                                                    <span className="text-right text-slate-900 dark:text-white">RM1.50</span>
+                                                                                    <span className="text-slate-500 dark:text-slate-400">Clearing & SST:</span>
+                                                                                    <span className="text-right text-slate-900 dark:text-white">RM{Math.max(0, costPerLot - (pricePerUnit * 100) - 9.5).toFixed(2)}</span>
                                                                                 </>
                                                                             )}
 
-                                                                            <div className="col-span-2 h-px bg-slate-700 my-1"></div>
-                                                                            <span className="text-emerald-400 font-bold">Total Cost:</span>
-                                                                            <span className="text-right text-emerald-400 font-bold">{formatRM(costPerLot)}</span>
+                                                                            <div className="col-span-2 h-px bg-slate-200 dark:bg-slate-700 my-1"></div>
+                                                                            <span className="text-emerald-600 dark:text-emerald-400 font-bold">Total Cost:</span>
+                                                                            <span className="text-right text-emerald-600 dark:text-emerald-400 font-bold">{formatRM(costPerLot)}</span>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="absolute top-full left-10 w-3 h-3 bg-[#0f172a] border-r border-b border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                    <div className="absolute top-full left-10 w-3 h-3 bg-white dark:bg-[#0f172a] border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1256,16 +1256,16 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                             <div className="flex gap-2">
                                                                 <button
                                                                     onClick={() => updateLots(idx, costPerLot, -1)}
-                                                                    className="flex-1 py-4 rounded-2xl font-black text-xl bg-[#0b101b] border border-slate-700 text-slate-300 hover:border-red-500 transition-all active:scale-95"
+                                                                    className="flex-1 py-4 rounded-2xl font-black text-xl bg-slate-50 dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-red-500 transition-all active:scale-95"
                                                                 >
                                                                     -
                                                                 </button>
-                                                                <div className="flex-[2] flex items-center justify-center bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-500 font-black">
+                                                                <div className="flex-[2] flex items-center justify-center bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl text-emerald-600 dark:text-emerald-500 font-black">
                                                                     {lots} {lots > 1 ? 'LOTS' : 'LOT'}
                                                                 </div>
                                                                 <button
                                                                     onClick={() => updateLots(idx, costPerLot, 1)}
-                                                                    className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all active:scale-95 ${totalInvested + costPerLot <= invBudget ? 'bg-[#0b101b] border border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10' : 'bg-slate-900 border border-slate-800 text-slate-700 cursor-not-allowed'}`}
+                                                                    className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all active:scale-95 ${totalInvested + costPerLot <= invBudget ? 'bg-slate-50 dark:bg-[#0b101b] border border-emerald-200 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-500 hover:bg-emerald-100 dark:hover:bg-emerald-500/10' : 'bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-700 cursor-not-allowed'}`}
                                                                 >
                                                                     +
                                                                 </button>
@@ -1274,16 +1274,16 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                             <button
                                                                 onClick={() => toggleInvestmentOption(idx, costPerLot)}
                                                                 disabled={!canAffordOne}
-                                                                className={`w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95 flex flex-col items-center justify-center gap-1 ${canAffordOne ? 'bg-[#05080f] border border-slate-700 hover:border-emerald-500 hover:text-emerald-400 text-slate-300' : 'bg-slate-950/50 border border-slate-900 text-slate-600 grayscale cursor-not-allowed opacity-60'}`}
+                                                                className={`w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95 flex flex-col items-center justify-center gap-1 ${canAffordOne ? 'bg-slate-50 dark:bg-[#05080f] border border-slate-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-900 text-slate-400 dark:text-slate-600 grayscale cursor-not-allowed opacity-60'}`}
                                                             >
                                                                 {canAffordOne ? (
                                                                     <>Select Option</>
                                                                 ) : (
                                                                     <>
-                                                                        <div className="flex items-center gap-2 text-amber-500 font-black text-lg uppercase mb-1">
+                                                                        <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-black text-lg uppercase mb-1">
                                                                             <AlertTriangle size={20} /> Insufficient Budget
                                                                         </div>
-                                                                        <span className="text-base font-black text-amber-400 tracking-tight">Requires +{formatRM(costPerLot - (invBudget - totalInvested))} more allocation</span>
+                                                                        <span className="text-base font-black text-amber-500 dark:text-amber-400 tracking-tight">Requires +{formatRM(costPerLot - (invBudget - totalInvested))} more allocation</span>
                                                                     </>
                                                                 )}
                                                             </button>
@@ -1293,7 +1293,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                             href={optionUrl !== "#" ? optionUrl : `https://www.google.com/search?q=${encodeURIComponent(optionName + ' share price bursa malaysia')}`}
                                                             target="_blank"
                                                             rel="noreferrer"
-                                                            className="w-full py-4 flex items-center justify-center rounded-2xl font-bold text-sm transition-all bg-[#0b101b] border border-slate-800 hover:border-slate-600 hover:text-white text-slate-400 active:scale-95 shadow-sm"
+                                                            className="w-full py-4 flex items-center justify-center rounded-2xl font-bold text-sm transition-all bg-slate-50 dark:bg-[#0b101b] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-white text-slate-500 dark:text-slate-400 active:scale-95 shadow-sm"
                                                         >
                                                             View Official Data <ChevronRight size={18} className="ml-1" />
                                                         </a>
@@ -1304,27 +1304,27 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                     })()}
                                     {/* Discovery Section for Low Budgets */}
                                     {!showAllOptions && Object.keys(investmentBasket).length === 0 && (strategyData?.identified_instruments?.[1]?.examples || []).filter((opt: any) => (opt.cost_per_lot || 0) > invBudget).length >= 2 && (
-                                        <div className="col-span-full mt-10 p-10 bg-gradient-to-br from-amber-500/5 to-transparent border border-amber-500/20 rounded-[3rem] text-center animate-fade-in shadow-2xl shadow-amber-500/5">
-                                            <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500 mx-auto mb-6 border border-amber-500/20 shadow-inner">
+                                        <div className="col-span-full mt-10 p-10 bg-gradient-to-br from-amber-50 dark:from-amber-500/5 to-transparent border border-amber-200 dark:border-amber-500/20 rounded-[3rem] text-center animate-fade-in shadow-sm dark:shadow-2xl dark:shadow-amber-500/5 transition-colors duration-300">
+                                            <div className="w-20 h-20 bg-amber-100 dark:bg-amber-500/10 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-500 mx-auto mb-6 border border-amber-200 dark:border-amber-500/20 shadow-inner">
                                                 <Zap size={40} />
                                             </div>
-                                            <h3 className="text-3xl font-normal text-white mb-3 tracking-tighter uppercase">Unlock Budget Options</h3>
-                                            <p className="text-slate-400 max-w-lg mx-auto mb-8 text-sm font-normal leading-relaxed italic">
+                                            <h3 className="text-3xl font-normal text-slate-900 dark:text-white mb-3 tracking-tighter uppercase">Unlock Budget Options</h3>
+                                            <p className="text-slate-600 dark:text-slate-400 max-w-lg mx-auto mb-8 text-sm font-normal leading-relaxed italic">
                                                 "We've detected several high-cost options. We're now prioritising "Penny" and "Mid-Cap" stocks below RM3.00 to ensure your RM{invBudget} budget stays active."
                                             </p>
 
                                             <button
                                                 onClick={() => setShowAllOptions(true)}
-                                                className="px-12 py-5 bg-amber-500 hover:bg-amber-400 text-[#05080f] font-normal rounded-2xl transition-all shadow-xl shadow-amber-500/30 active:scale-95 mb-10 flex items-center gap-2 mx-auto uppercase tracking-tighter"
+                                                className="px-12 py-5 bg-amber-500 hover:bg-amber-400 text-white dark:text-[#05080f] font-normal rounded-2xl transition-all shadow-md dark:shadow-xl dark:shadow-amber-500/30 active:scale-95 mb-10 flex items-center gap-2 mx-auto uppercase tracking-tighter"
                                             >
                                                 Show All Options <ArrowRight size={20} />
                                             </button>
 
                                             <div className="flex flex-wrap justify-center gap-4">
-                                                <div className="px-6 py-3 bg-[#0b101b]/50 border border-slate-800/50 rounded-2xl text-slate-400 text-xs font-normal flex items-center gap-2 backdrop-blur-sm">
+                                                <div className="px-6 py-3 bg-white dark:bg-[#0b101b]/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl text-slate-600 dark:text-slate-400 text-xs font-normal flex items-center gap-2 backdrop-blur-sm shadow-sm dark:shadow-none">
                                                     <div className="w-2 h-2 rounded-full bg-emerald-500"></div> Low-Entry Costs Active
                                                 </div>
-                                                <div className="px-6 py-3 bg-[#0b101b]/50 border border-slate-800/50 rounded-2xl text-slate-400 text-xs font-normal flex items-center gap-2 backdrop-blur-sm">
+                                                <div className="px-6 py-3 bg-white dark:bg-[#0b101b]/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl text-slate-600 dark:text-slate-400 text-xs font-normal flex items-center gap-2 backdrop-blur-sm shadow-sm dark:shadow-none">
                                                     <div className="w-2 h-2 rounded-full bg-cyan-500"></div> Small-Cap Variety Added
                                                 </div>
                                             </div>
@@ -1337,7 +1337,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 <div className="absolute -z-10 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
                                 <button
                                     onClick={handleConfirmStrategy}
-                                    className="px-16 py-6 bg-emerald-500 hover:bg-emerald-400 text-[#05080f] font-bold text-xl rounded-2xl transition-all shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)] active:scale-95 flex items-center gap-3 group uppercase tracking-tight"
+                                    className="px-16 py-6 bg-emerald-500 hover:bg-emerald-400 text-white dark:text-[#05080f] font-bold text-xl rounded-2xl transition-all shadow-lg dark:shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)] active:scale-95 flex items-center gap-3 group uppercase tracking-tight"
                                 >
                                     Activate Strategy <TrendingUp size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                 </button>
@@ -1350,18 +1350,18 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
 
                 {/* 1. Balance Allocation Prompt */}
                 {showBalancePrompt && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#05080f]/90 backdrop-blur-xl animate-fade-in">
-                        <div className="bg-[#111827] border border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-12 text-amber-500/5 -mr-12 -mt-12 pointer-events-none">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 dark:bg-[#05080f]/90 backdrop-blur-xl animate-fade-in transition-colors duration-300">
+                        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden transition-colors duration-300">
+                            <div className="absolute top-0 right-0 p-12 text-amber-500/5 dark:text-amber-500/5 -mr-12 -mt-12 pointer-events-none">
                                 <Wallet size={160} />
                             </div>
 
-                            <div className="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500 mb-6 border border-amber-500/20">
+                            <div className="w-12 h-12 bg-amber-100 dark:bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-500 mb-6 border border-amber-200 dark:border-amber-500/20">
                                 <AlertTriangle size={24} />
                             </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-3 tracking-tighter uppercase">Unallocated Balance</h3>
-                            <p className="text-slate-400 text-base leading-relaxed mb-6">
+                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 tracking-tighter uppercase">Unallocated Balance</h3>
+                            <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-6">
                                 {Object.keys(investmentBasket).length === 0
                                     ? "You haven't selected any investments. Would you like to allocate your entire investment budget to your selected savings option instead?"
                                     : `You still have ${formatRM(invBudget - totalInvested)} unallocated from your investment target. Would you like to add this balance to your savings option?`}
@@ -1374,13 +1374,13 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         setShowBalancePrompt(false);
                                         setShowConfirmModal(true);
                                     }}
-                                    className="w-full py-5 bg-emerald-500 hover:bg-emerald-400 text-[#05080f] font-black rounded-2xl transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 uppercase tracking-tight"
+                                    className="w-full py-5 bg-emerald-500 hover:bg-emerald-400 text-white dark:text-[#05080f] font-black rounded-2xl transition-all shadow-lg dark:shadow-xl dark:shadow-emerald-500/20 flex items-center justify-center gap-2 uppercase tracking-tight"
                                 >
                                     Yes, Allocate to Savings <CheckCircle2 size={20} />
                                 </button>
                                 <button
                                     onClick={() => setShowBalancePrompt(false)}
-                                    className="w-full py-5 bg-[#0b101b] border border-slate-800 hover:border-slate-600 text-slate-300 font-bold rounded-2xl transition-all flex items-center justify-center gap-2 uppercase tracking-tight"
+                                    className="w-full py-5 bg-slate-50 dark:bg-[#0b101b] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 font-bold rounded-2xl transition-all flex items-center justify-center gap-2 uppercase tracking-tight"
                                 >
                                     No, I'll Customize More
                                 </button>
@@ -1391,21 +1391,21 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
 
                 {/* 2. Naming & Final Confirmation */}
                 {showConfirmModal && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#05080f]/95 backdrop-blur-2xl animate-fade-in">
-                        <div className="bg-[#111827] border border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 dark:bg-[#05080f]/95 backdrop-blur-2xl animate-fade-in transition-colors duration-300">
+                        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden transition-colors duration-300">
                             <button
                                 onClick={() => setShowConfirmModal(false)}
-                                className="absolute top-6 right-6 text-slate-500 hover:text-white transition-colors"
+                                className="absolute top-6 right-6 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
                             >
                                 <X size={20} />
                             </button>
 
-                            <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500 mb-6 border border-blue-500/20">
+                            <div className="w-12 h-12 bg-blue-50 dark:bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-500 mb-6 border border-blue-100 dark:border-blue-500/20">
                                 <Zap size={24} />
                             </div>
 
-                            <h3 className="text-2xl font-normal text-white mb-1 tracking-tighter uppercase">Name Your Strategy</h3>
-                            <p className="text-slate-400 text-sm mb-6 font-medium">This name will represent your strategy in the dashboard.</p>
+                            <h3 className="text-2xl font-normal text-slate-900 dark:text-white mb-1 tracking-tighter uppercase">Name Your Strategy</h3>
+                            <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 font-medium">This name will represent your strategy in the dashboard.</p>
 
                             <div className="space-y-6">
                                 <div>
@@ -1415,31 +1415,31 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                         value={strategyLabel}
                                         onChange={(e) => setStrategyLabel(e.target.value)}
                                         placeholder="e.g. My First Million Plan"
-                                        className="w-full bg-[#05080f] border border-slate-800 focus:border-blue-500 text-white p-4 rounded-xl outline-none transition-all font-bold text-lg placeholder-slate-900 placeholder:italic"
+                                        className="w-full bg-slate-50 dark:bg-[#05080f] border border-slate-200 dark:border-slate-800 focus:border-blue-500 text-slate-900 dark:text-white p-4 rounded-xl outline-none transition-all font-bold text-lg placeholder-slate-400 dark:placeholder-slate-900 placeholder:italic"
                                         autoFocus
                                     />
                                 </div>
 
-                                <div className="p-6 bg-blue-500/5 border border-blue-500/10 rounded-3xl space-y-4">
+                                <div className="p-6 bg-blue-50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 rounded-3xl space-y-4">
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-slate-500 font-bold uppercase tracking-widest">Monthly Commitment</span>
-                                        <span className="text-white font-black text-lg">{formatRM(optimizedMonthly)}</span>
+                                        <span className="text-slate-900 dark:text-white font-black text-lg">{formatRM(optimizedMonthly)}</span>
                                     </div>
-                                    <div className="h-[1px] bg-slate-800/50"></div>
+                                    <div className="h-[1px] bg-slate-200 dark:bg-slate-800/50"></div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Savings ({savePct}%)</span>
-                                            <div className="text-emerald-400 font-black text-base">{formatRM(saveAmt)}</div>
+                                            <div className="text-emerald-600 dark:text-emerald-400 font-black text-base">{formatRM(saveAmt)}</div>
                                         </div>
                                         <div className="space-y-1 text-right">
                                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Invest ({invPct}%)</span>
-                                            <div className="text-blue-400 font-black text-base">{formatRM(invAmt)}</div>
+                                            <div className="text-blue-600 dark:text-blue-400 font-black text-base">{formatRM(invAmt)}</div>
                                         </div>
                                     </div>
-                                    <div className="h-[1px] bg-slate-800/50"></div>
+                                    <div className="h-[1px] bg-slate-200 dark:bg-slate-800/50"></div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-500 font-bold text-xs uppercase tracking-widest">Projected Value</span>
-                                        <span className="text-white font-black text-xl">
+                                        <span className="text-slate-900 dark:text-white font-black text-xl">
                                             {formatRM(Math.round(optimizedMonthly * ((Math.pow(1 + (engineReturn / 12), totalMonths) - 1) / (engineReturn / 12 || 1))))}
                                         </span>
                                     </div>
@@ -1448,7 +1448,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 <button
                                     onClick={finalizeStrategy}
                                     disabled={!strategyLabel.trim()}
-                                    className="w-full py-6 bg-emerald-500 hover:bg-emerald-400 disabled:bg-[#111827] disabled:text-slate-700 text-[#05080f] font-bold text-xl rounded-2xl transition-all shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-3 group uppercase tracking-tight active:scale-95"
+                                    className="w-full py-6 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-100 dark:disabled:bg-[#111827] disabled:text-slate-400 dark:disabled:text-slate-700 text-white dark:text-[#05080f] font-bold text-xl rounded-2xl transition-all shadow-lg dark:shadow-emerald-500/10 flex items-center justify-center gap-3 group uppercase tracking-tight active:scale-95"
                                 >
                                     Confirm & Activate <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
