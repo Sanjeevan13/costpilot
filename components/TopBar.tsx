@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UserProfile, ViewState } from '../types';
-import { User, Sun, Moon, LogOut } from 'lucide-react';
+import { User, Sun, Moon, LogOut, Menu, X } from 'lucide-react';
 import { useTheme } from '../src/contexts/ThemeContext';
 import { useAuth } from '../src/contexts/AuthContext';
 
@@ -13,6 +13,7 @@ interface TopBarProps {
 const TopBar: React.FC<TopBarProps> = ({ currentView, setView, userProfile }) => {
   const { theme, toggleTheme } = useTheme();
   const { logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navItems = [
     { label: 'Dashboard', value: ViewState.DASHBOARD },
     { label: 'Optimization', value: ViewState.OPTIMIZATION2 },
@@ -49,7 +50,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentView, setView, userProfile }) =>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
@@ -74,14 +75,52 @@ const TopBar: React.FC<TopBarProps> = ({ currentView, setView, userProfile }) =>
 
             <button
               onClick={logout}
-              className="p-2 rounded-full text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              className="p-2 rounded-full text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors hidden sm:flex"
               title="Log Out"
             >
               <LogOut size={20} />
             </button>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation Drawer */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-lg absolute w-full left-0 animate-slide-up">
+          <div className="px-4 pt-2 pb-4 space-y-1 sm:px-3">
+            {navItems.map((item) => (
+              <button
+                key={item.value}
+                onClick={() => {
+                  setView(item.value);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-colors ${currentView === item.value
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                  }`}
+              >
+                {item.label}
+              </button>
+            ))}
+            <button
+              onClick={logout}
+              className="flex w-full items-center gap-2 px-4 py-3 rounded-lg text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 sm:hidden transition-colors"
+            >
+              <LogOut size={18} />
+              Log Out
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
