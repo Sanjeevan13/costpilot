@@ -19,7 +19,7 @@ interface RelocationForm {
     preferredAreas: string;
 }
 
-const INPUT_CLASS = "w-full bg-[#1a1238] border border-white/10 rounded-xl px-4 py-3.5 text-white text-base focus:outline-none focus:border-[#a07cf6]/50 focus:ring-1 focus:ring-[#a07cf6]/30 placeholder-slate-500 transition-all";
+const INPUT_CLASS = "w-full bg-slate-50 dark:bg-[#1a1238] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white text-base focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 focus:ring-1 focus:ring-blue-500 dark:focus:ring-[#a07cf6]/30 placeholder-slate-400 dark:placeholder-slate-500 transition-all";
 const LABEL_CLASS = "text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-2 block";
 
 const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile, updateProfile, onDeclineRelocate }) => {
@@ -86,10 +86,10 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
             <div className="flex items-center justify-between">
                 <div>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#170e2b] border border-[#a07cf6]/20 flex items-center justify-center">
-                            <Home className="text-[#a07cf6]" size={18} />
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-[#170e2b] border border-blue-200 dark:border-[#a07cf6]/20 flex items-center justify-center">
+                            <Home className="text-blue-500 dark:text-[#a07cf6]" size={18} />
                         </div>
-                        <h3 className="text-lg font-bold text-white">Accommodation Optimization</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Accommodation Optimization</h3>
                     </div>
                     <p className="text-sm text-slate-500 mt-1 ml-[52px]">Explore smarter living options to cut costs</p>
                 </div>
@@ -98,12 +98,12 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
             {/* === STEP 1: Ask if open to relocating === */}
             {step === 'ask' && (
                 <div className="animate-fade-in">
-                    <div className="bg-gradient-to-br from-[#170e2b] to-[#120b22] rounded-2xl border border-[#a07cf6]/15 p-8 text-center space-y-6">
-                        <div className="w-20 h-20 rounded-2xl bg-[#a07cf6]/10 border border-[#a07cf6]/20 flex items-center justify-center mx-auto">
-                            <Map className="text-[#a07cf6]" size={36} />
+                    <div className="bg-gradient-to-br from-white dark:from-[#170e2b] to-slate-50 dark:to-[#120b22] rounded-2xl border border-blue-200 dark:border-[#a07cf6]/15 p-8 text-center space-y-6">
+                        <div className="w-20 h-20 rounded-2xl bg-blue-50 dark:bg-[#a07cf6]/10 border border-blue-200 dark:border-[#a07cf6]/20 flex items-center justify-center mx-auto">
+                            <Map className="text-blue-500 dark:text-[#a07cf6]" size={36} />
                         </div>
                         <div>
-                            <h3 className="text-2xl font-bold text-white mb-2">Are you open to relocating?</h3>
+                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Are you open to relocating?</h3>
                             <p className="text-base text-slate-400 max-w-lg mx-auto leading-relaxed">
                                 Relocating to a more strategic area could save you <span className="text-[#d48aff] font-bold">RM300-600/month</span> through cheaper rent, better transport access, and lower cost of living.
                             </p>
@@ -117,7 +117,7 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
                             </button>
                             <button
                                 onClick={handleDecline}
-                                className="px-8 py-4 rounded-xl border border-white/10 bg-white/5 text-slate-400 text-sm font-bold uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all flex items-center gap-2"
+                                className="px-8 py-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2"
                             >
                                 <XCircle size={18} /> No, keep current
                             </button>
@@ -129,7 +129,7 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
             {/* === STEP 2: Location Input Form === */}
             {step === 'form' && (
                 <div className="animate-fade-in space-y-6">
-                    <div className="bg-[#1a1238]/50 rounded-xl p-4 border border-[#a07cf6]/10">
+                    <div className="bg-blue-50 dark:bg-[#1a1238]/50 rounded-xl p-4 border border-blue-100 dark:border-[#a07cf6]/10">
                         <p className="text-sm text-slate-400 leading-relaxed">
                             <MapPin className="inline mr-1.5 text-[#a07cf6]" size={14} />
                             Enter your location details and <span className="text-[#d48aff] font-bold">Gemini AI</span> will suggest 2-3 financially smarter areas to live — with detailed cost comparisons and commute analysis.
@@ -176,25 +176,25 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
 
                         {/* Current profile stats */}
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div className="bg-[#120b22] rounded-xl p-4 border border-white/5">
+                            <div className="bg-white dark:bg-[#120b22] rounded-xl p-4 border border-slate-200 dark:border-white/5">
                                 <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                                     {(lifestyleSavingsByCategory['housing'] || 0) > 0 ? 'Net Rent (Optimized)' : 'Current Rent'}
                                 </p>
-                                <p className={`text-xl font-black ${(lifestyleSavingsByCategory['housing'] || 0) > 0 ? 'text-emerald-400' : 'text-white'}`}>
+                                <p className={`text-xl font-black ${(lifestyleSavingsByCategory['housing'] || 0) > 0 ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}`}>
                                     RM{netRent.toFixed(2)}
                                 </p>
                             </div>
-                            <div className="bg-[#120b22] rounded-xl p-4 border border-white/5">
+                            <div className="bg-white dark:bg-[#120b22] rounded-xl p-4 border border-slate-200 dark:border-white/5">
                                 <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">
                                     {(lifestyleSavingsByCategory['transport'] || 0) > 0 ? 'Net Transport (Optimized)' : 'Transport Cost'}
                                 </p>
-                                <p className={`text-xl font-black ${(lifestyleSavingsByCategory['transport'] || 0) > 0 ? 'text-emerald-400' : 'text-white'}`}>
+                                <p className={`text-xl font-black ${(lifestyleSavingsByCategory['transport'] || 0) > 0 ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}`}>
                                     RM{netTransport.toFixed(2)}
                                 </p>
                             </div>
-                            <div className="bg-[#120b22] rounded-xl p-4 border border-white/5">
+                            <div className="bg-white dark:bg-[#120b22] rounded-xl p-4 border border-slate-200 dark:border-white/5">
                                 <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Monthly Income</p>
-                                <p className="text-xl font-black text-white">RM{(userProfile.income || 0).toFixed(2)}</p>
+                                <p className="text-xl font-black text-slate-900 dark:text-white">RM{(userProfile.income || 0).toFixed(2)}</p>
                             </div>
                         </div>
                     </div>
@@ -240,11 +240,11 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
                             <div className="grid grid-cols-3 gap-4 mb-4">
                                 <div>
                                     <p className="text-xs text-slate-500 uppercase mb-1">Rent</p>
-                                    <p className="text-2xl font-black text-white">RM{result.current_analysis.estimated_monthly_rent}</p>
+                                    <p className="text-2xl font-black text-slate-900 dark:text-white">RM{result.current_analysis.estimated_monthly_rent}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 uppercase mb-1">Transport</p>
-                                    <p className="text-2xl font-black text-white">RM{result.current_analysis.estimated_transport_cost}</p>
+                                    <p className="text-2xl font-black text-slate-900 dark:text-white">RM{result.current_analysis.estimated_transport_cost}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 uppercase mb-1">Total Living</p>
@@ -262,14 +262,14 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
                                 key={i}
                                 onClick={() => setSelectedOption(i)}
                                 className={`rounded-2xl border p-6 cursor-pointer transition-all duration-300 ${selectedOption === i
-                                    ? 'bg-[#1a1238] border-[#a07cf6]/30 shadow-[0_0_30px_rgba(160,124,246,0.08)]'
-                                    : 'bg-[#120b22] border-white/5 hover:border-white/10'}`}
+                                    ? 'bg-blue-50 dark:bg-[#1a1238] border-blue-200 dark:border-[#a07cf6]/30 shadow-[0_0_30px_rgba(59,130,246,0.08)] dark:shadow-[0_0_30px_rgba(160,124,246,0.08)]'
+                                    : 'bg-white dark:bg-[#120b22] border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10'}`}
                             >
                                 {/* Header */}
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <Home className="text-[#a07cf6]" size={22} />
-                                        <span className="font-bold text-white text-lg">{opt.location}</span>
+                                        <Home className="text-blue-500 dark:text-[#a07cf6]" size={22} />
+                                        <span className="font-bold text-slate-900 dark:text-white text-lg">{opt.location}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="flex items-center gap-1">
@@ -285,11 +285,11 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
                                 <div className="grid grid-cols-4 gap-4 mb-2">
                                     <div>
                                         <p className="text-xs text-slate-500 uppercase mb-1">Rent Range</p>
-                                        <p className="text-sm font-bold text-white">{opt.estimated_rent_range}</p>
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">{opt.estimated_rent_range}</p>
                                     </div>
                                     <div>
                                         <p className="text-xs text-slate-500 uppercase mb-1">Commute</p>
-                                        <p className="text-sm font-bold text-white">{opt.commute_to_work}</p>
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">{opt.commute_to_work}</p>
                                     </div>
                                     <div>
                                         <p className="text-xs text-slate-500 uppercase mb-1">Monthly Savings</p>
@@ -307,15 +307,15 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
 
                                         {/* Savings Breakdown */}
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div className="bg-[#0d0820] rounded-xl p-4 border border-emerald-500/10">
-                                                <DollarSign className="text-emerald-400 mb-2" size={18} />
+                                            <div className="bg-emerald-50 dark:bg-[#0d0820] rounded-xl p-4 border border-emerald-200 dark:border-emerald-500/10">
+                                                <DollarSign className="text-emerald-500 dark:text-emerald-400 mb-2" size={18} />
                                                 <p className="text-xs text-slate-500 uppercase mb-1">Rent Savings</p>
-                                                <p className="text-lg font-black text-emerald-400">RM{Math.abs(opt.rent_savings_vs_current || 0).toFixed(2)}/mo</p>
+                                                <p className="text-lg font-black text-emerald-600 dark:text-emerald-400">RM{Math.abs(opt.rent_savings_vs_current || 0).toFixed(2)}/mo</p>
                                             </div>
-                                            <div className="bg-[#0d0820] rounded-xl p-4 border border-blue-500/10">
-                                                <TrendingDown className="text-blue-400 mb-2" size={18} />
+                                            <div className="bg-blue-50 dark:bg-[#0d0820] rounded-xl p-4 border border-blue-200 dark:border-blue-500/10">
+                                                <TrendingDown className="text-blue-500 dark:text-blue-400 mb-2" size={18} />
                                                 <p className="text-xs text-slate-500 uppercase mb-1">Transport Savings</p>
-                                                <p className="text-lg font-black text-blue-400">RM{Math.abs(opt.transport_savings_vs_current || 0).toFixed(2)}/mo</p>
+                                                <p className="text-lg font-black text-blue-600 dark:text-blue-400">RM{Math.abs(opt.transport_savings_vs_current || 0).toFixed(2)}/mo</p>
                                             </div>
                                         </div>
 
@@ -376,12 +376,12 @@ const AccommodationSection: React.FC<AccommodationSectionProps> = ({ userProfile
 
                     {/* AI Recommendation */}
                     {result.summary && (
-                        <div className="bg-gradient-to-br from-[#1a103c] to-[#120b22] rounded-2xl border border-[#a07cf6]/20 p-6">
+                        <div className="bg-gradient-to-br from-purple-50 dark:from-[#1a103c] to-white dark:to-[#120b22] rounded-2xl border border-purple-200 dark:border-[#a07cf6]/20 p-6">
                             <div className="flex items-center gap-3 mb-4">
-                                <Award className="text-[#a07cf6]" size={22} />
-                                <h3 className="text-base font-bold text-[#a07cf6] uppercase tracking-wider">AI Recommendation</h3>
+                                <Award className="text-purple-500 dark:text-[#a07cf6]" size={22} />
+                                <h3 className="text-base font-bold text-purple-600 dark:text-[#a07cf6] uppercase tracking-wider">AI Recommendation</h3>
                             </div>
-                            <p className="text-lg text-slate-300 leading-relaxed mb-3">{result.summary.recommendation}</p>
+                            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-3">{result.summary.recommendation}</p>
                             <p className="text-base text-[#d48aff]/80 font-medium italic">{result.summary.key_insight}</p>
                             <div className="mt-4 flex gap-3 flex-wrap">
                                 {result.summary.best_overall_pick && (

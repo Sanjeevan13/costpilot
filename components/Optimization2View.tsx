@@ -110,18 +110,18 @@ const OptimizationView2: React.FC<OptimizationViewProps> = ({ userProfile, updat
     };
 
     // Full screen loader only for initial scan or when no data is present
-    if (loading && recommendations.length === 0) return <div className="min-h-screen bg-slate-50 dark:bg-[#0A061E] flex items-center justify-center p-10"><div className="w-10 h-10 border-4 border-[#b55cff] border-t-transparent rounded-full animate-spin"></div></div>;
-    if (error && recommendations.length === 0) return <div className="min-h-screen bg-slate-50 dark:bg-[#0A061E] p-10 text-red-400 font-bold text-center">Engine Error: {error} <button onClick={() => fetchData(true)} className="ml-4 underline text-[#b55cff]">Restart</button></div>;
+    if (loading && recommendations.length === 0) return <div className="min-h-screen flex items-center justify-center p-10"><div className="w-10 h-10 border-4 border-[#b55cff] border-t-transparent rounded-full animate-spin"></div></div>;
+    if (error && recommendations.length === 0) return <div className="min-h-screen p-10 text-red-400 font-bold text-center">Engine Error: {error} <button onClick={() => fetchData(true)} className="ml-4 underline text-[#b55cff]">Restart</button></div>;
 
     const visibleRecommendations = recommendations.filter(rec => rec.type === activeTab && !optimizedCategories.has(rec.type));
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0A061E] text-slate-800 dark:text-white p-6 md:p-12 font-sans selection:bg-[#b55cff]/30 pb-32">
+        <div className="min-h-screen text-slate-800 dark:text-white p-6 md:p-12 font-sans selection:bg-[#b55cff]/30 pb-32 transition-colors duration-200">
             <div className="max-w-6xl mx-auto space-y-12 animate-fade-in relative z-10">
 
                 {/* Header */}
                 <div className="space-y-2">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight flex items-baseline gap-3">
+                    <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight flex items-baseline gap-3">
                         Optimization Engine
                     </h1>
                     <p className="text-[#a07cf6] font-medium tracking-wide">Real-time financial performance tuning via AI protocols</p>

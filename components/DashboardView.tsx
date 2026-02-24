@@ -298,13 +298,34 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
       value: Math.max(0, (userProfile.transportCost || 0) - (lifestyleSavingsByCategory['transport'] || 0)),
       color: '#10b981',
       description: (lifestyleSavingsByCategory['transport'] || 0) > 0
-        ? `RM${(userProfile.transportCost || 0).toFixed(2)} budget - RM${lifestyleSavingsByCategory['transport'].toFixed(2)} optimized savings`
+        ? `RM${(userProfile.transportCost || 0).toFixed(2)} base budget - RM${lifestyleSavingsByCategory['transport'].toFixed(2)} optimized`
         : undefined
     },
-    { label: 'FOOD', value: Math.max(0, (userProfile.food || 0) - (lifestyleSavingsByCategory['food'] || 0)), color: '#eab308' },
-    { label: 'UTILITIES', value: Math.max(0, (userProfile.utilities || 0) - (lifestyleSavingsByCategory['utilities'] || 0)), color: '#8b5cf6' },
+    {
+      label: 'FOOD',
+      value: Math.max(0, (userProfile.food || 0) - (lifestyleSavingsByCategory['food'] || 0)),
+      color: '#eab308',
+      description: (lifestyleSavingsByCategory['food'] || 0) > 0
+        ? `RM${(userProfile.food || 0).toFixed(2)} base budget - RM${lifestyleSavingsByCategory['food'].toFixed(2)} optimized`
+        : undefined
+    },
+    {
+      label: 'UTILITIES',
+      value: Math.max(0, (userProfile.utilities || 0) - (lifestyleSavingsByCategory['utilities'] || 0)),
+      color: '#8b5cf6',
+      description: (lifestyleSavingsByCategory['utilities'] || 0) > 0
+        ? `RM${(userProfile.utilities || 0).toFixed(2)} base budget - RM${lifestyleSavingsByCategory['utilities'].toFixed(2)} optimized`
+        : undefined
+    },
     { label: 'DEBT', value: userProfile.debt || 0, color: '#ef4444' },
-    { label: 'SUBSCRIPTIONS', value: Math.max(0, (userProfile.subscriptions || 0) - (lifestyleSavingsByCategory['subscriptions'] || 0)), color: '#6366f1' },
+    {
+      label: 'SUBSCRIPTIONS',
+      value: Math.max(0, (userProfile.subscriptions || 0) - (lifestyleSavingsByCategory['subscriptions'] || 0)),
+      color: '#6366f1',
+      description: (lifestyleSavingsByCategory['subscriptions'] || 0) > 0
+        ? `RM${(userProfile.subscriptions || 0).toFixed(2)} base budget - RM${lifestyleSavingsByCategory['subscriptions'].toFixed(2)} optimized`
+        : undefined
+    },
     ...(userProfile.engineStatus?.subsidies ? [{ label: 'SUBSIDIES', value: subsidyMonthlyTotal, color: '#14b8a6' }] : []),
   ].filter(s => s.value > 0);
 
@@ -558,17 +579,17 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
               const CategoryIcon = categories.find(c => c.name === goal.category)?.icon || Target;
 
               return (
-                <div key={goal.id} className="relative overflow-hidden bg-white/5 border border-white/10 backdrop-blur-xl rounded-[2rem] p-6 sm:p-7 shadow-2xl flex flex-col sm:flex-row items-center justify-between group transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 gap-6">
+                <div key={goal.id} className="relative overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-xl rounded-[2rem] p-6 sm:p-7 shadow-lg dark:shadow-2xl flex flex-col sm:flex-row items-center justify-between group transition-all duration-300 hover:bg-slate-50 dark:hover:bg-white/10 hover:-translate-y-1 gap-6">
                   <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[60px] -mr-20 -mt-20 group-hover:bg-blue-500/20 transition-colors pointer-events-none"></div>
 
                   <div className="flex items-center gap-5 sm:gap-6 relative z-10 w-full sm:w-auto flex-1">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/10 border border-white/10 text-slate-800 dark:text-white rounded-[20px] flex items-center justify-center shadow-inner backdrop-blur-md shrink-0">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white rounded-[20px] flex items-center justify-center shadow-inner backdrop-blur-md shrink-0">
                       <CategoryIcon size={28} strokeWidth={2} />
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-3 mb-1">
                         <h3 className="text-xl font-semibold text-slate-800 dark:text-white tracking-tight leading-tight">{goal.name}</h3>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded border border-white/10">{goal.category}</span>
+                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded border border-slate-200 dark:border-white/10">{goal.category}</span>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
                         <div className="flex items-baseline gap-2">
@@ -579,7 +600,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                           <Calendar size={14} className="text-slate-500" />
                           <span className="text-sm font-medium text-slate-400">{goal.deadlineMonths} Mo</span>
                         </div>
-                        <div className="flex items-center gap-1.5 border-l border-white/10 pl-4 sm:pl-6 ml-0">
+                        <div className="flex items-center gap-1.5 border-l border-slate-200 dark:border-white/10 pl-4 sm:pl-6 ml-0">
                           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monthly:</span>
                           <span className="text-lg font-bold text-blue-400">RM{monthlyRequired.toLocaleString(undefined, { useGrouping: false, maximumFractionDigits: 0 })}/mo</span>
                         </div>
@@ -619,25 +640,25 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
 
                 <div className="flex items-center gap-5 sm:gap-6 relative z-10 w-full sm:w-auto">
                   <div className="w-16 h-16 bg-white/20 rounded-[20px] flex items-center justify-center shadow-sm backdrop-blur-md shrink-0">
-                    <Plus className="text-slate-800 dark:text-white" size={32} strokeWidth={2.5} />
+                    <Plus className="text-white" size={32} strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-slate-800 dark:text-white tracking-tight mb-1">Add a new financial goal</h3>
-                    <p className="text-slate-800 dark:text-white/80 text-sm sm:text-base font-medium">Define your next milestone and track your progress towards financial freedom</p>
+                    <h3 className="text-xl sm:text-2xl font-semibold text-white tracking-tight mb-1">Add a new financial goal</h3>
+                    <p className="text-white/80 text-sm sm:text-base font-medium">Define your next milestone and track your progress towards financial freedom</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-slate-800 dark:text-white font-semibold opacity-90 group-hover:opacity-100 group-hover:pr-2 transition-all relative z-10 self-end sm:self-auto shrink-0 w-full sm:w-auto justify-end sm:justify-start text-lg">
+                <div className="flex items-center gap-2 text-white font-semibold opacity-90 group-hover:opacity-100 group-hover:pr-2 transition-all relative z-10 self-end sm:self-auto shrink-0 w-full sm:w-auto justify-end sm:justify-start text-lg">
                   Set New Goal <ArrowRight size={22} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             ) : (
-              <div className="relative overflow-hidden bg-[#131b2f] border border-blue-500/50 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_0_40px_rgba(59,130,246,0.2)] flex flex-col mt-8 animate-fade-in ring-1 ring-blue-500/20 w-full">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+              <div className="relative overflow-hidden bg-white dark:bg-[#131b2f] border border-slate-200 dark:border-blue-500/50 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl dark:shadow-[0_0_40px_rgba(59,130,246,0.2)] flex flex-col mt-8 animate-fade-in ring-1 ring-slate-200 dark:ring-blue-500/20 w-full">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
                 <div className="flex items-center justify-between mb-8 relative z-10">
                   <h3 className="text-xl font-medium text-slate-800 dark:text-white tracking-tight flex items-center gap-2 pr-4"><Target size={20} className="text-blue-500" /> {editingGoalId ? 'Edit Smart Goal' : 'Configure Smart Goal'}</h3>
-                  <button onClick={handleCancelGoal} className="text-slate-400 hover:text-slate-800 dark:text-white transition-colors bg-white/5 border border-white/10 backdrop-blur-md p-2 rounded-full hover:bg-white/10"><X size={18} strokeWidth={2.5} /></button>
+                  <button onClick={handleCancelGoal} className="text-slate-400 hover:text-slate-800 dark:text-white transition-colors bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md p-2 rounded-full hover:bg-slate-200 dark:hover:bg-white/10"><X size={18} strokeWidth={2.5} /></button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -652,7 +673,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                             <button
                               key={cat.name}
                               onClick={() => setNewGoal({ ...newGoal, category: cat.name })}
-                              className={`flex flex-col items-center justify-center p-3 rounded-2xl border transition-all ${selected ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-[#0b101b] border-slate-800 text-slate-500 hover:border-slate-600'}`}
+                              className={`flex flex-col items-center justify-center p-3 rounded-2xl border transition-all ${selected ? 'bg-blue-50 dark:bg-blue-600/20 border-blue-500 text-blue-600 dark:text-blue-400' : 'bg-slate-50 dark:bg-[#0b101b] border-slate-200 dark:border-slate-800 text-slate-500 hover:border-slate-300 dark:hover:border-slate-600'}`}
                               title={cat.name}
                             >
                               <Icon size={20} className="mb-1" />
@@ -664,7 +685,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Goal Name</label>
-                      <input type="text" value={newGoal.name} onChange={e => setNewGoal({ ...newGoal, name: e.target.value })} placeholder="e.g. Dream Car Deposit" className="w-full bg-[#0b101b] text-slate-800 dark:text-white px-5 py-4 rounded-xl border border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-bold text-base shadow-inner placeholder-slate-600" />
+                      <input type="text" value={newGoal.name} onChange={e => setNewGoal({ ...newGoal, name: e.target.value })} placeholder="e.g. Dream Car Deposit" className="w-full bg-slate-50 dark:bg-[#0b101b] text-slate-800 dark:text-white px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-bold text-base shadow-inner placeholder-slate-400 dark:placeholder-slate-600" />
                     </div>
                   </div>
 
@@ -673,7 +694,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                       <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Target Amount (RM)</label>
                       <div className="relative">
                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 font-bold">RM</span>
-                        <input type="number" value={newGoal.targetAmount || ''} onChange={e => setNewGoal({ ...newGoal, targetAmount: Number(e.target.value) })} placeholder="10000" className="w-full bg-[#0b101b] text-slate-800 dark:text-white px-5 py-4 pl-14 rounded-xl border border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-bold text-base shadow-inner placeholder-slate-600" />
+                        <input type="number" value={newGoal.targetAmount || ''} onChange={e => setNewGoal({ ...newGoal, targetAmount: Number(e.target.value) })} placeholder="10000" className="w-full bg-slate-50 dark:bg-[#0b101b] text-slate-800 dark:text-white px-5 py-4 pl-14 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-bold text-base shadow-inner placeholder-slate-400 dark:placeholder-slate-600" />
                       </div>
                     </div>
                     <div>
@@ -689,7 +710,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                           step="1"
                           value={newGoal.deadlineMonths}
                           onChange={e => setNewGoal({ ...newGoal, deadlineMonths: Number(e.target.value) })}
-                          className="w-full h-2 bg-[#0b101b] rounded-lg appearance-none cursor-pointer accent-blue-500 border border-slate-800"
+                          className="w-full h-2 bg-slate-200 dark:bg-[#0b101b] rounded-lg appearance-none cursor-pointer accent-blue-500 border border-slate-300 dark:border-slate-800"
                         />
                         <div className="flex justify-between mt-2 text-[11px] font-bold text-slate-600 uppercase tracking-widest">
                           <span>1 Month</span>
@@ -699,7 +720,7 @@ const DashboardView: React.FC<{ userProfile: UserProfile; updateProfile?: (profi
                     </div>
 
                     <div className="pt-2">
-                      <button onClick={handleAddGoal} disabled={!newGoal.name || newGoal.targetAmount <= 0 || newGoal.deadlineMonths <= 0} className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-slate-800 dark:text-white rounded-xl font-bold text-lg transition-all flex justify-center items-center gap-2 disabled:bg-blue-900/50 disabled:text-blue-400 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+                      <button onClick={handleAddGoal} disabled={!newGoal.name || newGoal.targetAmount <= 0 || newGoal.deadlineMonths <= 0} className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all flex justify-center items-center gap-2 disabled:bg-slate-200 dark:disabled:bg-blue-900/50 disabled:text-slate-400 dark:disabled:text-blue-400 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(37,99,235,0.4)]">
                         {editingGoalId ? 'Update Goal' : 'Activate Goal'} <ArrowRight size={18} strokeWidth={3} />
                       </button>
                     </div>

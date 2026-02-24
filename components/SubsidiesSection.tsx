@@ -157,10 +157,10 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
             <div className="flex items-center justify-between">
                 <div>
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#170e2b] border border-[#a07cf6]/20 flex items-center justify-center">
-                            <Receipt className="text-[#a07cf6]" size={18} />
+                        <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-[#170e2b] border border-slate-200 dark:border-[#a07cf6]/20 flex items-center justify-center">
+                            <Receipt className="text-blue-500 dark:text-[#a07cf6]" size={18} />
                         </div>
-                        <h3 className="text-lg font-bold text-white">Subsidies & Bantuan</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Subsidies & Bantuan</h3>
                     </div>
                     <p className="text-sm text-slate-500 mt-1 ml-[52px]">Auto-matched to your profile — claim what you qualify for</p>
                 </div>
@@ -181,13 +181,13 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
 
             {/* Missing Field Prompt Modal */}
             {pendingUnlock && (
-                <div className="animate-fade-in bg-[#1a1238] rounded-2xl border border-[#a07cf6]/30 p-6 space-y-4">
+                <div className="animate-fade-in bg-white dark:bg-[#1a1238] rounded-2xl border border-slate-200 dark:border-[#a07cf6]/30 p-6 space-y-4">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-base font-bold text-white flex items-center gap-2">
-                            <HelpCircle size={18} className="text-amber-400" />
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <HelpCircle size={18} className="text-amber-500 dark:text-amber-400" />
                             More info needed for: {pendingUnlock.name}
                         </h4>
-                        <button onClick={() => setPendingUnlock(null)} className="text-slate-500 hover:text-white transition-colors">
+                        <button onClick={() => setPendingUnlock(null)} className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
                             <X size={18} />
                         </button>
                     </div>
@@ -202,7 +202,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                 </label>
                                 {field === 'state' ? (
                                     <select
-                                        className="w-full bg-[#120b22] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#a07cf6]/50 transition-all"
+                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
                                         value={fieldInputs[field] || ''}
                                         onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
                                     >
@@ -211,7 +211,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                     </select>
                                 ) : field === 'employmentStatus' ? (
                                     <select
-                                        className="w-full bg-[#120b22] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#a07cf6]/50 transition-all"
+                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
                                         value={fieldInputs[field] || ''}
                                         onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
                                     >
@@ -224,7 +224,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                 ) : (
                                     <input
                                         type="number"
-                                        className="w-full bg-[#120b22] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#a07cf6]/50 transition-all"
+                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
                                         value={fieldInputs[field] || ''}
                                         onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
                                         placeholder={`Enter ${FIELD_LABELS[field] || field}`}
@@ -253,16 +253,16 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                         const style = catStyle(sub.category);
                         return (
                             <div key={sub.programId} className={`rounded-2xl border p-5 transition-all duration-300 ${isClaimed
-                                ? 'bg-emerald-500/5 border-emerald-500/25 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
-                                : 'bg-[#120b22] border-white/5 hover:border-white/10'}`}>
+                                ? 'bg-emerald-50 dark:bg-emerald-500/5 border-emerald-200 dark:border-emerald-500/25 shadow-[0_0_20px_rgba(16,185,129,0.05)]'
+                                : 'bg-white dark:bg-[#120b22] border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10'}`}>
                                 <div className="flex items-start justify-between gap-4 mb-3">
                                     <div className="flex items-center gap-3">
                                         <div className={`w-10 h-10 rounded-xl ${style.bg} ${style.border} border flex items-center justify-center ${style.color}`}>
                                             {style.icon}
                                         </div>
                                         <div>
-                                            <h4 className="text-base font-bold text-white">{sub.name}</h4>
-                                            <p className="text-sm text-slate-400">{sub.benefitText}</p>
+                                            <h4 className="text-base font-bold text-slate-900 dark:text-white">{sub.name}</h4>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400">{sub.benefitText}</p>
                                         </div>
                                     </div>
                                     <span className={`text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full ${style.bg} ${style.border} border ${style.color} shrink-0`}>
@@ -283,7 +283,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                             href={sub.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex-1 font-black text-xs tracking-widest uppercase bg-[#1a1333] hover:bg-[#231a44] text-[#a07cf6] border border-[#a07cf6]/30 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"
+                                            className="flex-1 font-black text-xs tracking-widest uppercase bg-slate-50 dark:bg-[#1a1333] hover:bg-slate-100 dark:hover:bg-[#231a44] text-blue-600 dark:text-[#a07cf6] border border-blue-200 dark:border-[#a07cf6]/30 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2"
                                         >
                                             <ExternalLink size={14} /> Apply Now
                                         </a>
@@ -321,14 +321,14 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                     {needsInfo.map((sub: any) => {
                         const style = catStyle(sub.category);
                         return (
-                            <div key={sub.programId} className="rounded-2xl border bg-[#120b22] border-amber-500/15 p-5 hover:border-amber-500/30 transition-all">
+                            <div key={sub.programId} className="rounded-2xl border bg-white dark:bg-[#120b22] border-amber-200 dark:border-amber-500/15 p-5 hover:border-amber-300 dark:hover:border-amber-500/30 transition-all">
                                 <div className="flex items-start justify-between gap-4 mb-3">
                                     <div className="flex items-center gap-3">
                                         <div className={`w-10 h-10 rounded-xl ${style.bg} ${style.border} border flex items-center justify-center ${style.color} opacity-50`}>
                                             {style.icon}
                                         </div>
                                         <div>
-                                            <h4 className="text-base font-bold text-white/70">{sub.name}</h4>
+                                            <h4 className="text-base font-bold text-slate-700 dark:text-white/70">{sub.name}</h4>
                                             <p className="text-sm text-slate-500">{sub.benefitText}</p>
                                         </div>
                                     </div>
@@ -370,14 +370,14 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                     {showNotEligible && notEligible.map((sub: any) => {
                         const style = catStyle(sub.category);
                         return (
-                            <div key={sub.programId} className="rounded-2xl border bg-[#120b22] border-white/5 p-5 opacity-50">
+                            <div key={sub.programId} className="rounded-2xl border bg-white dark:bg-[#120b22] border-slate-200 dark:border-white/5 p-5 opacity-50">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-500`}>
+                                        <div className={`w-10 h-10 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-500`}>
                                             {style.icon}
                                         </div>
                                         <div>
-                                            <h4 className="text-sm font-bold text-white/50">{sub.name}</h4>
+                                            <h4 className="text-sm font-bold text-slate-500 dark:text-white/50">{sub.name}</h4>
                                             <p className="text-xs text-slate-500">{sub.benefitText}</p>
                                             {sub.reasons?.map((r: string, i: number) => (
                                                 <p key={i} className="text-xs text-red-400/60 mt-1">• {r}</p>
@@ -395,7 +395,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
             {matches.length === 0 && needsInfo.length === 0 && notEligible.length === 0 && !error && (
                 <div className="py-16 text-center">
                     <Receipt className="mx-auto text-slate-500 mb-4" size={32} />
-                    <h3 className="text-lg font-bold text-white/50 mb-2">No Subsidies Found</h3>
+                    <h3 className="text-lg font-bold text-slate-700 dark:text-white/50 mb-2">No Subsidies Found</h3>
                     <p className="text-sm text-slate-500">Update your profile in Settings for more accurate matching.</p>
                 </div>
             )}

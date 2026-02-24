@@ -15,6 +15,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+
+
   const transportModes = [
     'Private Vehicle',
     'Motorcycle',
@@ -41,6 +43,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
       : [...currentModes, mode];
     handleChange('commuteMethod', nextModes);
   };
+
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -93,7 +97,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12 animate-fade-in font-sans">
       <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">Settings</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Settings</h1>
         <p className="text-slate-500 text-base mt-2">Personalize your experience and update your financial profile.</p>
       </div>
 
@@ -292,6 +296,8 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
             </div>
           </div>
         </div>
+
+
 
         {/* Sticky Action Footer */}
         <div className="sticky bottom-6 mt-8 flex justify-end items-center">

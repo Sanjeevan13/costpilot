@@ -164,7 +164,37 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                 appliedAt: Date.now()
             }
         ];
-        await updateProfile({ appliedLifestyleOptimizations: updated });
+
+        // Prepare the patch for the profile
+        const patch: Partial<UserProfile> = {
+            appliedLifestyleOptimizations: updated
+        };
+
+        // If the user's base cost for this category is currently less than the savings,
+        // it means they didn't input it or input too little during onboarding.
+        // We'll update their base cost to realistically reflect the AI's math,
+        // allowing the Pie Chart to draw accurately.
+        const catKey = sug.category.toLowerCase().trim();
+
+        // Map common AI categories to UserProfile fields if needed
+        let profileField = catKey;
+        if (catKey === 'housing') profileField = 'rent';
+        if (catKey === 'transportation') profileField = 'transportCost';
+        if (catKey === 'transport') profileField = 'transportCost';
+
+        const currentVal = Number((userProfile as any)[profileField]) || 0;
+
+        // Let's assume the AI suggested saving X. The 'before' state must have been at least X,
+        // likely more. For a good UI experience, we'll assume the base was X + a buffer (e.g. 20% more) 
+        // if the current base is too small.
+        if (currentVal < sug.estimated_monthly_savings) {
+            // For realism, let's say the savings is roughly 30% of their actual spend if we don't know it,
+            // or at the very least equal to the savings.
+            const assumedBase = Math.round(sug.estimated_monthly_savings * 3.33);
+            (patch as any)[profileField] = assumedBase;
+        }
+
+        await updateProfile(patch);
     };
 
     const handleUnapply = async (title: string) => {
@@ -195,11 +225,11 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#170e2b] border border-[#a07cf6]/20 flex items-center justify-center">
-                        <Coffee className="text-[#a07cf6]" size={18} />
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-[#170e2b] border border-slate-200 dark:border-[#a07cf6]/20 flex items-center justify-center">
+                        <Coffee className="text-purple-500 dark:text-[#a07cf6]" size={18} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-white">Lifestyle Optimizer</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Lifestyle Optimizer</h3>
                         <p className="text-sm text-slate-500">Tell us about your habits for personalized AI suggestions</p>
                     </div>
                 </div>
@@ -207,7 +237,7 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                 {/* Progress */}
                 <div className="flex gap-2">
                     {QUESTIONS.map((_, i) => (
-                        <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i < currentQ ? 'bg-[#b55cff]' : i === currentQ ? 'bg-[#a07cf6]' : 'bg-white/10'
+                        <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i < currentQ ? 'bg-purple-400 dark:bg-[#b55cff]' : i === currentQ ? 'bg-purple-600 dark:bg-[#a07cf6]' : 'bg-slate-200 dark:bg-white/10'
                             }`} />
                     ))}
                 </div>
@@ -219,14 +249,14 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                 )}
 
                 {/* Question Card */}
-                <div className="bg-[#120b22] rounded-2xl border border-white/5 p-8 animate-fade-in">
+                <div className="bg-white dark:bg-[#120b22] rounded-2xl border border-slate-200 dark:border-white/5 p-8 animate-fade-in">
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-xl bg-[#a07cf6]/10 border border-[#a07cf6]/20 flex items-center justify-center text-[#a07cf6]">
+                        <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-[#a07cf6]/10 border border-purple-200 dark:border-[#a07cf6]/20 flex items-center justify-center text-purple-600 dark:text-[#a07cf6]">
                             {q.icon}
                         </div>
                         <div>
                             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Question {currentQ + 1} of {QUESTIONS.length}</p>
-                            <h4 className="text-lg font-bold text-white">{q.question}</h4>
+                            <h4 className="text-lg font-bold text-slate-900 dark:text-white">{q.question}</h4>
                         </div>
                     </div>
 
@@ -236,12 +266,12 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                                 key={opt.value}
                                 onClick={() => handleAnswer(q.id, opt.value)}
                                 className={`w-full text-left px-5 py-4 rounded-xl border-2 transition-all duration-300 flex items-center justify-between group ${selectedValue === opt.value
-                                        ? 'bg-[#b55cff]/10 border-[#b55cff]/40 text-white'
-                                        : 'bg-[#0f0a24] border-white/5 text-slate-300 hover:border-[#a07cf6]/30 hover:bg-[#1a1238]'
+                                    ? 'bg-purple-50 dark:bg-[#b55cff]/10 border-purple-300 dark:border-[#b55cff]/40 text-slate-900 dark:text-white'
+                                    : 'bg-slate-50 dark:bg-[#0f0a24] border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-300 hover:border-[#a07cf6]/30 hover:bg-slate-100 dark:hover:bg-[#1a1238]'
                                     }`}
                             >
                                 <span className="text-sm font-medium">{opt.label}</span>
-                                <ChevronRight size={16} className={`transition-all ${selectedValue === opt.value ? 'text-[#b55cff] translate-x-1' : 'text-slate-600 group-hover:text-slate-400'
+                                <ChevronRight size={16} className={`transition-all ${selectedValue === opt.value ? 'text-purple-600 dark:text-[#b55cff] translate-x-1' : 'text-slate-400 dark:text-slate-600 group-hover:text-slate-600 dark:group-hover:text-slate-400'
                                     }`} />
                             </button>
                         ))}
@@ -270,8 +300,8 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                     </div>
                     <div className="absolute inset-0 bg-[#b55cff]/10 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">AI Analyzing Your Lifestyle</h3>
-                <p className="text-slate-400 text-sm max-w-sm">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">AI Analyzing Your Lifestyle</h3>
+                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm">
                     Crunching your habits against Malaysian cost data to find the best savings opportunities...
                 </p>
             </div>
@@ -291,17 +321,17 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#170e2b] border border-[#a07cf6]/20 flex items-center justify-center">
-                        <Coffee className="text-[#a07cf6]" size={18} />
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-[#170e2b] border border-slate-200 dark:border-[#a07cf6]/20 flex items-center justify-center">
+                        <Coffee className="text-purple-500 dark:text-[#a07cf6]" size={18} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-white">AI Lifestyle Insights</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">AI Lifestyle Insights</h3>
                         <p className="text-sm text-slate-500">Personalized recommendations based on your habits</p>
                     </div>
                 </div>
                 <button
                     onClick={handleReset}
-                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-slate-400 hover:text-[#a07cf6] border-2 border-slate-700 hover:border-[#a07cf6]/40 rounded-xl transition-all uppercase tracking-wider"
+                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-[#a07cf6] border-2 border-slate-300 dark:border-slate-700 hover:border-purple-300 dark:hover:border-[#a07cf6]/40 rounded-xl transition-all uppercase tracking-wider"
                 >
                     <RotateCcw size={14} />
                     Re-scan
@@ -310,7 +340,7 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
 
             {/* Summary Card */}
             {summary.total_potential_savings && (
-                <div className="bg-gradient-to-br from-[#1a1238] to-[#120b22] rounded-2xl border border-[#a07cf6]/20 p-6">
+                <div className="bg-gradient-to-br from-white dark:from-[#1a1238] to-slate-50 dark:to-[#120b22] rounded-2xl border border-slate-200 dark:border-[#a07cf6]/20 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <div>
                             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-1">Total Potential Savings</p>
@@ -329,9 +359,9 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                         </div>
                     )}
                     {summary.insight && (
-                        <div className="flex items-start gap-2 bg-white/5 rounded-xl p-3 border border-white/5">
-                            <Lightbulb size={14} className="text-amber-400 shrink-0 mt-0.5" />
-                            <p className="text-sm text-slate-300 leading-relaxed">{summary.insight}</p>
+                        <div className="flex items-start gap-2 bg-slate-50 dark:bg-white/5 rounded-xl p-3 border border-slate-200 dark:border-white/5">
+                            <Lightbulb size={14} className="text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+                            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{summary.insight}</p>
                         </div>
                     )}
                 </div>
@@ -346,7 +376,7 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                     const isApplied = appliedTitles.has(sug.title);
 
                     return (
-                        <div key={i} className={`bg-[#120b22] rounded-2xl border p-6 transition-all group ${isApplied ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/5 hover:border-[#a07cf6]/20'
+                        <div key={i} className={`bg-white dark:bg-[#120b22] rounded-2xl border p-6 transition-all group ${isApplied ? 'border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/5' : 'border-slate-200 dark:border-white/5 hover:border-[#a07cf6]/20'
                             }`}>
                             <div className="flex items-start justify-between gap-4 mb-4">
                                 <div className="flex items-center gap-3">
@@ -354,7 +384,7 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                                         {catIcon}
                                     </div>
                                     <div>
-                                        <h4 className="text-base font-bold text-white">{sug.title}</h4>
+                                        <h4 className="text-base font-bold text-slate-900 dark:text-white">{sug.title}</h4>
                                         <div className="flex items-center gap-2 mt-0.5">
                                             <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${catColor.bg} ${catColor.border} ${catColor.color}`}>
                                                 {sug.category}
@@ -376,13 +406,13 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
                                 </div>
                             </div>
 
-                            <p className="text-base text-slate-400 leading-relaxed mb-4">{sug.description}</p>
+                            <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{sug.description}</p>
 
                             {sug.quick_tip && (
-                                <div className="flex items-start gap-2 bg-[#0f0a24] rounded-xl p-3 border border-white/5 mb-4">
-                                    <Zap size={12} className="text-amber-400 shrink-0 mt-0.5" />
-                                    <p className="text-sm text-slate-400 leading-relaxed">
-                                        <span className="font-bold text-amber-400/80">Quick tip:</span> {sug.quick_tip}
+                                <div className="flex items-start gap-2 bg-amber-50 dark:bg-[#0f0a24] rounded-xl p-3 border border-amber-200 dark:border-white/5 mb-4">
+                                    <Zap size={12} className="text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
+                                    <p className="text-sm text-slate-700 dark:text-slate-400 leading-relaxed">
+                                        <span className="font-bold text-amber-600 dark:text-amber-400/80">Quick tip:</span> {sug.quick_tip}
                                     </p>
                                 </div>
                             )}
@@ -412,7 +442,7 @@ const LifestyleSection: React.FC<LifestyleSectionProps> = ({ userProfile, update
             {suggestions.length === 0 && (
                 <div className="py-16 text-center">
                     <Coffee className="mx-auto text-slate-500 mb-4" size={32} />
-                    <h3 className="text-lg font-bold text-white/50 mb-2">No Suggestions Found</h3>
+                    <h3 className="text-lg font-bold text-slate-500 dark:text-white/50 mb-2">No Suggestions Found</h3>
                     <p className="text-sm text-slate-500">Try updating your profile details for better results.</p>
                 </div>
             )}

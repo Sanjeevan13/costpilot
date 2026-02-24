@@ -4,6 +4,14 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth } from './AuthContext';
 import { db, storage } from '../firebaseConfig';
 import { UserProfile } from '../../types';
+import { encryptData, decryptData } from '../utils/encryption';
+
+const SENSITIVE_FIELDS = [
+    'income', 'rent', 'utilities', 'transportCost', 'food',
+    'debt', 'subscriptions', 'savings', 'emergencySavings',
+    'wealthPlusStrategies', 'transportOptimizations',
+    'claimedSubsidies', 'smartGoals', 'appliedLifestyleOptimizations'
+];
 
 interface UserContextType {
     userProfile: UserProfile | null;
@@ -59,7 +67,24 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         const unsubscribe = onSnapshot(userRef, async (docSnap) => {
             if (docSnap.exists()) {
-                setUserProfile(docSnap.data() as UserProfile);
+                const rawData = docSnap.data();
+                const decryptedData = { ...rawData };
+                for (const field of SENSITIVE_FIELDS) {
+                    if (decryptedData[field] !== undefined && decryptedData[field] !== null) {
+                        // Attempt to decrypt. If it yields null or fails, use fallback.
+                        // However, decryptData handles non-encrypted data somewhat gracefully by 
+                        // catching errors but if it's plainly unencrypted it might return null.
+                        // Actually, if it's already a number, decryptData expects a string. 
+                        // Let's ensure decryptData only processes strings.
+                        if (typeof decryptedData[field] === 'string') {
+                            const decryptedValue = decryptData(decryptedData[field]);
+                            if (decryptedValue !== null) {
+                                decryptedData[field] = decryptedValue;
+                            }
+                        }
+                    }
+                }
+                setUserProfile(decryptedData as UserProfile);
             } else {
                 // Create default profile if it doesn't exist
                 try {
@@ -89,15 +114,23 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (!user) return;
         const userRef = doc(db, 'users', user.uid);
 
-        // Sanitize data: Firestore does not allow 'undefined' fields
-        const sanitize = (obj: any) => {
+        // Sanitize and encrypt data: Firestore does not allow 'undefined' fields
+        const sanitizeAndEncrypt = (obj: any) => {
             const result = JSON.parse(JSON.stringify(obj));
+            for (const field of SENSITIVE_FIELDS) {
+                if (result[field] !== undefined && result[field] !== null) {
+                    const encryptedValue = encryptData(result[field]);
+                    if (encryptedValue !== null) {
+                        result[field] = encryptedValue;
+                    }
+                }
+            }
             return result;
         };
 
         try {
             // Use setDoc with merge: true so it works even if document doesn't exist yet
-            await setDoc(userRef, sanitize(data), { merge: true });
+            await setDoc(userRef, sanitizeAndEncrypt(data), { merge: true });
         } catch (err: any) {
             console.error("Error updating profile:", err);
             throw err;

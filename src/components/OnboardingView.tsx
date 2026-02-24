@@ -9,11 +9,15 @@ const OnboardingView: React.FC = () => {
     const { updateProfile } = useUser();
     const [step, setStep] = useState(1);
 
-    // Step 1 State
+    // Step 1 State (Identity)
+    const [occupation, setOccupation] = useState<string>('');
+    const [householdSize, setHouseholdSize] = useState<number>(1);
+
+    // Step 2 State
     const [moneySource, setMoneySource] = useState<'income' | 'allowance'>('income');
     const [moneyAmount, setMoneyAmount] = useState<number>(0);
 
-    // Step 2 State
+    // Step 3 State
     const [residenceType, setResidenceType] = useState<'rented' | 'permanent'>('rented');
     const [committedToRent, setCommittedToRent] = useState<boolean>(true);
     const [rentAmount, setRentAmount] = useState<number>(0);
@@ -28,17 +32,17 @@ const OnboardingView: React.FC = () => {
     const [newBillName, setNewBillName] = useState('');
     const [newBillAmount, setNewBillAmount] = useState<string>('');
 
-    // Step 5 State
+    // Step 6 State
     const [hasSavings, setHasSavings] = useState<boolean>(true);
     const [savingsAmount, setSavingsAmount] = useState<number>(0);
     const [emergencySavingsAmount, setEmergencySavingsAmount] = useState<number>(0);
 
-    // Step 6 State (Smart Goals)
+    // Step 7 State (Smart Goals)
     const [onboardingGoals, setOnboardingGoals] = useState<SmartGoal[]>([]);
     const [isAddingOnboardingGoal, setIsAddingOnboardingGoal] = useState(false);
     const [newOnboardingGoal, setNewOnboardingGoal] = useState({ name: '', targetAmount: 0, deadlineMonths: 12, category: 'General' });
 
-    // Step 7 State (Food Options)
+    // Step 8 State (Food Options)
     const [foodExpenses, setFoodExpenses] = useState<number>(500);
 
     const categories = [
@@ -68,7 +72,7 @@ const OnboardingView: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (step !== 4) return;
+        if (step !== 5) return;
 
         let timer: NodeJS.Timeout;
         const currentText = `e.g. ${SUGGESTIONS[suggestionIndex]}`;
@@ -97,15 +101,16 @@ const OnboardingView: React.FC = () => {
     }, [step, charIndex, isDeleting, suggestionIndex]);
 
     const canContinue = () => {
-        if (step === 1) return moneyAmount > 0;
-        if (step === 2) {
+        if (step === 1) return occupation.trim().length > 0 && householdSize > 0;
+        if (step === 2) return moneyAmount > 0;
+        if (step === 3) {
             if (residenceType === 'rented' && committedToRent) return rentAmount > 0;
             if (residenceType === 'permanent' && payingHomeLoan) return homeLoanAmount > 0;
             return true;
         }
-        if (step === 3) return transportModes.length > 0;
-        if (step === 4) return true;
-        if (step === 5) return hasSavings ? savingsAmount > 0 : true;
+        if (step === 4) return transportModes.length > 0;
+        if (step === 5) return true;
+        if (step === 6) return hasSavings ? savingsAmount > 0 : true;
         return true;
     };
 
@@ -144,21 +149,15 @@ const OnboardingView: React.FC = () => {
 
     const handleFinish = async () => {
         setIsSubmitting(true);
-        // Map transport modes to commuteMethod
-        let commuteMethod: 'car' | 'transit' | 'hybrid' = 'car';
-        const hasCar = transportModes.includes('Private Vehicle') || transportModes.includes('Motorcycle');
-        const hasTransit = transportModes.includes('Public Transport') || transportModes.includes('Company Bus/Vehicle');
-        if (hasCar && hasTransit) commuteMethod = 'hybrid';
-        else if (hasTransit) commuteMethod = 'transit';
-        else commuteMethod = 'car';
-
         const totalBills = bills.reduce((acc, curr) => acc + curr.amount, 0);
 
         const data: Partial<UserProfile> = {
+            occupation: occupation,
+            householdSize: householdSize,
             savings: hasSavings ? savingsAmount : 0,
             income: moneyAmount,
             rent: residenceType === 'rented' ? (committedToRent ? rentAmount : 0) : (payingHomeLoan ? homeLoanAmount : 0),
-            commuteMethod: commuteMethod,
+            commuteMethod: transportModes,
             subscriptions: totalBills, // Saving bills into subscriptions/utilities could be refined
             smartGoals: onboardingGoals,
             food: foodExpenses,
@@ -178,11 +177,11 @@ const OnboardingView: React.FC = () => {
         return (
             <div className="flex items-center justify-between mb-8">
                 <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(s => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(s => (
                         <div key={s} className={`h-1.5 w-6 rounded-full transition-colors ${s === step ? 'bg-blue-600' : s < step ? 'bg-blue-800' : 'bg-[#1e293b]'}`} />
                     ))}
                 </div>
-                <div className="text-sm font-medium text-slate-400">Step {step} of 8</div>
+                <div className="text-sm font-medium text-slate-400">Step {step} of 9</div>
             </div>
         );
     };
@@ -206,7 +205,7 @@ const OnboardingView: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-[#0b101b] flex items-center justify-center p-4 font-sans text-slate-200 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4 font-sans text-slate-800 dark:text-slate-200 relative overflow-hidden transition-colors duration-200">
             {/* Notification Banner */}
             <div className={`fixed top-8 right-8 z-50 transition-all duration-700 ease-out max-w-xs sm:max-w-sm w-full bg-[#1e293b]/95 backdrop-blur-md border-l-4 border-blue-500 rounded-r-xl shadow-2xl flex items-start gap-3 sm:gap-4 p-4 sm:p-5 ${showBanner ? 'translate-x-0 opacity-100' : 'translate-x-[120%] opacity-0 pointer-events-none'}`}>
                 <div className="bg-blue-500/20 text-blue-400 p-2 rounded-lg shrink-0 mt-0.5">
@@ -224,8 +223,59 @@ const OnboardingView: React.FC = () => {
             <div className="bg-[#131b2f] border border-[#1e293b] rounded-[2rem] w-full max-w-lg p-8 shadow-2xl animate-fade-in relative overflow-hidden">
                 {renderStepNumbers()}
 
-                {/* Step 1: Income/Allowance */}
+                {/* Step 1: Identity */}
                 {step === 1 && (
+                    <div className="animate-slide-up">
+                        <h1 className="text-3xl font-bold text-white mb-2 tracking-tight leading-tight">Tell us a bit about yourself</h1>
+                        <p className="text-slate-400 mb-8 text-[15px]">This helps us personalize your financial insights and benchmarks.</p>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-3">
+                                    Occupation / Job Title
+                                </label>
+                                <input
+                                    type="text"
+                                    value={occupation}
+                                    onChange={(e) => setOccupation(e.target.value)}
+                                    className="w-full bg-[#111827] border border-slate-700/50 rounded-xl p-4 text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
+                                    placeholder="e.g. Software Engineer, Teacher, Student"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-3">
+                                    Household Size
+                                </label>
+                                <div className="flex items-center gap-4 bg-[#111827] border border-slate-700/50 rounded-xl p-2 shadow-inner">
+                                    <button
+                                        onClick={() => setHouseholdSize(Math.max(1, householdSize - 1))}
+                                        className="w-12 h-12 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-white transition-colors"
+                                    >
+                                        -
+                                    </button>
+                                    <div className="flex-1 text-center text-2xl font-bold text-white">
+                                        {householdSize}
+                                    </div>
+                                    <button
+                                        onClick={() => setHouseholdSize(householdSize + 1)}
+                                        className="w-12 h-12 rounded-lg bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white transition-colors"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <p className="text-xs text-slate-500 mt-2 text-center">Include yourself, spouse, and dependents.</p>
+                            </div>
+                        </div>
+
+                        <button onClick={handleNext} disabled={!canContinue()} className="w-full py-4 mt-8 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 disabled:cursor-not-allowed disabled:text-blue-200 text-white rounded-xl font-bold transition flex justify-center items-center gap-2">
+                            Continue <ArrowRight size={20} />
+                        </button>
+                    </div>
+                )}
+
+                {/* Step 2: Income/Allowance */}
+                {step === 2 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight leading-tight">How much is your monthly income/allocated monthly spending allowance?</h1>
                         <p className="text-slate-400 mb-8 text-[15px]">Choose between entering your total income or a spending allowance.</p>
@@ -247,14 +297,19 @@ const OnboardingView: React.FC = () => {
 
                         {renderInput(moneySource === 'income' ? 'MONTHLY INCOME' : 'MONTHLY ALLOWANCE', moneyAmount, setMoneyAmount)}
 
-                        <button onClick={handleNext} disabled={!canContinue()} className="w-full py-4 mt-8 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 disabled:cursor-not-allowed disabled:text-blue-200 text-white rounded-xl font-bold transition flex justify-center items-center gap-2">
-                            Continue <ArrowRight size={20} />
-                        </button>
+                        <div className="flex gap-4 mt-8">
+                            <button onClick={handlePrev} className="p-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition flex justify-center items-center shrink-0">
+                                <ArrowLeft size={20} />
+                            </button>
+                            <button onClick={handleNext} disabled={!canContinue()} className="flex-1 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 disabled:cursor-not-allowed disabled:text-blue-200 text-white rounded-xl font-bold transition flex justify-center items-center gap-2">
+                                Continue <ArrowRight size={20} />
+                            </button>
+                        </div>
                     </div>
                 )}
 
-                {/* Step 2: Residence */}
-                {step === 2 && (
+                {/* Step 3: Residence */}
+                {step === 3 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">What type of residence do you live in?</h1>
                         <p className="text-slate-400 mb-8 text-[15px]">Select your primary living arrangement.</p>
@@ -329,8 +384,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 3: Transport */}
-                {step === 3 && (
+                {/* Step 4: Transport */}
+                {step === 4 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">How do you usually get around?</h1>
                         <p className="text-slate-400 mb-6 text-[15px]">Select one or more modes of transport.</p>
@@ -373,8 +428,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 4: Bills */}
-                {step === 4 && (
+                {/* Step 5: Bills */}
+                {step === 5 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">What are your other commitments?</h1>
                         <p className="text-slate-400 mb-8 text-[15px]">List your recurring monthly bills (e.g. phone bill, car insurance).</p>
@@ -432,8 +487,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 5: Savings */}
-                {step === 5 && (
+                {/* Step 6: Savings */}
+                {step === 6 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Do you have any preset monthly savings?</h1>
                         <p className="text-slate-400 mb-8 text-[15px]">Select whether you allocate a specific amount for savings every month.</p>
@@ -475,8 +530,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 6: Smart Goals */}
-                {step === 6 && (
+                {/* Step 7: Smart Goals */}
+                {step === 7 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Any major financial goals?</h1>
                         <p className="text-slate-400 mb-6 text-[15px]">Buying a house, car, or starting a business? Add them here.</p>
@@ -487,18 +542,18 @@ const OnboardingView: React.FC = () => {
                                     {onboardingGoals.map((goal) => {
                                         const CatIcon = categories.find(c => c.name === goal.category)?.icon || Target;
                                         return (
-                                            <div key={goal.id} className="bg-[#111827] border border-slate-700/50 rounded-xl p-4 flex items-center justify-between group">
+                                            <div key={goal.id} className="bg-[#111827] border border-slate-700/50 rounded-xl p-5 flex items-center justify-between group">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-500">
-                                                        <CatIcon size={20} />
+                                                    <div className="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-500 shadow-inner">
+                                                        <CatIcon size={24} />
                                                     </div>
                                                     <div>
-                                                        <div className="text-sm font-bold text-white">{goal.name}</div>
-                                                        <div className="text-[11px] text-slate-500 font-bold uppercase tracking-tight">RM{goal.targetAmount.toLocaleString()} • {goal.deadlineMonths} Mo</div>
+                                                        <div className="text-base font-bold text-white mb-0.5">{goal.name}</div>
+                                                        <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">RM{goal.targetAmount.toLocaleString()} • {goal.deadlineMonths} Mo</div>
                                                     </div>
                                                 </div>
-                                                <button onClick={() => removeOnboardingGoal(goal.id)} className="text-slate-500 hover:text-red-500 p-2">
-                                                    <X size={18} />
+                                                <button onClick={() => removeOnboardingGoal(goal.id)} className="text-slate-500 hover:text-red-500 p-2 transition-colors rounded-lg hover:bg-slate-800">
+                                                    <X size={20} />
                                                 </button>
                                             </div>
                                         );
@@ -507,17 +562,17 @@ const OnboardingView: React.FC = () => {
 
                                 <button
                                     onClick={() => setIsAddingOnboardingGoal(true)}
-                                    className="w-full py-4 border-2 border-dashed border-slate-700/50 rounded-xl flex items-center justify-center gap-2 text-slate-400 hover:border-blue-500 hover:text-blue-400 transition-all font-bold"
+                                    className="w-full py-5 border-2 border-dashed border-slate-700/50 rounded-xl flex items-center justify-center gap-3 text-slate-400 hover:border-blue-500 hover:text-blue-400 transition-all font-bold text-lg"
                                 >
-                                    <Plus size={20} /> Add A Smart Goal
+                                    <Plus size={24} /> Add A Smart Goal
                                 </button>
                             </div>
                         ) : (
                             <div className="bg-[#111827] border border-blue-500/30 rounded-2xl p-6 animate-fade-in">
                                 <div className="space-y-5">
                                     <div>
-                                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Category</label>
-                                        <div className="grid grid-cols-4 gap-2">
+                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Category</label>
+                                        <div className="grid grid-cols-4 gap-3">
                                             {categories.map(cat => {
                                                 const Icon = cat.icon;
                                                 const active = newOnboardingGoal.category === cat.name;
@@ -525,50 +580,50 @@ const OnboardingView: React.FC = () => {
                                                     <button
                                                         key={cat.name}
                                                         onClick={() => setNewOnboardingGoal({ ...newOnboardingGoal, category: cat.name })}
-                                                        className={`p-2 rounded-lg border flex flex-col items-center gap-1 transition-all ${active ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-[#0b101b] border-slate-800 text-slate-600'}`}
+                                                        className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${active ? 'bg-blue-600/20 border-blue-500 text-blue-400 shadow-inner' : 'bg-[#0b101b] border-slate-800 text-slate-500 hover:bg-[#111827]'}`}
                                                     >
-                                                        <Icon size={16} />
-                                                        <span className="text-[8px] font-bold uppercase truncate w-full text-center">{cat.name.split('/')[0]}</span>
+                                                        <Icon size={20} />
+                                                        <span className="text-[10px] font-bold uppercase truncate w-full text-center">{cat.name.split('/')[0]}</span>
                                                     </button>
                                                 )
                                             })}
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Goal Name</label>
+                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Goal Name</label>
                                         <input
                                             type="text"
                                             value={newOnboardingGoal.name}
                                             onChange={e => setNewOnboardingGoal({ ...newOnboardingGoal, name: e.target.value })}
-                                            className="w-full bg-[#0b101b] border border-slate-700 p-3 rounded-lg text-white font-bold text-sm focus:border-blue-500 focus:outline-none"
+                                            className="w-full bg-[#0b101b] border border-slate-700 p-4 rounded-xl text-white font-bold text-base focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                             placeholder="e.g. New Car Deposit"
                                         />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Target (RM)</label>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Target (RM)</label>
                                             <input
                                                 type="number"
                                                 value={newOnboardingGoal.targetAmount || ''}
                                                 onChange={e => setNewOnboardingGoal({ ...newOnboardingGoal, targetAmount: Number(e.target.value) })}
-                                                className="w-full bg-[#0b101b] border border-slate-700 p-3 rounded-lg text-white font-bold text-sm focus:border-blue-500 focus:outline-none"
+                                                className="w-full bg-[#0b101b] border border-slate-700 p-4 rounded-xl text-white font-bold text-base focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                                 placeholder="10000"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Months: {newOnboardingGoal.deadlineMonths}</label>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Months: <span className="text-white">{newOnboardingGoal.deadlineMonths}</span></label>
                                             <input
                                                 type="range"
                                                 min="1" max="60"
                                                 value={newOnboardingGoal.deadlineMonths}
                                                 onChange={e => setNewOnboardingGoal({ ...newOnboardingGoal, deadlineMonths: Number(e.target.value) })}
-                                                className="w-full mt-2 accent-blue-500"
+                                                className="w-full mt-3 accent-blue-500"
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex gap-3 pt-2">
-                                        <button onClick={() => setIsAddingOnboardingGoal(false)} className="flex-1 py-3 bg-slate-800 text-white rounded-lg font-bold">Cancel</button>
-                                        <button onClick={handleAddOnboardingGoal} className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-bold">Add Goal</button>
+                                    <div className="flex gap-4 pt-4">
+                                        <button onClick={() => setIsAddingOnboardingGoal(false)} className="flex-1 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold text-base transition-colors">Cancel</button>
+                                        <button onClick={handleAddOnboardingGoal} className="flex-1 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-base transition-colors shadow-lg shadow-blue-500/20">Add Goal</button>
                                     </div>
                                 </div>
                             </div>
@@ -585,8 +640,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 7: Food Expenses */}
-                {step === 7 && (
+                {/* Step 8: Food Expenses */}
+                {step === 8 && (
                     <div className="animate-slide-up">
                         <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">How much is your estimated monthly personal & food expenses?</h1>
                         <p className="text-slate-400 mb-8 text-[15px]">Are your current expenses for this category higher or lower?</p>
@@ -619,8 +674,8 @@ const OnboardingView: React.FC = () => {
                     </div>
                 )}
 
-                {/* Step 8: Finish */}
-                {step === 8 && (
+                {/* Step 9: Finish */}
+                {step === 9 && (
                     <div className="animate-slide-up">
                         <div className="text-center mb-10">
                             <div className="w-20 h-20 bg-blue-600/20 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 relative">
