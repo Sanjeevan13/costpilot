@@ -48,6 +48,57 @@ CostPilot contributes to global sustainability by aligning with key UN SDGs:
 ---
 
 ## 5. Setup Instructions
+### Prerequisites
+
+Before running the project locally, ensure you have the following installed:
+
+- **Node.js** (v18 or higher) — https://nodejs.org/
+- **npm** (comes with Node.js)
+- A **Gemini API Key** — https://aistudio.google.com/app/apikey
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Sanjeevan13/costpilot.git
+cd costpilot
+```
+
+### 2. Install Frontend Dependencies
+From the root directory:
+```bash
+npm install
+```
+
+### 3. Install Backend Dependencies
+```bash
+cd backend
+npm install
+cd ..
+```
+
+### 4. Configure Environment Variables
+Create a .env file inside the backend/ folder:
+```
+backend/.env
+```
+Add the following:
+```env
+PORT=3001
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+Important:
+> Replace `your_gemini_api_key_here` with your actual Gemini API key.
+
+### 5. Run the Application
+From the root directory, start both frontend and backend concurrently:
+```bash
+npm run dev
+```
+This will launch:
+| Service  | URL                                            |
+| -------- | ---------------------------------------------- |
+| Frontend | http://localhost:3000 |
+| Backend  | http://localhost:3001 |
 
 
 ---
