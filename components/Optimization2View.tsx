@@ -248,6 +248,7 @@ const OptimizationView2: React.FC<OptimizationViewProps> = ({ userProfile, updat
                         <SubsidiesSection
                             userProfile={userProfile}
                             updateProfile={updateProfile}
+                            setView={setView}
                         />
                     ) : (
                         /* === LIFESTYLE SECTOR === */

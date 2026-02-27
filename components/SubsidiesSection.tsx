@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { UserProfile, ClaimedSubsidy } from '../types';
+import { UserProfile, ClaimedSubsidy, ViewState } from '../types';
 import { api } from '../services/api';
 import {
     Receipt, CheckCircle2, AlertTriangle, ExternalLink, Loader2,
@@ -10,6 +10,7 @@ import {
 interface SubsidiesSectionProps {
     userProfile: UserProfile;
     updateProfile: (data: Partial<UserProfile>) => Promise<void>;
+    setView?: (view: ViewState) => void;
 }
 
 const CATEGORY_STYLES: Record<string, { icon: React.ReactNode; color: string; bg: string; border: string }> = {
@@ -38,7 +39,7 @@ const STATE_OPTIONS = [
     'W.P. Labuan', 'W.P. Putrajaya',
 ];
 
-const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, updateProfile }) => {
+const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, updateProfile, setView }) => {
     const [loading, setLoading] = useState(true);
     const [matches, setMatches] = useState<any[]>([]);
     const [needsInfo, setNeedsInfo] = useState<any[]>([]);
@@ -344,8 +345,12 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                 </div>
                                 <button
                                     onClick={() => {
-                                        setPendingUnlock(sub);
-                                        setFieldInputs({});
+                                        if (setView) {
+                                            setView(ViewState.SETTINGS);
+                                        } else {
+                                            setPendingUnlock(sub);
+                                            setFieldInputs({});
+                                        }
                                     }}
                                     className="w-full font-bold text-xs tracking-widest uppercase border border-amber-500/25 bg-amber-500/5 text-amber-400 py-3 rounded-xl transition-all hover:bg-amber-500/15 flex items-center justify-center gap-2"
                                 >

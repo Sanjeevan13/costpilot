@@ -26,6 +26,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
     'Company Bus/Vehicle'
   ];
 
+  const STATE_OPTIONS = [
+    'Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan',
+    'Pahang', 'Perak', 'Perlis', 'Pulau Pinang', 'Sabah',
+    'Sarawak', 'Selangor', 'Terengganu', 'W.P. Kuala Lumpur',
+    'W.P. Labuan', 'W.P. Putrajaya',
+  ];
+
   const currentModes = Array.isArray(formData.commuteMethod)
     ? formData.commuteMethod
     : [formData.commuteMethod].filter(Boolean) as string[];
@@ -152,15 +159,43 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
               </div>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-500 tracking-wider uppercase mb-2">Household Size</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={formData.householdSize || 1}
+                  onChange={(e) => handleChange('householdSize', parseInt(e.target.value))}
+                  className="w-full bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 text-slate-800 dark:text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-500 tracking-wider uppercase mb-2">Age</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={formData.age || ''}
+                  onChange={(e) => handleChange('age', parseInt(e.target.value))}
+                  className="w-full bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 text-slate-800 dark:text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="e.g. 25"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-[11px] font-bold text-slate-500 tracking-wider uppercase mb-2">Household Size</label>
-              <input
-                type="number"
-                min="1"
-                value={formData.householdSize || 1}
-                onChange={(e) => handleChange('householdSize', parseInt(e.target.value))}
-                className="w-full bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 text-slate-800 dark:text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors"
-              />
+              <label className="block text-[11px] font-bold text-slate-500 tracking-wider uppercase mb-2">State</label>
+              <select
+                value={formData.state || ''}
+                onChange={(e) => handleChange('state', e.target.value)}
+                className="w-full bg-white dark:bg-[#0b101b] border border-slate-200 dark:border-slate-700/50 rounded-xl p-4 text-slate-800 dark:text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+              >
+                <option value="">Select your state</option>
+                {STATE_OPTIONS.map(st => (
+                  <option key={st} value={st}>{st}</option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
