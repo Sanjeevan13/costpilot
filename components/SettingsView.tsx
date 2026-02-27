@@ -86,6 +86,19 @@ const SettingsView: React.FC<SettingsViewProps> = ({ userProfile }) => {
         photoUrl: finalPhotoUrl
       };
 
+      // Sanitize numeric fields to ensure we don't save empty strings or NaNs to the database.
+      const numberFields = [
+        'income', 'rent', 'utilities', 'transportCost',
+        'food', 'debt', 'subscriptions', 'savings',
+        'emergencySavings', 'age', 'householdSize'
+      ];
+      numberFields.forEach(field => {
+        if (updateData[field] !== undefined) {
+          const val = Number(updateData[field]);
+          updateData[field] = isNaN(val) ? 0 : val;
+        }
+      });
+
       if (hasFinancialChange) {
         updateData.optimizedCategories = [];
       }

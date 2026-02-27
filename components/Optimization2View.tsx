@@ -43,14 +43,14 @@ const OptimizationView2: React.FC<OptimizationViewProps> = ({ userProfile, updat
         setError(null);
         try {
             const inputs: MonthlyInputs = {
-                incomeMonthly: userProfile.income || 0,
-                rentMonthly: userProfile.rent || 0,
-                utilitiesMonthly: userProfile.utilities || 0,
-                transportMonthly: userProfile.transportCost || 0,
-                foodMonthly: userProfile.food || 0,
-                debtMonthly: userProfile.debt || 0,
-                subscriptionsMonthly: userProfile.subscriptions || 0,
-                savingsBalance: userProfile.savings || 0
+                incomeMonthly: Number(userProfile.income) || 0,
+                rentMonthly: Number(userProfile.rent) || 0,
+                utilitiesMonthly: Number(userProfile.utilities) || 0,
+                transportMonthly: Number(userProfile.transportCost) || 0,
+                foodMonthly: Number(userProfile.food) || 0,
+                debtMonthly: Number(userProfile.debt) || 0,
+                subscriptionsMonthly: Number(userProfile.subscriptions) || 0,
+                savingsBalance: Number(userProfile.savings) || 0
             };
 
             const fullProfile = { ...inputs, ...userProfile };

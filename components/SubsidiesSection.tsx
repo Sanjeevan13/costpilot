@@ -59,11 +59,11 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
         setError(null);
         try {
             const fullProfile = {
-                incomeMonthly: userProfile.income || 0,
-                income: userProfile.income || 0,
-                age: userProfile.age || 0,
+                incomeMonthly: Number(userProfile.income) || 0,
+                income: Number(userProfile.income) || 0,
+                age: Number(userProfile.age) || 0,
                 employmentStatus: userProfile.employmentStatus || '',
-                householdSize: userProfile.householdSize || 1,
+                householdSize: Number(userProfile.householdSize) || 1,
                 state: userProfile.state || '',
             };
             const result = await api.matchSubsidies(fullProfile);
