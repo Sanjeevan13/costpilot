@@ -84,6 +84,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                         }
                     }
                 }
+
+                // Force numeric fields to be numbers to prevent React rendering crashes (e.g. .toFixed on strings)
+                const numericFields = ['income', 'rent', 'utilities', 'transportCost', 'food', 'debt', 'subscriptions', 'savings', 'emergencySavings', 'age', 'householdSize', 'commuteDistanceKm'];
+                for (const field of numericFields) {
+                    if (decryptedData[field] !== undefined && decryptedData[field] !== null) {
+                        decryptedData[field] = Number(decryptedData[field]) || 0;
+                    }
+                }
+
                 setUserProfile(decryptedData as UserProfile);
             } else {
                 // Create default profile if it doesn't exist
