@@ -1,7 +1,20 @@
 <div align="center">
   <img src="public/assets/costpilotgithublogo.png" alt="CostPilot Logo" width="800">
 </div>
+<p align="center">
+  <strong>Live Demo: <a href="https://www.costpilot.vercel.app">https://www.costpilot.vercel.app</a></strong>
+</p>
 
+## Table of Contents
+- [1. Introduction](#1-introduction)
+- [2. Key Features](#2-key-features)
+- [3. UN Sustainable Development Goals (SDGs)](#3-un-sustainable-development-goals-sdgs)
+- [4. Technical Deep Dive](#4-technical-deep-dive)
+- [5. Core Innovations](#5-core-innovations)
+- [6. Challenges Faced & Engineering Solutions](#6-challenges-faced--engineering-solutions)
+- [7. Setup Instructions](#7-setup-instructions)
+
+---
 
 ## 1. Introduction
 CostPilot is a financial optimization platform designed to help users manage their money smarter. Beyond tracking expenses, it intelligently optimizes across **transport, lifestyle, and accommodation**, while also integrating **subsidies you may qualify for but didn’t know existed**. With AI-guided savings and investment options, CostPilot empowers users to set **smart goals** and achieve wealth targets with personalized strategies.
