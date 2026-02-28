@@ -180,6 +180,35 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
     const invPct = 100 - savePct;
     const invBudget = Math.round(optimizedMonthly * (invPct / 100));
 
+    const isShort = goalType === 'short';
+    // totalMonths already declared in pre-declarations for scope consistency
+
+    // Determine total dynamic investment options list (AI + fallbacks)
+    const investmentOptionsList = React.useMemo(() => {
+        const aiOptions = strategyData?.identified_instruments?.[1]?.examples || [];
+        const budgetFallbacks = [
+            { name: "ASNB (ASM/ASB - Fixed Price)", estimated_rate: 5.25, price_per_unit: 1.00, cost_per_lot: 100.00, roe: 0, dividend_yield: 5.25, url: "https://www.asnb.com.my/v3/pages/products/fixed-price-funds/" },
+            { name: "ASNB ASN Sara 1 (Variable)", estimated_rate: 4.80, price_per_unit: 1.15, cost_per_lot: 119.34, roe: 0, dividend_yield: 4.5, url: "https://www.asnb.com.my/v3/pages/products/variable-price-funds/asnsara1/" },
+            { name: "Public Bank Berhad", estimated_rate: 5.5, price_per_unit: 5.04, cost_per_lot: 514.29, roe: 13.5, dividend_yield: 4.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=1295" },
+            { name: "Maybank Berhad", estimated_rate: 6.5, price_per_unit: 10.62, cost_per_lot: 1073.50, roe: 14.5, dividend_yield: 5.2, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=1155" },
+            { name: "Tenaga Nasional", estimated_rate: 5.0, price_per_unit: 14.38, cost_per_lot: 1451.20, roe: 10.2, dividend_yield: 3.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=5347" },
+            { name: "Axiata Group", estimated_rate: 4.5, price_per_unit: 2.85, cost_per_lot: 295.80, roe: 6.5, dividend_yield: 4.2, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=6888" },
+            { name: "Dialog Group", estimated_rate: 4.8, price_per_unit: 2.22, cost_per_lot: 232.00, roe: 11.2, dividend_yield: 2.4, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=7277" },
+            { name: "YTL Corporation", estimated_rate: 4.2, price_per_unit: 2.15, cost_per_lot: 225.00, roe: 8.5, dividend_yield: 3.0, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=4677" },
+            { name: "Genting Malaysia", estimated_rate: 5.2, price_per_unit: 2.72, cost_per_lot: 283.00, roe: 7.2, dividend_yield: 5.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=4715" },
+            { name: "Capital A (AirAsia)", estimated_rate: 7.0, price_per_unit: 0.98, cost_per_lot: 108.50, roe: -5.0, dividend_yield: 0.0, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=5099" },
+            { name: "MyEG Services", estimated_rate: 5.8, price_per_unit: 0.88, cost_per_lot: 98.20, roe: 22.0, dividend_yield: 1.8, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=0138" }
+        ];
+
+        const merged = [...aiOptions];
+        budgetFallbacks.forEach(fb => {
+            if (!merged.find((m: any) => (m.name || m) === fb.name)) {
+                merged.push(fb);
+            }
+        });
+        return merged;
+    }, [strategyData]);
+
     const toggleInvestmentOption = (idx: number, costPerLot: number) => {
         setInvestmentBasket(prev => {
             const current = { ...prev };
@@ -188,7 +217,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
             } else {
                 // Check if at least 1 lot fits in budget
                 const totalSpent = Object.entries(current).reduce((acc: number, [i, lots]) => {
-                    const price: any = (strategyData?.identified_instruments?.[1]?.examples?.[Number(i)] as any)?.cost_per_lot || 0;
+                    const price: any = (investmentOptionsList[Number(i)] as any)?.cost_per_lot || 0;
                     return acc + (price * (lots as any));
                 }, 0);
 
@@ -211,7 +240,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
 
             const totalSpentExcludingThis = Object.entries(current).reduce((acc: number, [i, lots]) => {
                 if (Number(i) === idx) return acc;
-                const price: any = (strategyData?.identified_instruments?.[1]?.examples?.[Number(i)] as any)?.cost_per_lot || 0;
+                const price: any = (investmentOptionsList[Number(i)] as any)?.cost_per_lot || 0;
                 return acc + (price * (lots as any));
             }, 0);
 
@@ -223,12 +252,9 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
     };
 
     const totalInvested = Object.entries(investmentBasket).reduce((acc: number, [i, lots]) => {
-        const price: any = (strategyData?.identified_instruments?.[1]?.examples?.[Number(i)] as any)?.cost_per_lot || 0;
+        const price: any = (investmentOptionsList[Number(i)] as any)?.cost_per_lot || 0;
         return acc + (price * (lots as any));
     }, 0);
-
-    const isShort = goalType === 'short';
-    // totalMonths already declared in pre-declarations for scope consistency
 
     const handleConfirmStrategy = () => {
         const remaining = invBudget - totalInvested;
@@ -1088,31 +1114,30 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {(() => {
-                                        const aiOptions = strategyData?.identified_instruments?.[1]?.examples || [];
-                                        const budgetFallbacks = [
-                                            { name: "ASNB (ASM/ASB - Fixed Price)", estimated_rate: 5.25, price_per_unit: 1.00, cost_per_lot: 100.00, roe: 0, dividend_yield: 5.25, url: "https://www.asnb.com.my/v3/pages/products/fixed-price-funds/" },
-                                            { name: "ASNB ASN Sara 1 (Variable)", estimated_rate: 4.80, price_per_unit: 1.15, cost_per_lot: 119.34, roe: 0, dividend_yield: 4.5, url: "https://www.asnb.com.my/v3/pages/products/variable-price-funds/asnsara1/" },
-                                            { name: "Public Bank Berhad", estimated_rate: 5.5, price_per_unit: 5.04, cost_per_lot: 514.29, roe: 13.5, dividend_yield: 4.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=1295" },
-                                            { name: "Maybank Berhad", estimated_rate: 6.5, price_per_unit: 10.62, cost_per_lot: 1073.50, roe: 14.5, dividend_yield: 5.2, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=1155" },
-                                            { name: "Tenaga Nasional", estimated_rate: 5.0, price_per_unit: 14.38, cost_per_lot: 1451.20, roe: 10.2, dividend_yield: 3.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=5347" },
-                                            { name: "Axiata Group", estimated_rate: 4.5, price_per_unit: 2.85, cost_per_lot: 295.80, roe: 6.5, dividend_yield: 4.2, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=6888" },
-                                            { name: "Dialog Group", estimated_rate: 4.8, price_per_unit: 2.22, cost_per_lot: 232.00, roe: 11.2, dividend_yield: 2.4, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=7277" },
-                                            { name: "YTL Corporation", estimated_rate: 4.2, price_per_unit: 2.15, cost_per_lot: 225.00, roe: 8.5, dividend_yield: 3.0, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=4677" },
-                                            { name: "Genting Malaysia", estimated_rate: 5.2, price_per_unit: 2.72, cost_per_lot: 283.00, roe: 7.2, dividend_yield: 5.5, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=4715" },
-                                            { name: "Capital A (AirAsia)", estimated_rate: 7.0, price_per_unit: 0.98, cost_per_lot: 108.50, roe: -5.0, dividend_yield: 0.0, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=5099" },
-                                            { name: "MyEG Services", estimated_rate: 5.8, price_per_unit: 0.88, cost_per_lot: 98.20, roe: 22.0, dividend_yield: 1.8, url: "https://www.bursamalaysia.com/trade/trading_resources/listing_directory/company-profile?stock_code=0138" }
-                                        ];
+                                    {investmentOptionsList
+                                        .map((opt: any, originalIndex: number) => ({ ...opt, _originalIndex: originalIndex })) // Store original index for investmentBasket lookup
+                                        .sort((a: any, b: any) => {
+                                            // Sort logic: Affordable options first, then sort by highest estimated rate
+                                            const costA = a.cost_per_lot || 0;
+                                            const costB = b.cost_per_lot || 0;
 
-                                        // Merge and Deduplicate by name
-                                        const merged = [...aiOptions];
-                                        budgetFallbacks.forEach(fb => {
-                                            if (!merged.find((m: any) => (m.name || m) === fb.name)) {
-                                                merged.push(fb);
-                                            }
-                                        });
+                                            const lotsA = investmentBasket[a._originalIndex] || 0;
+                                            const lotsB = investmentBasket[b._originalIndex] || 0;
 
-                                        return merged.slice(0, showAllOptions ? 20 : 4).map((option: any, idx) => {
+                                            const canAffordA = (totalInvested - (lotsA * costA) + costA) <= invBudget;
+                                            const canAffordB = (totalInvested - (lotsB * costB) + costB) <= invBudget;
+
+                                            if (canAffordA && !canAffordB) return -1;
+                                            if (!canAffordA && canAffordB) return 1;
+
+                                            // If both are affordable or both unaffordable, sort by estimated rate (highest first)
+                                            const rateA = typeof a.estimated_rate === 'number' ? a.estimated_rate : 6.0;
+                                            const rateB = typeof b.estimated_rate === 'number' ? b.estimated_rate : 6.0;
+                                            return rateB - rateA;
+                                        })
+                                        .slice(0, showAllOptions ? 20 : 4)
+                                        .map((option: any) => {
+                                            const idx = option._originalIndex;
                                             const optionName = typeof option === 'string' ? option : option.name;
                                             const optionRate = typeof option === 'string' ? 6.0 : (option.estimated_rate || 6.0);
                                             const optionUrl = typeof option === 'string' ? "#" : (option.url || "#");
@@ -1160,19 +1185,37 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                             <div>
                                                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 line-clamp-2">{optionName}</h3>
                                                                 <div className="flex justify-between items-center bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl px-5 py-5 mt-3">
-                                                                    {/* ROE Tooltip */}
+                                                                    {/* Dynamic Metric: ROE vs Type (for ASNB) */}
                                                                     <div className="text-center group/tooltip relative cursor-help">
-                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-black tracking-widest mb-1">ROE</p>
-                                                                        <p className="text-xl text-slate-900 dark:text-white">{roe}%</p>
-                                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
-                                                                            <div className="relative z-10 text-left">
-                                                                                <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">ROE (Return on Equity)</p>
-                                                                                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
-                                                                                    Measures how efficiently a company uses shareholders’ money to generate profit. Higher ROE generally indicates stronger profitability.
-                                                                                </p>
-                                                                            </div>
-                                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-slate-900 border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
-                                                                        </div>
+                                                                        {optionName.includes('ASNB') ? (
+                                                                            <>
+                                                                                <p className="text-xs text-slate-500 dark:text-slate-400 text-center uppercase font-black tracking-widest mb-1">TYPE</p>
+                                                                                <p className="text-sm font-black text-slate-900 dark:text-white mt-1.5">{optionName.includes('Fixed') ? 'Fixed' : 'Variable'}</p>
+                                                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                                    <div className="relative z-10 text-left">
+                                                                                        <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">Fund Type</p>
+                                                                                        <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+                                                                                            Fixed price funds (RM1.00/unit) guarantee your capital but have limited units. Variable price funds fluctuate in price daily like standard unit trusts.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-slate-900 border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                                </div>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-black tracking-widest mb-1">ROE</p>
+                                                                                <p className="text-xl text-slate-900 dark:text-white">{roe}%</p>
+                                                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl dark:shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-300 z-[100] backdrop-blur-xl">
+                                                                                    <div className="relative z-10 text-left">
+                                                                                        <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm mb-2">ROE (Return on Equity)</p>
+                                                                                        <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+                                                                                            Measures how efficiently a company uses shareholders’ money to generate profit. Higher ROE generally indicates stronger profitability.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-white dark:bg-slate-900 border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -mt-1.5"></div>
+                                                                                </div>
+                                                                            </>
+                                                                        )}
                                                                     </div>
                                                                     <div className="h-10 w-px bg-slate-200 dark:bg-white/10"></div>
 
@@ -1288,7 +1331,7 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                             )}
 
                                                             <a
-                                                                href={optionUrl !== "#" ? optionUrl : `https://www.google.com/search?q=${encodeURIComponent(optionName + ' share price bursa malaysia')}`}
+                                                                href={optionName.includes('ASNB') ? `https://www.google.com/search?q=${encodeURIComponent(optionName + ' investment options in malaysia')}` : (optionUrl !== "#" ? optionUrl : `https://www.google.com/search?q=${encodeURIComponent(optionName + ' share price bursa malaysia')}`)}
                                                                 target="_blank"
                                                                 rel="noreferrer"
                                                                 className="w-full py-4 flex items-center justify-center rounded-2xl font-bold text-sm transition-all bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-white text-slate-500 dark:text-slate-400 active:scale-95 shadow-sm"
@@ -1299,10 +1342,9 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                                     </div>
                                                 </div>
                                             )
-                                        })
-                                    })()}
+                                        })}
                                     {/* Discovery Section for Low Budgets */}
-                                    {!showAllOptions && Object.keys(investmentBasket).length === 0 && (strategyData?.identified_instruments?.[1]?.examples || []).filter((opt: any) => (opt.cost_per_lot || 0) > invBudget).length >= 2 && (
+                                    {!showAllOptions && Object.keys(investmentBasket).length === 0 && investmentOptionsList.filter((opt: any) => (opt.cost_per_lot || 0) > invBudget).length >= 2 && (
                                         <div className="col-span-full mt-10 p-10 bg-gradient-to-br from-amber-50 dark:from-amber-500/5 to-transparent border border-amber-200 dark:border-amber-500/20 rounded-[3rem] text-center animate-fade-in shadow-sm dark:shadow-2xl dark:shadow-amber-500/5 transition-colors duration-300">
                                             <div className="w-20 h-20 bg-amber-100 dark:bg-amber-500/10 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-500 mx-auto mb-6 border border-amber-200 dark:border-amber-500/20 shadow-inner">
                                                 <Zap size={40} />
@@ -1368,7 +1410,15 @@ const WealthPlusView: React.FC<WealthPlusViewProps> = ({ userProfile, updateProf
                                 <div className="flex flex-col gap-4">
                                     <button
                                         onClick={() => {
-                                            // User says YES - allocate everything to savings (technically we just save the strategy with whatever they have)
+                                            // 1. Calculate the exact unallocated amount
+                                            const unallocatedAmt = invBudget - totalInvested;
+                                            // 2. Convert this amount to a percentage of the total overall monthly budget
+                                            const additionalSavePct = (unallocatedAmt / optimizedMonthly) * 100;
+
+                                            // 3. Update the savings slider percentage to force the split
+                                            // This automatically recalculates invPct and invBudget to exactly match totalInvested
+                                            setManualSavePct(Math.min(100, Math.round(savePct + additionalSavePct)));
+
                                             setShowBalancePrompt(false);
                                             setShowConfirmModal(true);
                                         }}

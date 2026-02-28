@@ -54,17 +54,18 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
 
     const claimedIds = new Set((userProfile.claimedSubsidies || []).map(s => s.programId));
 
-    const fetchSubsidies = useCallback(async () => {
+    const fetchSubsidies = useCallback(async (optimisticPatch?: Partial<UserProfile>) => {
         setLoading(true);
         setError(null);
         try {
+            const currentProfile = { ...userProfile, ...optimisticPatch };
             const fullProfile = {
-                incomeMonthly: Number(userProfile.income) || 0,
-                income: Number(userProfile.income) || 0,
-                age: Number(userProfile.age) || 0,
-                employmentStatus: userProfile.employmentStatus || '',
-                householdSize: Number(userProfile.householdSize) || 1,
-                state: userProfile.state || '',
+                incomeMonthly: Number(currentProfile.income) || 0,
+                income: Number(currentProfile.income) || 0,
+                age: Number(currentProfile.age) || 0,
+                employmentStatus: currentProfile.employmentStatus || '',
+                householdSize: Number(currentProfile.householdSize) || 1,
+                state: currentProfile.state || '',
             };
             const result = await api.matchSubsidies(fullProfile);
             setMatches(result.matches || []);
@@ -80,7 +81,7 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
         } finally {
             setLoading(false);
         }
-    }, [userProfile.income, userProfile.age, userProfile.employmentStatus, userProfile.householdSize, userProfile.state]);
+    }, [userProfile]);
 
     useEffect(() => {
         fetchSubsidies();
@@ -121,6 +122,11 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
 
     const handleUnlockSubmit = async () => {
         if (!pendingUnlock) return;
+
+        // Immediately show loading overlay to show the page is rescanning
+        setLoading(true);
+        setPendingUnlock(null);
+
         const patch: Partial<UserProfile> = {};
         const fields = pendingUnlock.missingFields || [];
         fields.forEach((f: string) => {
@@ -132,11 +138,13 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
             if (f === 'householdSize') patch.householdSize = Number(val);
             if (f === 'employmentStatus') patch.employmentStatus = val as any;
         });
+
+        // Wait for profile update to actually finish
         await updateProfile(patch);
-        setPendingUnlock(null);
         setFieldInputs({});
-        // Re-fetch after profile update
-        setTimeout(fetchSubsidies, 500);
+
+        // Now trigger the full rescan which naturally toggles setLoading(false)
+        await fetchSubsidies(patch);
     };
 
     const catStyle = (category: string) => CATEGORY_STYLES[category] || CATEGORY_STYLES['Cash Aid'];
@@ -182,64 +190,66 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
 
             {/* Missing Field Prompt Modal */}
             {pendingUnlock && (
-                <div className="animate-fade-in bg-white dark:bg-[#1a1238] rounded-2xl border border-slate-200 dark:border-[#a07cf6]/30 p-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <HelpCircle size={18} className="text-amber-500 dark:text-amber-400" />
-                            More info needed for: {pendingUnlock.name}
-                        </h4>
-                        <button onClick={() => setPendingUnlock(null)} className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <X size={18} />
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white dark:bg-[#1a1238] rounded-3xl border border-slate-200 dark:border-[#a07cf6]/30 p-8 space-y-6 max-w-md w-full shadow-2xl relative">
+                        <div className="flex items-center justify-between">
+                            <h4 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <HelpCircle size={22} className="text-amber-500 dark:text-amber-400" />
+                                Needs More Info
+                            </h4>
+                            <button onClick={() => setPendingUnlock(null)} className="text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 p-2 rounded-full transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                            We need a few more details to check your eligibility for <span className="font-bold text-slate-700 dark:text-white/80">{pendingUnlock.name}</span>.
+                        </p>
+                        <div className="space-y-3">
+                            {(pendingUnlock.missingFields || []).map((field: string) => (
+                                <div key={field}>
+                                    <label className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5 block">
+                                        {FIELD_LABELS[field] || field}
+                                    </label>
+                                    {field === 'state' ? (
+                                        <select
+                                            className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
+                                            value={fieldInputs[field] || ''}
+                                            onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
+                                        >
+                                            <option value="">Select your state</option>
+                                            {STATE_OPTIONS.map(st => <option key={st} value={st}>{st}</option>)}
+                                        </select>
+                                    ) : field === 'employmentStatus' ? (
+                                        <select
+                                            className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
+                                            value={fieldInputs[field] || ''}
+                                            onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
+                                        >
+                                            <option value="">Select status</option>
+                                            <option value="employed">Employed</option>
+                                            <option value="self-employed">Self-Employed</option>
+                                            <option value="student">Student</option>
+                                            <option value="unemployed">Unemployed</option>
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="number"
+                                            className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
+                                            value={fieldInputs[field] || ''}
+                                            onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
+                                            placeholder={`Enter ${FIELD_LABELS[field] || field}`}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <button
+                            onClick={handleUnlockSubmit}
+                            className="w-full py-4 rounded-xl bg-gradient-to-r from-[#b55cff] to-[#8c35ff] text-white text-sm font-black uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2 mt-4"
+                        >
+                            <CheckCircle2 size={18} /> Update Profile & Re-scan
                         </button>
                     </div>
-                    <p className="text-sm text-slate-400">
-                        We need a few more details to check your eligibility for this subsidy.
-                    </p>
-                    <div className="space-y-3">
-                        {(pendingUnlock.missingFields || []).map((field: string) => (
-                            <div key={field}>
-                                <label className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1.5 block">
-                                    {FIELD_LABELS[field] || field}
-                                </label>
-                                {field === 'state' ? (
-                                    <select
-                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
-                                        value={fieldInputs[field] || ''}
-                                        onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
-                                    >
-                                        <option value="">Select your state</option>
-                                        {STATE_OPTIONS.map(st => <option key={st} value={st}>{st}</option>)}
-                                    </select>
-                                ) : field === 'employmentStatus' ? (
-                                    <select
-                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
-                                        value={fieldInputs[field] || ''}
-                                        onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
-                                    >
-                                        <option value="">Select status</option>
-                                        <option value="employed">Employed</option>
-                                        <option value="self-employed">Self-Employed</option>
-                                        <option value="student">Student</option>
-                                        <option value="unemployed">Unemployed</option>
-                                    </select>
-                                ) : (
-                                    <input
-                                        type="number"
-                                        className="w-full bg-slate-50 dark:bg-[#120b22] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500 dark:focus:border-[#a07cf6]/50 transition-all"
-                                        value={fieldInputs[field] || ''}
-                                        onChange={e => setFieldInputs(prev => ({ ...prev, [field]: e.target.value }))}
-                                        placeholder={`Enter ${FIELD_LABELS[field] || field}`}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <button
-                        onClick={handleUnlockSubmit}
-                        className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#b55cff] to-[#8c35ff] text-white text-sm font-black uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2"
-                    >
-                        <CheckCircle2 size={16} /> Update & Re-scan
-                    </button>
                 </div>
             )}
 
@@ -345,12 +355,8 @@ const SubsidiesSection: React.FC<SubsidiesSectionProps> = ({ userProfile, update
                                 </div>
                                 <button
                                     onClick={() => {
-                                        if (setView) {
-                                            setView(ViewState.SETTINGS);
-                                        } else {
-                                            setPendingUnlock(sub);
-                                            setFieldInputs({});
-                                        }
+                                        setPendingUnlock(sub);
+                                        setFieldInputs({});
                                     }}
                                     className="w-full font-bold text-xs tracking-widest uppercase border border-amber-500/25 bg-amber-500/5 text-amber-400 py-3 rounded-xl transition-all hover:bg-amber-500/15 flex items-center justify-center gap-2"
                                 >
