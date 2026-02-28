@@ -98,15 +98,17 @@ The UI utilizes a custom design system built with **Tailwind CSS** and **Backdro
 ---
 
 ## 6. Challenges Faced & Engineering Solutions
-- **LLM Non-Determinism vs. Financial Accuracy**: 
-  **Challenge**: Early versions of Gemini often "hallucinated" mathematical totals that didn't match our backend.
-  **Solution**: We implemented a **Strict Hybrid Validation** middleware. The backend first computes the hard numbers using deterministic JS, then injects these "Facts" into the Gemini prompt as a ground-truth context, forcing the AI to stay within the bounds of real data.
-- **State Synchronization Across 12+ Components**: 
-  **Challenge**: With modules for Transport, Housing, Lifestyle, and Wealth+, keeping the "Total Stress Score" in sync during onboarding was complex.
-  **Solution**: Engineered a custom **Reactive State Pipeline** using a singleton `UserContext`. This ensures that an update in the "Travel optimization" card instantly ripples through to the "Dashboard" and "Wealth+" financial projections without page refreshes.
-- **Real-Time Market Data Ingestion**:
-  **Challenge**: Fetching live stock prices for every user request hit rate limits and increased latency.
-  **Solution**: Implemented a **Dynamic Caching Layer** and utilized Gemini's **Google Search Grounding** to intelligently batch market research queries, significantly reducing API overhead while maintaining data freshness.
+- **AI Hallucinations vs. Financial Accuracy**
+  - **Challenge:** The AI sometimes hallucinates math, leading to incorrect budget totals.
+  - **Solution:** Implemented **Hybrid Validation Middleware**. We calculate hard numbers deterministically in Node.js first, then pass them to Gemini as strict context, ensuring 100% mathematical accuracy.
+
+- **Complex Global State Sync**
+  - **Challenge:** Keeping the "Stress Score" and savings synchronized across 12+ different components without page refreshes or race conditions.
+  - **Solution:** Built a **Reactive Pipeline** via a singleton `UserContext` and Firebase `onSnapshot`. Optimizing one category (e.g., Housing) instantly updates the entire dashboard in real-time.
+
+- **Real-Time Data Latency**
+  - **Challenge:** Fetching live market data for every user hit rate limits and slowed down the app.
+  - **Solution:** Combined **Google Search Grounding** with a **Dynamic Caching Layer** to batch requests, ensuring the Wealth+ engine stays fast and market-accurate without overloading APIs.
 
 ---
 
