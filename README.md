@@ -13,6 +13,7 @@
 - [5. Core Innovations](#5-core-innovations)
 - [6. Challenges Faced & Engineering Solutions](#6-challenges-faced--engineering-solutions)
 - [7. Setup Instructions](#7-setup-instructions)
+- [8. Future Roadmap](#8-future-roadmap)
 
 ---
 
@@ -163,6 +164,14 @@ This will launch:
 | Frontend | http://localhost:3000 |
 | Backend  | http://localhost:3001 |
 
+---
+
+## 8. Future Roadmap
+CostPilot is continuously evolving to provide a more holistic financial safety net. Our upcoming milestones include:
+- **Automated Expense Ingestion:** Include integration for daily spending tracking by collaborating with DuitNow, PayNet, and major Malaysian banks through open banking APIs.
+- **Micro-Investing Engine:** Automatically round up daily purchases and funnel the spare change into user-selected ASNB funds or safe-haven Robo-advisor portfolios.
+- **Real-Time Property & Grocery Comparisons:** Integrate with leading property websites and online groceries to provide instant, localized cost comparisons for rent and daily essentials directly within the optimizer.
+- **Smart Debt Consolidation:** Introduce an active debt-restructuring AI module that negotiates and calculates the optimal payoff strategies for PTPTN, credit cards, and personal loans versus utilizing EPF Account 2 withdrawals.
 
 ---
 Built with ❤️ by **Team TVK** for **KitaHack 2026**
