@@ -98,7 +98,7 @@ The UI utilizes a custom design system built with **Tailwind CSS** and **Backdro
 ---
 
 ## 6. Challenges Faced & Engineering Solutions
-- **AI Hallucinations vs. Financial Accuracy**
+- **AI Hallucinations**
   - **Challenge:** The AI sometimes hallucinates math, leading to incorrect budget totals.
   - **Solution:** Implemented **Hybrid Validation Middleware**. We calculate hard numbers deterministically in Node.js first, then pass them to Gemini as strict context, ensuring 100% mathematical accuracy.
 
